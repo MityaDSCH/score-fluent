@@ -3,10 +3,12 @@ require('dotenv').config();
 const path = require('path');
 const webpack = require('webpack');
 
+console.log(__dirname);
+
 const TARGET = process.env.npm_lifecycle_event;
 const PATHS = {
-    app: path.join(__dirname, 'app'),
-    build: path.join(__dirname, 'build')
+    app: path.join(__dirname, 'src/client/app'),
+    build: path.join(__dirname, 'dist/client')
 };
 process.env.BABEL_ENV = TARGET;
 
