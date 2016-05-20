@@ -11,8 +11,8 @@ const pkg = require('./package.json');
 
 const TARGET = process.env.npm_lifecycle_event;
 const PATHS = {
-    app: path.join(__dirname, 'src/client/app'),
-    style: path.join(__dirname, 'src/client/app/main.scss'),
+    app: path.join(__dirname, 'src/client'),
+    style: path.join(__dirname, 'src/client/components/main.scss'),
     build: path.join(__dirname, 'dist/client')
 };
 process.env.BABEL_ENV = TARGET;
@@ -32,7 +32,7 @@ const common = {
   module: {
     loaders: [
       {
-        test: /\.jsx?$/,
+        test: /\.js(x?)$/,
         loaders: ['babel?cacheDirectory'],
         include: PATHS.app
       }
@@ -52,7 +52,7 @@ const common = {
 if (TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
     output: {
-      filename: '[name].[hash].js',
+      filename: '[name].js',
     },
     module: {
       loaders: [
