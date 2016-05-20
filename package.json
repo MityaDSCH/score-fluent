@@ -5,7 +5,7 @@
   "main": "index.jsx",
   "scripts": {
     "build": "webpack",
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --progress --inline --hot",
     "stats": "webpack --profile --json > stats.json"
   },
   "keywords": [],
