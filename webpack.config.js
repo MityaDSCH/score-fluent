@@ -3,6 +3,9 @@ require('dotenv').config();
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanPlugin = require('clean-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const TARGET = process.env.npm_lifecycle_event;
 const PATHS = {
@@ -35,14 +38,21 @@ const common = {
         include: PATHS.app
       }
     ]
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'node_modules/html-webpack-template/index.ejs',
+      title: 'Score Fluent',
+      appMountId: 'app',
+      inject: false
+    })
+  ]
 }
 
 // Add dev server config
 if (TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
     devServer: {
-      contentBase: PATHS.build,
       historyApiFallback: true,
       hot: true,
       inline: true,
@@ -59,10 +69,18 @@ if (TARGET === 'start' || !TARGET) {
 }
 
 // Just build it
-if (TARGET === 'build') {
+if (TARGET === 'build' || TARGET === 'stats') {
   module.exports = merge(common, {
     plugins: [
-      new webpack.optimize.UglifyJsPlugin()
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': '"production"'
+      }),
+      new CleanPlugin([PATHS.build]),
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: false
+        }
+      })
     ]
   });
 }
