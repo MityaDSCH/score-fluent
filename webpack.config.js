@@ -1,10 +1,8 @@
 require('dotenv').config();
 
 const path = require('path');
-const _ = require('lodash');
 const webpack = require('webpack');
-
-console.log(__dirname);
+const merge = require('webpack-merge');
 
 const TARGET = process.env.npm_lifecycle_event;
 const PATHS = {
@@ -42,7 +40,7 @@ const common = {
 
 // Add dev server config
 if (TARGET === 'start' || !TARGET) {
-  module.exports = _.merge(common, {
+  module.exports = merge(common, {
     devServer: {
       contentBase: PATHS.build,
       historyApiFallback: true,
@@ -62,7 +60,7 @@ if (TARGET === 'start' || !TARGET) {
 
 // Just build it
 if (TARGET === 'build') {
-  module.exports = _.merge(common, {
+  module.exports = merge(common, {
     plugins: [
       new webpack.optimize.UglifyJsPlugin()
     ]
