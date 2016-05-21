@@ -4,19 +4,17 @@ import AltContainer from 'alt-container';
 import Display from '../Display/Display.jsx';
 import Input from '../Input/Input.jsx';
 
-import NoteStore from '../../alt/stores/NoteStore.js';
+import DisplayStore from '../../alt/stores/DisplayStore.js';
 
 
 export default class App extends React.Component {
 
   render() {
 
-    console.log('store state:', NoteStore.getState());
-
     return (
       <div>
         <AltContainer
-          store={NoteStore}>
+          store={DisplayStore}>
 
           <Display />
           <Input />

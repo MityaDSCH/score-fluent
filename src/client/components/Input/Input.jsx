@@ -1,6 +1,6 @@
 import React from 'react';
 
-import NoteActions from '../../alt/actions/NoteActions';
+import DisplayActions from '../../alt/actions/DisplayActions';
 
 export default class App extends React.Component {
 
@@ -21,7 +21,7 @@ export default class App extends React.Component {
   }
 
   setNote = (note) => {
-    NoteActions.set(note);
+    DisplayActions.setNote(note);
   };
 
 }

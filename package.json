@@ -5,7 +5,7 @@
   "main": "index.jsx",
   "scripts": {
     "build": "webpack",
-    "start": "webpack-dev-server --progress --inline --hot",
+    "start": "webpack-dev-server --progress --inline",
     "stats": "webpack --profile --json > stats.json"
   },
   "keywords": [],
@@ -43,7 +43,9 @@
     "alt": "^0.18.4",
     "alt-container": "^1.0.2",
     "alt-utils": "^1.0.0",
+    "raphael": "^2.2.0",
     "react": "^15.0.2",
-    "react-dom": "^15.0.2"
+    "react-dom": "^15.0.2",
+    "vexflow": "^1.2.45"
   }
 }
