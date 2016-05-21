@@ -6,7 +6,7 @@ export default class App extends React.Component {
 
   render() {
 
-    const notes = ['A', 'Bb', 'B',, 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'Abb'];
+    const notes = ['A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab'];
 
     return (
       <div id="keyboard">{notes.map(note =>

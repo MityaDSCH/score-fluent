@@ -43,6 +43,10 @@ export default class Display extends React.Component {
   }
 
   drawNote(note) {
+    this.paper.setStart(); // Record what objects are added to the canvas
+
+    // ------------------------------------------------------------------------
+    // Draw given note
     this.note = new VF.StaveNote({ keys: [this.props.note + "/4"], duration: "q" });
     if (this.props.note.length > 1) {
       this.note.addAccidental(0, new VF.Accidental(this.props.note.substr(1)));
@@ -59,14 +63,9 @@ export default class Display extends React.Component {
     voice.setStave(this.stave);
 
     voice.draw(this.ctx, this.stave);
+    // ------------------------------------------------------------------------
 
-    this.noteSet = this.paper.set();
-
-    let counter = 0;
-    this.paper.forEach((ele) => {
-      if (counter > 7) this.noteSet.push(ele);
-      counter++;
-    });
+    this.noteSet = this.paper.setFinish(); // Make set of all added elements in note drawing
 
   }
 
