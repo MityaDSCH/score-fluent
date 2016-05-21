@@ -3,23 +3,26 @@ import { findDOMNode } from 'react-dom';
 import Raphael from 'raphael';
 window.Raphael = Raphael;
 import Vex from 'vexflow';
+const VF = Vex.Flow;
 
-export default class Note extends React.Component {
+export default class Display extends React.Component {
 
   componentDidMount() {
 
-    const canvas = findDOMNode(this);
-    const renderer = new Vex.Flow.Renderer(canvas,
-      Vex.Flow.Renderer.Backends.RAPHAEL);
+    this.canvas = findDOMNode(this);
+    this.renderer = new VF.Renderer(this.canvas,
+      VF.Renderer.Backends.RAPHAEL);
+    this.ctx = this.renderer.getContext();
+    this.paper = this.ctx.paper;
+    window.paper = this.paper;
 
-    const ctx = renderer.getContext();
-    const stave = new Vex.Flow.Stave(10, -10, 80);
-    stave.addClef(this.props.clef).setContext(ctx).draw();
+    this.drawStave(this.props.clef);
+    this.drawNote(this.props.note);
 
-    // Create the notes
-    var note = [new Vex.Flow.StaveNote({ keys: [this.props.note + "/4"], duration: "q" })];
+  }
 
-    Vex.Flow.Formatter.FormatAndDraw(ctx, stave, note);
+  componentWillReceiveProps(nextProps) {
+    this.updateNote(nextProps.note);
   }
 
   render() {
@@ -27,6 +30,49 @@ export default class Note extends React.Component {
     return (
       <div id="display"></div>
     );
+  }
+
+  //TODO: add key sig params to (draw/update)Stave
+  drawStave(clef) {
+    this.stave = new VF.Stave(10, -10, 100);
+    this.stave.addClef(clef).setContext(this.ctx).draw();
+  }
+
+  updateStave(clef) {
+    console.log(this.stave);
+  }
+
+  drawNote(note) {
+    this.note = new VF.StaveNote({ keys: [this.props.note + "/4"], duration: "q" });
+    if (this.props.note.length > 1) {
+      this.note.addAccidental(0, new VF.Accidental(this.props.note.substr(1)));
+    }
+
+    var voice = new VF.Voice({
+      num_beats: 1,
+      beat_value: 4,
+      resolution: VF.RESOLUTION
+    }).addTickable(this.note);
+
+    new VF.Formatter().formatToStave([voice], this.stave, {});
+
+    voice.setStave(this.stave);
+
+    voice.draw(this.ctx, this.stave);
+
+    this.noteSet = this.paper.set();
+
+    let counter = 0;
+    this.paper.forEach((ele) => {
+      if (counter > 7) this.noteSet.push(ele);
+      counter++;
+    });
+
+  }
+
+  updateNote(note) {
+    this.noteSet.remove();
+    setTimeout(() => this.drawNote(note), 0);
   }
 
 }

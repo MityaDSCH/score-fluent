@@ -6,7 +6,7 @@ class DisplayStore {
   constructor() {
     this.bindActions(DisplayActions);
     this.clef = 'treble';
-    this.note = 'a';
+    this.note = 'A';
   }
 
   setClef(clef) {
