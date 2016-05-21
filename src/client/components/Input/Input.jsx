@@ -1,6 +1,6 @@
 import React from 'react';
 
-import NoteActions from '../../alt/stores/NoteStore';
+import NoteActions from '../../alt/actions/NoteActions';
 
 export default class App extends React.Component {
 
@@ -12,11 +12,16 @@ export default class App extends React.Component {
       <div id="keyboard">{notes.map(note =>
         <button
           key={('keyboard-' + note)}
-          className={'keyboard-button' + (this.props.note === note ? ' active' : '')}>
+          className={'keyboard-button' + (this.props.note === note ? ' active' : '')}
+          onClick={this.setNote.bind(null, note)}>
           {note}
         </button>
       )}</div>
     );
   }
+
+  setNote = (note) => {
+    NoteActions.set(note);
+  };
 
 }

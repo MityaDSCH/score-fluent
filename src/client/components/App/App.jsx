@@ -1,8 +1,8 @@
 import React from 'react';
 import AltContainer from 'alt-container';
 
-import Note from '../Note/Note.jsx';
-import Keyboard from '../Keyboard/Keyboard.jsx';
+import Display from '../Display/Display.jsx';
+import Input from '../Input/Input.jsx';
 
 import NoteStore from '../../alt/stores/NoteStore.js';
 
@@ -10,14 +10,16 @@ import NoteStore from '../../alt/stores/NoteStore.js';
 export default class App extends React.Component {
 
   render() {
+
+    console.log('store state:', NoteStore.getState());
+
     return (
       <div>
         <AltContainer
-          stores={[NoteStore]}
-          inject={{note: NoteStore.getState().note}}>
+          store={NoteStore}>
 
-          <Note />
-          <Keyboard />
+          <Display />
+          <Input />
 
         </AltContainer>
 
