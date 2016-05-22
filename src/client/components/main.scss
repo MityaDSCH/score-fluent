@@ -1,7 +1,18 @@
+@import '../../../node_modules/normalize.css/normalize.css';
+
 @import './Display/Display.scss';
 @import './Input/Input.scss';
+@import './App/GameContainer.scss';
 
 body {
+  height: 100vh;
+  width: 100%;
+
   background: #D6EFFF;
   color: white;
+}
+
+#app {
+  height: 100%;
+  width: 100%;
 }

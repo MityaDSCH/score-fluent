@@ -34,7 +34,7 @@ export default class Display extends React.Component {
 
   //TODO: add key sig params to (draw/update)Stave
   drawStave(clef) {
-    this.stave = new VF.Stave(10, -10, 100);
+    this.stave = new VF.Stave(50, 40, 100);
     this.stave.addClef(clef).setContext(this.ctx).draw();
   }
 
@@ -66,6 +66,7 @@ export default class Display extends React.Component {
     // ------------------------------------------------------------------------
 
     this.noteSet = this.paper.setFinish(); // Make set of all added elements in note drawing
+    this.noteSet.translate(15); // It's too close to the clef for some reason
 
   }
 
