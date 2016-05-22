@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.jsx",
   "scripts": {
-    "build": "webpack",
-    "start": "webpack-dev-server --progress --inline",
+    "build": "webpack && gulp build-server",
+    "start": "webpack-dev-server --progress --inline & gulp dev-server",
     "stats": "webpack --profile --json > stats.json"
   },
   "keywords": [],
@@ -27,8 +27,11 @@
     "babel-preset-react-hmre": "^1.1.1",
     "clean-webpack-plugin": "^0.1.9",
     "css-loader": "^0.23.1",
+    "del": "^2.2.0",
     "dotenv": "^2.0.0",
     "extract-text-webpack-plugin": "^1.0.1",
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.0.7",
     "html-webpack-plugin": "^2.17.0",
     "html-webpack-template": "^5.0.0",
     "lodash": "^4.12.0",
