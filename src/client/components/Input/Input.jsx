@@ -20,8 +20,8 @@ export default class App extends React.Component {
     );
   }
 
-  setNote = (note) => {
-    DisplayActions.setNote(note);
+  setNote = (pitch) => {
+    DisplayActions.setNote({pitch, octave: 4});
   };
 
 }

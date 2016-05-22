@@ -47,9 +47,9 @@ export default class Display extends React.Component {
 
     // ------------------------------------------------------------------------
     // Draw given note
-    this.note = new VF.StaveNote({ keys: [this.props.note + "/4"], duration: "q" });
-    if (this.props.note.length > 1) {
-      this.note.addAccidental(0, new VF.Accidental(this.props.note.substr(1)));
+    this.note = new VF.StaveNote({ keys: [this.props.note.pitch + "/" + this.props.note.octave], duration: "q" });
+    if (this.props.note.pitch.length > 1) {
+      this.note.addAccidental(0, new VF.Accidental(this.props.note.pitch.substr(1)));
     }
 
     var voice = new VF.Voice({

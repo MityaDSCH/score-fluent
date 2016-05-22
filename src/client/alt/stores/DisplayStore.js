@@ -6,7 +6,10 @@ class DisplayStore {
   constructor() {
     this.bindActions(DisplayActions);
     this.clef = 'treble';
-    this.note = 'A';
+    this.note = {
+      pitch: 'A',
+      octave: '4'
+    };
   }
 
   setClef(clef) {
