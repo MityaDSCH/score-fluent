@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.jsx",
   "scripts": {
+    "start": "node server/main.js",
     "build": "webpack && gulp build-server",
-    "start": "webpack-dev-server --progress --inline & gulp dev-server",
+    "dev": "webpack-dev-server --progress --inline & gulp dev-server",
     "stats": "webpack --profile --json > stats.json"
   },
   "keywords": [],
