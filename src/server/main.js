@@ -1,15 +1,10 @@
-var dotenv = require('dotenv').config();
-var express =require('express');
+var express = require('express');
 
 var app = express();
 
 app.use('/', express.static('./dist/client'));
 
+var port = process.env.PORT || 9000;
+app.listen(port);
 
-if (process.env.NODE_ENV == 'development') {
-  app.listen(process.env.SERVER_PORT);
-} else {
-  app.listen(process.env.PORT);
-}
-
-console.log(`listening on ${process.env.SERVER_PORT}\n`);
+console.log(`listening on ${port}\n`);

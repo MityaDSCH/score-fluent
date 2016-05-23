@@ -56,7 +56,7 @@ const common = {
 if (TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
     output: {
-      filename: '[name].js',
+      filename: '[name].[hash].js',
     },
     module: {
       loaders: [
@@ -74,7 +74,7 @@ if (TARGET === 'start' || !TARGET) {
       progress: true,
       stats: 'errors-only',
       host: process.env.HOST,
-      port: process.env.PORT
+      port: process.env.WEBPACK_PORT
     },
     devtool: 'eval-source-map',
     plugins: [
@@ -88,7 +88,10 @@ if (TARGET === 'build' || TARGET === 'stats') {
   module.exports = merge(common, {
     entry: {
       vendor: Object.keys(pkg.dependencies).filter(function(v) {
-        return v !== 'alt-utils'
+        return [
+          'alt-utils',
+          'express'
+        ].indexOf(v) === -1;
       })
     },
     output: {
@@ -98,7 +101,7 @@ if (TARGET === 'build' || TARGET === 'stats') {
       loaders: [
         {
           test: /\.s(c|a)ss$/,
-          loader: ExtractTextPlugin.extract('style', 'css', 'sass'),
+          loader: ExtractTextPlugin.extract('style', 'css!sass'),
           include: PATHS.app
         }
       ]

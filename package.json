@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.jsx",
   "scripts": {
-    "start": "node dist/server/main.js",
+    "start": "webpack-dev-server & gulp",
     "build": "webpack && gulp build-server",
+    "dev": "webpack-dev-server",
     "stats": "webpack --profile --json > stats.json"
   },
   "keywords": [],
@@ -49,6 +50,7 @@
     "alt": "^0.18.4",
     "alt-container": "^1.0.2",
     "alt-utils": "^1.0.0",
+    "express": "^4.13.4",
     "raphael": "^2.2.0",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
