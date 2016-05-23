@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node dist/server/main.js",
     "build": "webpack && gulp build-server",
-    "dev": "webpack-dev-server --progress --inline & gulp dev-server",
     "stats": "webpack --profile --json > stats.json"
   },
   "keywords": [],
@@ -33,6 +32,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "gulp": "^3.9.1",
     "gulp-nodemon": "^2.0.7",
+    "gulp-util": "^3.0.7",
     "html-webpack-plugin": "^2.17.0",
     "html-webpack-template": "^5.0.0",
     "json-loader": "^0.5.4",
