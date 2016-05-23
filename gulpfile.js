@@ -8,29 +8,19 @@ const config = {
     dist: './dist',
     serverDist: './dist/server',
     server: './src/server/**/*',
-    serverDir: './src/server',
-    package: './package.json',
-    packageDist: './dist/package.json'
+    serverDir: './src/server'
   }
 }
 
 gulp.task('clean-dist', function() {
   return del([
-    config.paths.serverDist,
-    config.paths.packageDist
+    config.paths.serverDist
   ]);
 });
 
 gulp.task('copy-server', function() {
   gulp.src(config.paths.server)
     .pipe(gulp.dest(config.paths.serverDist));
-  gulp.src(config.paths.package)
-    .pipe(gulp.dest(config.paths.dist))
-});
-
-gulp.task('copy-npm', () => {
-  gulp.src(config.paths.package)
-      .pipe(gulp.dest(config.paths.dist))
 });
 
 gulp.task('nodemon', () => {
@@ -45,6 +35,6 @@ gulp.task('nodemon', () => {
   });
 });
 
-gulp.task('build-server', ['clean-dist', 'copy-server', 'copy-npm']);
+gulp.task('build-server', ['clean-dist', 'copy-server']);
 
 gulp.task('dev-server', ['build-server', 'nodemon']);

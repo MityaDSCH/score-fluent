@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.jsx",
   "scripts": {
-    "start": "node server/main.js",
+    "start": "node dist/server/main.js",
     "build": "webpack && gulp build-server",
     "dev": "webpack-dev-server --progress --inline & gulp dev-server",
     "stats": "webpack --profile --json > stats.json"
