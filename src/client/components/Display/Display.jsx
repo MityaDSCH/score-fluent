@@ -22,11 +22,11 @@ export default class Display extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.updateNote(nextProps.note);
+    if (nextProps.guessStatus) this.updateNoteStatus(nextProps.guessStatus);
+    else this.updateNote(nextProps.note);
   }
 
   render() {
-    var note = this.props.note;
     return (
       <div id="display"></div>
     );
@@ -38,18 +38,14 @@ export default class Display extends React.Component {
     this.stave.addClef(clef).setContext(this.ctx).draw();
   }
 
-  updateStave(clef) {
-    console.log(this.stave);
-  }
-
   drawNote(note) {
     this.paper.setStart(); // Record what objects are added to the canvas
 
     // ------------------------------------------------------------------------
     // Draw given note
-    this.note = new VF.StaveNote({ keys: [this.props.note.pitch + "/" + this.props.note.octave], duration: "q" });
-    if (this.props.note.pitch.length > 1) {
-      this.note.addAccidental(0, new VF.Accidental(this.props.note.pitch.substr(1)));
+    this.note = new VF.StaveNote({ keys: [note.pitch + "/" + note.octave], duration: "q" });
+    if (note.pitch.length > 1) {
+      this.note.addAccidental(0, new VF.Accidental(note.pitch.substr(1)));
     }
 
     var voice = new VF.Voice({
@@ -70,9 +66,24 @@ export default class Display extends React.Component {
 
   }
 
+  updateNoteStatus(status) {
+    const noteSet = this.noteSet;
+    if (status === 'correct') {
+      noteSet.animate({
+        stroke: '#00FF00',
+        fill: '#00FF00'
+      }, this.props.answerDelay);
+    } else {
+      this.noteSet.animate({
+        stroke: '#FF0000',
+        fill: '#FF0000'
+      }, this.props.answerDelay);
+    }
+  }
+
   updateNote(note) {
     this.noteSet.remove();
-    setTimeout(() => this.drawNote(note), 0);
+    this.drawNote(note);
   }
 
 }

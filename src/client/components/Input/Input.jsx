@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DisplayActions from '../../alt/actions/DisplayActions';
+import DisplayActions from '../../logic/actions/GameActions';
 
 export default class App extends React.Component {
 
@@ -12,16 +12,16 @@ export default class App extends React.Component {
       <div id="keyboard">{notes.map(note =>
         <button
           key={('keyboard-' + note)}
-          className={'keyboard-button' + (this.props.note === note ? ' active' : '')}
-          onClick={this.setNote.bind(null, note)}>
+          className={'keyboard-button'}
+          onClick={this.guessNote.bind(null, note)}>
           {note}
         </button>
       )}</div>
     );
   }
 
-  setNote = (pitch) => {
-    DisplayActions.setNote({pitch, octave: 4});
+  guessNote = (pitch) => {
+    DisplayActions.guessNote({pitch, octave: null});
   };
 
 }

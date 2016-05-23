@@ -1,0 +1,34 @@
+{
+  "treble": {
+    "hard": {
+      "low": {
+        "pitch": "F",
+        "octave": 3
+      },
+      "high": {
+        "pitch": "F",
+        "octave": 6
+      }
+    },
+    "medium": {
+      "low": {
+        "pitch": "Ab",
+        "octave": 3
+      },
+      "high": {
+        "pitch": "C",
+        "octave": 6
+      }
+    },
+    "easy": {
+      "low": {
+        "pitch": "C",
+        "octave": 4
+      },
+      "high": {
+        "pitch": "A",
+        "octave": 5
+      }
+    }
+  }
+}

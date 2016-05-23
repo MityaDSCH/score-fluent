@@ -4,7 +4,7 @@ import AltContainer from 'alt-container';
 import Display from '../Display/Display.jsx';
 import Input from '../Input/Input.jsx';
 
-import DisplayStore from '../../alt/stores/DisplayStore.js';
+import DisplayStore from '../../logic/stores/GameStore.js';
 
 
 export default class App extends React.Component {
