@@ -1,0 +1,92 @@
+// Import dependencies
+var passport = require('passport');
+var express = require('express');
+var jwt = require('jsonwebtoken');
+
+// Load models
+var User = require('./models/user');
+
+// Take a mongoose model and return only some fields encoded in jwt
+function tokenFromModel(userModel, includedKeys, duration, secret) {
+  var user = {};
+  includedKeys.forEach(function(key) {
+    user[key] = userModel[key]
+  });
+  return token = jwt.sign(user, secret, {
+    expiresIn: duration
+  });
+}
+
+// Export Routes
+module.exports = function(app) {
+
+  // Init Passport middleware
+  app.use(passport.initialize());
+
+  // Use passport jwt Strategy
+  require('./passport')(passport);
+
+  var apiRoutes = express.Router();
+
+  // Register a new user
+  apiRoutes.post('/register', function(req, res) {
+    if (!req.body.email || !req.body.password || !req.body.username) {
+      res.json({success: false, message: 'Fill out required fields'});
+    } else {
+      var newUser = new User({
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password
+      });
+
+      newUser.save(function(err) {
+        if (err) {
+          // if error code is duplicate of unique field return duplicate err
+          if (err.code == 11000) {
+            var errmsg = err.toJSON().errmsg;
+            var duplicate = errmsg.slice(errmsg.indexOf('$') + 1, errmsg.indexOf('_'));
+            return res.json({success: false, message: 'Duplicate ' + duplicate});
+          } else {
+            console.log(err);
+            return res.json({success: false, message: 'Unknown err'});
+          }
+        }
+        var token = tokenFromModel(newUser, ['_id', 'username', 'email', 'role'], app.get('jwtDuration'), app.get('jwtSecret'));
+        res.json({success: true, message: 'New user added', token: 'JWT ' + token});
+      });
+    }
+  });
+
+  // Authenticate a user
+  apiRoutes.post('/authenticate', function(req, res) {
+    console.log(req.body);
+    User.findOne({
+      $or: [
+        {email: req.body.id},
+        {username: req.body.id}
+      ]
+    }, function(err, user) {
+      console.log(user);
+      if (err) throw err;
+      if (!user) {
+        res.send({success: false, message: 'User not found'});
+      } else {
+        user.comparePassword(req.body.password, function(err, isMatch) {
+          if (isMatch && !err) {
+            var token = tokenFromModel(user, ['_id', 'username', 'email', 'role'], app.get('jwtDuration'), app.get('jwtSecret'));
+            res.json({success: true, token: 'JWT ' + token});
+          } else {
+            res.send({success: false, message: 'Password did not match'});
+          }
+        });
+      }
+    });
+  });
+
+  // Authenticate jwt before responding
+  apiRoutes.get('/stats', passport.authenticate('jwt', {session: false}), function(req, res) {
+    res.send('Woot!!! User id: ' + req.user._id);
+  });
+
+  app.use('/api', apiRoutes);
+}
