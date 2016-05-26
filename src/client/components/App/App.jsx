@@ -4,8 +4,7 @@ import AltContainer from 'alt-container';
 import Display from '../Display/Display.jsx';
 import Input from '../Input/Input.jsx';
 
-import DisplayStore from '../../logic/stores/GameStore.js';
-
+import GameStore from '../../logic/stores/GameStore.js';
 
 export default class App extends React.Component {
 
@@ -14,7 +13,7 @@ export default class App extends React.Component {
     return (
       <div id='game-container'>
         <AltContainer
-          store={DisplayStore}>
+          store={GameStore}>
 
           <Display />
           <Input />

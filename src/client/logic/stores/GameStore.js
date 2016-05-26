@@ -1,13 +1,13 @@
 import alt from '../libs/alt';
 import _ from 'lodash';
-import DisplayActions from '../actions/GameActions';
+import GameActions from '../actions/GameActions';
 
 import clefRanges from '../clefRanges.json';
 
 class GameStore {
 
   constructor() {
-    this.bindActions(DisplayActions);
+    this.bindActions(GameActions);
 
     this.clef = 'treble';
     this.accidentals = ['flat'];
