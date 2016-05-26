@@ -1,3 +1,4 @@
+// Module improts
 var express = require('express');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
@@ -5,7 +6,12 @@ var mongoose = require('mongoose');
 var jwt = require('jsonwebtoken');
 var passport = require('passport');
 
+// Custom imports
 var User = require('./models/user');
+
+// Constants
+// time in this format: https://github.com/rauchg/ms.js
+var tokenDuration = '7 days';
 
 var app = express();
 
@@ -53,8 +59,14 @@ apiRoutes.post('/register', function(req, res) {
         console.log(err);
         return res.json({success: false, message: 'Email already in use'});
       }
-      console.log(newUser);
-      res.json({success: true, message: 'New user added'});
+      var user = {
+        role: newUser.role,
+        email: newUser.email
+      };
+      var token = jwt.sign(user, app.get('jwtSecret'), {
+        expiresIn: tokenDuration
+      });
+      res.json({success: true, message: 'New user added', token: 'JWT ' + token});
     });
   }
 });
@@ -70,8 +82,12 @@ apiRoutes.post('/authenticate', function(req, res) {
     } else {
       user.comparePassword(req.body.password, function(err, isMatch) {
         if (isMatch && !err) {
+          user = {
+            role: user.role,
+            email: user.email
+          };
           var token = jwt.sign(user, app.get('jwtSecret'), {
-            expiresIn: '1 day'
+            expiresIn: tokenDuration
           });
           res.json({success: true, token: 'JWT ' + token});
         } else {
@@ -82,6 +98,7 @@ apiRoutes.post('/authenticate', function(req, res) {
   })
 });
 
+// Authenticate jwt before responding
 apiRoutes.get('/stats', passport.authenticate('jwt', {session: false}), function(req, res) {
   res.send('Woot!!! User id: ' + req.user._id);
 });
