@@ -27,7 +27,7 @@ gulp.task('copy-server', ['del-server'], function() {
     .pipe(gulp.dest(config.paths.serverDist));
 });
 
-gulp.task('nodemon', () => {
+gulp.task('nodemon', ['copy-server'], () => {
   nodemon({
     env: { 'NODE_ENV': 'development' },
     script: 'dist/server/main.js',
@@ -43,4 +43,4 @@ gulp.task('nodemon', () => {
 // Compose tasks
 // ----------------------------------------------------------------------------
 
-gulp.task('default', ['copy-server', 'nodemon']);
+gulp.task('default', ['nodemon']);
