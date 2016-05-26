@@ -1,3 +1,3 @@
 # Sources
 * http://teropa.info/blog/2015/09/10/full-stack-redux-tutorial.html
-* https://scotch.io/tutorials/build-a-react-flux-app-with-user-authentication
+* https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens#set-up-our-node-application-packagejson

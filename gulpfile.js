@@ -22,7 +22,7 @@ gulp.task('del-server', function() {
   ]);
 });
 
-gulp.task('copy-server', function() {
+gulp.task('copy-server', ['del-server'], function() {
   gulp.src(config.paths.server)
     .pipe(gulp.dest(config.paths.serverDist));
 });
@@ -43,6 +43,4 @@ gulp.task('nodemon', () => {
 // Compose tasks
 // ----------------------------------------------------------------------------
 
-gulp.task('build-server', ['del-server', 'copy-server']);
-
-gulp.task('default', ['build-server', 'nodemon']);
+gulp.task('default', ['copy-server', 'nodemon']);

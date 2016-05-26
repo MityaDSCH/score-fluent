@@ -87,12 +87,14 @@ if (TARGET === 'start' || !TARGET) {
 if (TARGET === 'build' || TARGET === 'stats') {
   module.exports = merge(common, {
     entry: {
-      vendor: Object.keys(pkg.dependencies).filter(function(v) {
-        return [
-          'alt-utils',
-          'express'
-        ].indexOf(v) === -1;
-      })
+      vendor: [
+        'alt',
+        'alt-container',
+        'raphael',
+        'react',
+        'react-dom',
+        'vexflow'
+      ]
     },
     output: {
       filename: '[name].[chunkhash].js'
