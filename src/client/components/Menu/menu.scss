@@ -1,30 +1,48 @@
+$menu-gap: 10;
+$menu-card-width: 160;
+
 #menu-container {
-  position: absolute;
-  top: 0;
-  left: 10px;
 
   font-family: Raleway, Arial;
   font-size: 22px;
   color: black;
 }
 
+// ----------------------------------------------------------------------------
+// pulldown
+// ----------------------------------------------------------------------------
+
 #pulldown {
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+  position: fixed;
+  top: $menu-gap + 0px;
+  // -4 for left padding
+  left: $menu-gap + $menu-card-width/4 - 4 + 0px;
+
+  height: 68px;
+  width: $menu-card-width/2 + 0px;
+  padding: 3px 3px 3px 4px;
+
+  @include flex-container(column, space-between, center);
+
+  cursor: pointer;
+  color: #888;
+  fill: #888;
 
   p {
-    margin: 10px 0 0;
+    text-align: center;
+    margin: 0;
   }
 
-  $hover-color: #666633;
-  &:hover > * {
-    color: $hover-color;
-    stroke: $hover-color;
-    fill: $hover-color;
+  &> * {
+    transition: .4s;
   }
+
+  &:hover > * {
+      color: black;
+      fill: black;
+  }
+
 }
 
 #menu-pulldown-arrow {
@@ -33,4 +51,36 @@
   padding: 1px;
 
   transform: scale(.8);
+}
+
+// ----------------------------------------------------------------------------
+// Menu
+// ----------------------------------------------------------------------------
+
+#menu-card {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: $menu-gap + 0px;
+  height: 250px;
+  width: $menu-card-width + 0px;
+
+  @include flex-container(column, space-around, center);
+
+  transform: translateY(-100%);
+  transition: transform .7s cubic-bezier(0.920, 0.040, 0.240, 1.000);
+
+  box-shadow: 0 0 3px 1px black;
+  background: #444;
+
+  text-align: center;
+  color: white;
+
+  p {
+    margin: 0;
+  }
+}
+
+#menu-card.active {
+  transform: translateY(0);
 }
