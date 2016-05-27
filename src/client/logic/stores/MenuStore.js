@@ -41,7 +41,7 @@ class MenuStore {
         this._registerForm();
         break;
       case 'Login':
-
+        this._loginForm();
         break;
       case 'Stats':
 
@@ -107,6 +107,29 @@ class MenuStore {
     });
   }
 
+  _loginForm() {
+    this.setState({
+      status: 'login',
+      items: [
+        {
+          type: 'button',
+          text: 'Back'
+        },
+        {
+          type: 'input',
+          placeholder: 'Username or Email'
+        },
+        {
+          type: 'password',
+          placeholder: 'Password'
+        },
+        {
+          type: 'button',
+          text: 'Submit'
+        }
+      ]
+    });
+  }
 }
 
 export default alt.createStore(MenuStore, 'MenuStore');

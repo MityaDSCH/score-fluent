@@ -90,7 +90,11 @@ $menu-card-width: 160;
 }
 
 #menu-card.register {
-  height: 300px;
+  height: 350px;
+  width: $menu-card-width + 40px;
+}
+
+#menu-card.login {
   width: $menu-card-width + 40px;
 }
 
