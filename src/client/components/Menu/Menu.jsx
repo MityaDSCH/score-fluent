@@ -1,6 +1,8 @@
 import React from 'react';
 import MenuActions from '../../logic/actions/MenuActions';
+
 import DownArrow from 'babel!svg-react!../../assets/downArrow.svg';
+import MenuItem from '../MenuItem/MenuItem.jsx';
 
 export default class App extends React.Component {
 
@@ -11,11 +13,8 @@ export default class App extends React.Component {
           id="menu-card"
           className={this.props.open ? 'active' : ''}>
 
-          {this.props.buttons.map(name =>
-            <p
-              key={'menu-btn-' + name}
-              className='menu-item'
-              >{name}</p>
+          {this.props.items.map(item =>
+            <MenuItem item={item} />
           )}
 
         </div>

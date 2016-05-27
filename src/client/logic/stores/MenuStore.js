@@ -7,8 +7,22 @@ class MenuStore {
     this.bindActions(MenuActions);
 
     this.open = false;
-    this.buttons = ['Register', 'Login', 'Stats'];
-    this.loggedIn = false;
+    this.status = null;
+
+    this.items = [
+      {
+        type: 'button',
+        text: 'Register'
+      },
+      {
+        type: 'button',
+        text: 'Login'
+      },
+      {
+        type: 'button',
+        text: 'Stats'
+      }
+    ];
   }
 
   open() {
