@@ -21,7 +21,7 @@ export default class App extends React.Component {
         </div>
         <div
           id="pulldown"
-          className={"menu-item " + (this.props.open ? '' : 'active')}
+          className={"menu-item " + status + (this.props.open ? '' : ' active')}
           onClick={this.clickPulldown}>
           <p className="menu-item">Menu</p>
           <DownArrow id="menu-pulldown-arrow" className="menu-item" />
