@@ -7,11 +7,12 @@ import MenuItem from '../MenuItem/MenuItem.jsx';
 export default class App extends React.Component {
 
   render() {
+    const status = this.props.status ? this.props.status + ' ' : '';
     return (
       <div id="menu-container">
         <div
           id="menu-card"
-          className={this.props.open ? 'active' : ''}>
+          className={status + (this.props.open ? 'active' : '')}>
 
           {this.props.items.map(item =>
             <MenuItem item={item} />
