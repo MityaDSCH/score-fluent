@@ -1,8 +1,10 @@
 @import '../../../node_modules/normalize.css/normalize.css';
+@import url(https://fonts.googleapis.com/css?family=Raleway:600);
 
-@import './Display/Display.scss';
-@import './Input/Input.scss';
-@import './App/GameContainer.scss';
+@import './App/app.scss';
+@import './Menu/menu.scss';
+@import './Display/display.scss';
+@import './Input/input.scss';
 
 body {
   height: 100vh;
@@ -12,7 +14,7 @@ body {
   color: white;
 }
 
-#app {
+#app, #app-root {
   height: 100%;
   width: 100%;
 }

@@ -1,0 +1,36 @@
+#menu-container {
+  position: absolute;
+  top: 0;
+  left: 10px;
+
+  font-family: Raleway, Arial;
+  font-size: 22px;
+  color: black;
+}
+
+#pulldown {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  p {
+    margin: 10px 0 0;
+  }
+
+  $hover-color: #666633;
+  &:hover > * {
+    color: $hover-color;
+    stroke: $hover-color;
+    fill: $hover-color;
+  }
+}
+
+#menu-pulldown-arrow {
+  height: 32px;
+  width: 32px;
+  padding: 1px;
+
+  transform: scale(.8);
+}
