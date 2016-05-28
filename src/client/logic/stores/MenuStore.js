@@ -55,6 +55,15 @@ class MenuStore {
     }
   }
 
+  updateValidationState(params) {
+    const fieldPlaceholder = params[0];
+    const newState = params[1];
+    const fieldIndex = _.findIndex(this.items, {'placeholder': fieldPlaceholder});
+    const items = this.items;
+    items[fieldIndex].validationState = newState;
+    this.setState({items});
+  }
+
   _nullForm() {
     this.setState({
       status: null,
@@ -85,23 +94,32 @@ class MenuStore {
         },
         {
           type: 'input',
-          placeholder: 'Username'
+          placeholder: 'Username',
+          regex: /^[A-Za-z\d$@$!%*?&]{3,}/,
+          validationState: 'clean'
         },
         {
           type: 'input',
-          placeholder: 'Email'
+          placeholder: 'Email',
+          regex: /[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,4}/,
+          validationState: 'clean'
         },
         {
           type: 'password',
-          placeholder: 'Password'
+          placeholder: 'Password',
+          regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&]{8,}/,
+          validationState: 'clean'
         },
         {
           type: 'password',
-          placeholder: 'Confirm password'
+          placeholder: 'Confirm password',
+          regex: /\S+/,
+          validationState: 'clean'
         },
         {
           type: 'button',
-          text: 'Submit'
+          text: 'Submit',
+          validationState: 'inactive'
         }
       ]
     });
