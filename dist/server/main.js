@@ -16,7 +16,7 @@ var app = express();
 // Constants
 // time in this format: https://github.com/rauchg/ms.js
 app.set('jwtSecret', process.env.JWT_SECRET);
-app.set('jwtDuration', '7 days');
+app.set('jwtDuration', '1 year');
 
 // connect to mongodb
 mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGO_URI || 'mongodb://localhost:27017/score-fluent');

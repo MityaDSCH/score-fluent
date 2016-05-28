@@ -1,0 +1,41 @@
+$inactive-color: #777;
+$valid-color: #abff8e;
+
+.menu-input {
+  width: $menu-card-width + 20px;
+
+  padding-bottom: 2px;
+
+  color: white;
+  font-size: 16px;
+  font-family: Raleway;
+  font-weight: 300;
+  font-style: italic;
+
+  background: rgba(#000, 0);
+  border: none;
+  border-bottom: 1px solid $inactive-color;
+  outline: 0;
+
+  transition: .6s;
+
+  &.dirty {
+    border-color: #ff828a;
+  }
+
+  &.valid {
+    border-color: $valid-color;
+  }
+}
+
+.validation-button {
+  cursor: not-allowed;
+  color: #777;
+
+  transition: .6s;
+  &.valid {
+    cursor: pointer;
+    color: $valid-color;
+    text-shadow: 0 0 15px #AAA;
+  }
+}

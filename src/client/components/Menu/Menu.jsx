@@ -15,7 +15,7 @@ export default class App extends React.Component {
           className={status + (this.props.open ? 'active' : '')}>
 
           {this.props.items.map(item =>
-            <MenuItem item={item} />
+            <MenuItem item={item} valid={this.props.valid} />
           )}
 
         </div>
