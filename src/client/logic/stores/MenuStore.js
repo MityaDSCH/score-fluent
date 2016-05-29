@@ -102,7 +102,7 @@ class MenuStore {
         }
       }
     }
-    this.setState({valid});
+    if (valid) this.setState({valid});
   }
 
   _setNullForm() {
@@ -182,11 +182,17 @@ class MenuStore {
         },
         {
           type: 'input',
-          placeholder: 'Username or Email'
+          placeholder: 'Username or Email',
+          value: '',
+          regex: /^[A-Za-z\d$@$!%*?&]{3,}/,
+          validationState: 'clean'
         },
         {
           type: 'password',
-          placeholder: 'Password'
+          placeholder: 'Password',
+          value: '',
+          regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&]{8,}/,
+          validationState: 'clean'
         },
         {
           type: 'validation-button',
