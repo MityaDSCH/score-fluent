@@ -50,6 +50,24 @@ class MenuStore {
       case 'Back':
         this._setNullForm();
         break;
+      case 'Submit':
+        if (this.valid) {
+          if (this.status == 'register') {
+            const body = {
+              username: this.items[1].value,
+              email: this.items[2].value,
+              password: this.items[3].value
+            };
+            console.log(body);
+          } else if (this.status == 'login') {
+            const body = {
+              id: this.items[1].value,
+              password: this.items[2].value
+            };
+            console.log(body);
+          }
+        }
+        break;
       default:
         console.log('menu-btn click unhandled');
         break;
@@ -102,7 +120,12 @@ class MenuStore {
         }
       }
     }
-    if (valid) this.setState({valid});
+    if (valid) {
+      this.setState({valid});
+      _.each(this.items, (ele) => {
+        if (ele.type == 'validation-button') ele.validationState = 'valid';
+      });
+    }
   }
 
   _setNullForm() {

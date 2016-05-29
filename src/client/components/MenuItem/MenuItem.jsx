@@ -26,8 +26,8 @@ export default class MenuItem extends React.Component {
             </input>
     } else if (item.type == 'validation-button') {
       out = <p
-              className={'menu-item validation-button ' + (this.props.valid ? 'valid' : '')}
-              onClick={item.validationState == 'valid' ? this.btnClick.bind(this) : null}>
+              className={'menu-item validation-button ' + this.props.item.validationState}
+              onClick={this.btnClick.bind(this)}>
               {item.value}
             </p>
     }
