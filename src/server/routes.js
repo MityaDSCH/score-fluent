@@ -28,10 +28,17 @@ module.exports = function(app) {
 
   var apiRoutes = express.Router();
 
+  // Enable cors preflighting
+  apiRoutes.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+  });
+
   // Register a new user
   apiRoutes.post('/register', function(req, res) {
     if (!req.body.email || !req.body.password || !req.body.username) {
-      res.json({success: false, message: 'Fill out required fields'});
+      res.json({success: false, message: 'Fill out all required fields'});
     } else {
       var newUser = new User({
         username: req.body.username,
@@ -59,7 +66,6 @@ module.exports = function(app) {
 
   // Authenticate a user
   apiRoutes.post('/authenticate', function(req, res) {
-    console.log(req.body);
     User.findOne({
       $or: [
         {email: req.body.id},

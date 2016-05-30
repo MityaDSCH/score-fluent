@@ -93,8 +93,8 @@ if (TARGET === 'build' || TARGET === 'stats') {
         'raphael',
         'react',
         'react-dom',
-        'svg-react-loader',
-        'vexflow'
+        'vexflow',
+        'reqwest'
       ]
     },
     output: {

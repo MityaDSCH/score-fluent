@@ -1,6 +1,7 @@
 import React from 'react';
 import AltContainer from 'alt-container';
 
+import AuthStore from '../../logic/stores/AuthStore';
 import MenuStore from '../../logic/stores/MenuStore';
 import GameStore from '../../logic/stores/GameStore';
 

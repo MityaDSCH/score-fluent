@@ -22,7 +22,7 @@ app.set('jwtDuration', '1 year');
 mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGO_URI || 'mongodb://localhost:27017/score-fluent');
 
 // Parse json and url-encodec middleware
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 // Log requests middleware

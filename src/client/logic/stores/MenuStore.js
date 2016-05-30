@@ -2,6 +2,7 @@ import alt from '../libs/alt';
 import _ from 'lodash';
 
 import MenuActions from '../actions/MenuActions';
+import AuthActions from '../actions/AuthActions';
 
 class MenuStore {
 
@@ -58,13 +59,13 @@ class MenuStore {
               email: this.items[2].value,
               password: this.items[3].value
             };
-            console.log(body);
+            setTimeout(() => AuthActions.register(body), 0);
           } else if (this.status == 'login') {
             const body = {
               id: this.items[1].value,
               password: this.items[2].value
             };
-            console.log(body);
+            setTimeout(() => AuthActions.login(body), 0);
           }
         }
         break;
@@ -161,28 +162,28 @@ class MenuStore {
         {
           type: 'input',
           placeholder: 'Username',
-          value: '',
+          value: 'asd',
           regex: /^[A-Za-z\d$@$!%*?&]{3,}/,
           validationState: 'clean'
         },
         {
           type: 'input',
           placeholder: 'Email',
-          value: '',
+          value: 'a@a.aa',
           regex: /[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,4}/,
           validationState: 'clean'
         },
         {
           type: 'password',
           placeholder: 'Password',
-          value: '',
+          value: 'asdfASDF1',
           regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&]{8,}/,
           validationState: 'clean'
         },
         {
           type: 'password',
           placeholder: 'Confirm password',
-          value: '',
+          value: 'asdfASDF1',
           regex: /\S+/,
           validationState: 'clean'
         },

@@ -46,11 +46,13 @@
     "webpack-merge": "^0.12.0"
   },
   "dependencies": {
+    "@typicode/pegasus": "^0.3.2",
     "alt": "^0.18.4",
     "alt-container": "^1.0.2",
     "alt-utils": "^1.0.0",
     "bcrypt": "^0.8.6",
     "body-parser": "^1.15.1",
+    "cors": "^2.7.1",
     "express": "^4.13.4",
     "jsonwebtoken": "^7.0.0",
     "mongoose": "^4.4.19",
@@ -60,6 +62,7 @@
     "raphael": "^2.2.0",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
+    "reqwest": "^2.0.5",
     "svg-react-loader": "^0.3.3",
     "vexflow": "^1.2.45"
   }
