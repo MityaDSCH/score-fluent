@@ -72,7 +72,6 @@ module.exports = function(app) {
         {username: req.body.id}
       ]
     }, function(err, user) {
-      console.log(user);
       if (err) throw err;
       if (!user) {
         res.send({success: false, message: 'User not found'});

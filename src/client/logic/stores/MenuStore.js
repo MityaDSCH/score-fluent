@@ -162,28 +162,28 @@ class MenuStore {
         {
           type: 'input',
           placeholder: 'Username',
-          value: 'asd',
+          value: '',
           regex: /^[A-Za-z\d$@$!%*?&]{3,}/,
           validationState: 'clean'
         },
         {
           type: 'input',
           placeholder: 'Email',
-          value: 'a@a.aa',
+          value: '',
           regex: /[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,4}/,
           validationState: 'clean'
         },
         {
           type: 'password',
           placeholder: 'Password',
-          value: 'asdfASDF1',
+          value: '',
           regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&]{8,}/,
           validationState: 'clean'
         },
         {
           type: 'password',
           placeholder: 'Confirm password',
-          value: 'asdfASDF1',
+          value: '',
           regex: /\S+/,
           validationState: 'clean'
         },

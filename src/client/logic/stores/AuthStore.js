@@ -8,8 +8,14 @@ class AuthStore {
   constructor() {
     this.bindActions(AuthActions);
 
-    this.user = null;
     this.url = window.location.host.indexOf('local') !== -1 ? 'http://localhost:9000' : window.location.origin;
+
+    const localToken = this._getLocalToken();
+    if (!localToken) {
+      this.payload = null;
+    } else {
+      this.payload = JSON.parse(atob(localToken.split('.')[1]));
+    }
   }
 
   register(body) {
@@ -21,7 +27,14 @@ class AuthStore {
       contentType: 'application/x-www-form-urlencoded',
       data: body,
     }).then((res) => {
-      console.log(res);
+      if (!res.success) console.log(res);
+      else {
+        this.setState({
+          payload: JSON.parse(atob(res.token.split('.')[1]))
+        });
+        this._setLocalToken(res.token);
+        console.log(this.payload);
+      }
     });
   }
 
@@ -34,8 +47,27 @@ class AuthStore {
       contentType: 'application/x-www-form-urlencoded',
       data: body,
     }).then((res) => {
-      console.log(res);
+      if (!res.success) console.log(res);
+      else {
+        this.setState({
+          payload: JSON.parse(atob(res.token.split('.')[1]))
+        });
+        this._setLocalToken(res.token);
+        console.log(this.payload);
+      }
     });
+  }
+
+  _getLocalToken() {
+    try {
+      return localStorage.getItem('token');
+    } catch(e) {
+      return null;
+    }
+  }
+
+  _setLocalToken(token) { // Stringify first!
+    localStorage.setItem('token', token);
   }
 
 }
