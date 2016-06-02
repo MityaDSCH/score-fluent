@@ -4,6 +4,8 @@ import _ from 'lodash';
 import MenuActions from '../actions/MenuActions';
 import AuthActions from '../actions/AuthActions';
 
+import AuthStore from './AuthStore';
+
 class MenuStore {
 
   constructor() {
@@ -13,21 +15,23 @@ class MenuStore {
     this.valid = false;
     this.status = null;
 
-    this.items = [
-      {
-        type: 'button',
-        value: 'Register'
-      },
-      {
-        type: 'button',
-        value: 'Login'
-      },
-      {
-        type: 'button',
-        value: 'Stats'
+    this.items = [];
+
+    // Get data from auth store to see if token stored
+    setTimeout(() => {
+      const payload = AuthStore.getPayload();
+      if (payload) {
+        this._setLoggedInForm();
+      } else {
+        this._setNullForm();
       }
-    ];
+    }, 0);
+
   }
+
+  // --------------------------------------------------------------------------
+  // Actions
+  // --------------------------------------------------------------------------
 
   open() {
     if (!this.open) this.setState({open: true});
@@ -69,13 +73,16 @@ class MenuStore {
           }
         }
         break;
+      case 'Log Out':
+        this._setNullForm();
+        setTimeout(() => AuthActions.logout(), 0);
       default:
-        console.log('menu-btn click unhandled');
+        console.log(btnName, 'menu-btn click unhandled');
         break;
     }
   }
 
-  updateValidation([placeholder, val]) {
+  updateFormValidation([placeholder, val]) {
     const fieldIndex = _.findIndex(this.items, {placeholder});
     const o = this.items[fieldIndex];
     o.value = val;
@@ -110,6 +117,14 @@ class MenuStore {
     this._updateValid();
   }
 
+  registerLoginSuccess() {
+    this._setLoggedInForm();
+  }
+
+  // --------------------------------------------------------------------------
+  // Internal methods
+  // ----------------------------------------------------------------------------
+
   _updateValid() {
     let valid = true;
     for (var i = 0; i < this.items.length; i++) {
@@ -130,24 +145,37 @@ class MenuStore {
   }
 
   _setNullForm() {
-    this.setState({
-      valid: false,
-      status: null,
-      items: [
-        {
-          type: 'button',
-          value: 'Register'
-        },
-        {
-          type: 'button',
-          value: 'Login'
-        },
-        {
-          type: 'button',
-          value: 'Stats'
-        }
-      ]
-    });
+    this.valid = false,
+    this.status = null,
+    this.items = [
+      {
+        type: 'button',
+        value: 'Register'
+      },
+      {
+        type: 'button',
+        value: 'Login'
+      },
+      {
+        type: 'button',
+        value: 'Stats'
+      }
+    ]
+  }
+
+  _setLoggedInForm() {
+    this.valid = false;
+    this.status = 'logged-in';
+    this.items= [
+      {
+        type: 'button',
+        value: 'Log Out'
+      },
+      {
+        type: 'button',
+        value: 'Stats'
+      }
+    ];
   }
 
   _setRegisterForm() {
@@ -225,6 +253,7 @@ class MenuStore {
       ]
     });
   }
+
 }
 
 export default alt.createStore(MenuStore, 'MenuStore');

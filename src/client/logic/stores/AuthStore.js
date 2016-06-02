@@ -2,6 +2,7 @@ import alt from '../libs/alt';
 import reqwest from 'reqwest';
 
 import AuthActions from '../actions/AuthActions';
+import MenuActions from '../actions/MenuActions';
 
 class AuthStore {
 
@@ -16,31 +17,36 @@ class AuthStore {
     } else {
       this.payload = JSON.parse(atob(localToken.split('.')[1]));
     }
-  }
 
-  register(body) {
-    reqwest({
-      url: this.url + '/api/register',
-      type: 'json',
-      method: 'post',
-      crossOrigin: true,
-      contentType: 'application/x-www-form-urlencoded',
-      data: body,
-    }).then((res) => {
-      if (!res.success) console.log(res);
-      else {
-        this.setState({
-          payload: JSON.parse(atob(res.token.split('.')[1]))
-        });
-        this._setLocalToken(res.token);
-        console.log(this.payload);
-      }
+    this.exportPublicMethods({
+      getPayload: () => this.payload || null
     });
   }
 
+  // --------------------------------------------------------------------------
+  // Actions
+  // --------------------------------------------------------------------------
+
+  register(body) {
+    this._authRequest(body, this.url + '/api/register');
+  }
+
   login(body) {
+    this._authRequest(body, this.url + '/api/authenticate');
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.setState({payload: null});
+  }
+
+  // --------------------------------------------------------------------------
+  // Internal methods
+  // --------------------------------------------------------------------------
+
+  _authRequest(body, url) {
     reqwest({
-      url: this.url + '/api/authenticate',
+      url,
       type: 'json',
       method: 'post',
       crossOrigin: true,
@@ -53,7 +59,7 @@ class AuthStore {
           payload: JSON.parse(atob(res.token.split('.')[1]))
         });
         this._setLocalToken(res.token);
-        console.log(this.payload);
+        MenuActions.registerLoginSuccess();
       }
     });
   }

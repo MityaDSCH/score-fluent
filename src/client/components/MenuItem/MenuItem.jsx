@@ -40,7 +40,7 @@ export default class MenuItem extends React.Component {
   }
 
   inputChange(e) {
-    MenuActions.updateValidation(this.props.item.placeholder, e.target.value);
+    MenuActions.updateFormValidation(this.props.item.placeholder, e.target.value);
   }
 
 };
