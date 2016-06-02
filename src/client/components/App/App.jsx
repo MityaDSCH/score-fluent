@@ -7,6 +7,7 @@ import GameStore from '../../logic/stores/GameStore';
 
 import MenuActions from '../../logic/actions/MenuActions';
 
+import Greeting from '../Greeting/Greeting.jsx';
 import Menu from '../Menu/Menu.jsx';
 import Display from '../Display/Display.jsx';
 import Input from '../Input/Input.jsx';
@@ -18,6 +19,10 @@ export default class App extends React.Component {
     return (
       <div id="app-root"
         onClick={this.closeMenu}>
+        <AltContainer
+          store={AuthStore}>
+          <Greeting />
+        </AltContainer>
         <AltContainer
           store={MenuStore}>
           <Menu />
