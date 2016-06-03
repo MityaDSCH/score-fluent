@@ -1,4 +1,6 @@
 $lightgray: #888;
+$invalid-color: #ff828a;
+$valid-color: #abff8e;
 
 @mixin flex-container($direction, $justify, $align) {
   display: flex;

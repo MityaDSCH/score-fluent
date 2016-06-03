@@ -1,5 +1,5 @@
 $inactive-color: #777;
-$valid-color: #abff8e;
+;
 
 .menu-input {
   width: $menu-card-width + 20px;
@@ -20,7 +20,7 @@ $valid-color: #abff8e;
   transition: .6s;
 
   &.dirty {
-    border-color: #ff828a;
+    border-color: $invalid-color;
   }
 
   &.valid {

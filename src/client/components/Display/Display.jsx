@@ -68,7 +68,7 @@ export default class Display extends React.Component {
 
   updateNoteStatus(status) {
     const noteSet = this.noteSet;
-    if (status === 'correct') {
+    if (!status.incorrect) {
       noteSet.animate({
         stroke: '#00FF00',
         fill: '#00FF00'

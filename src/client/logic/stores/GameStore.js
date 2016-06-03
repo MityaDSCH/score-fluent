@@ -13,6 +13,7 @@ class GameStore {
     this.clef = 'treble';
     this.accidentals = ['flat'];
     this.rangeDifficulty = 'hard';
+    this.inputNotes = ['A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab'];
     this.possibleNotes = this._rangeToNotes(clefRanges[this.clef][this.rangeDifficulty]);
     this.note = _.sample(this.possibleNotes);
 
@@ -21,6 +22,40 @@ class GameStore {
 
     this.correct = [];
     this.incorrect = [];
+
+  }
+
+  guessNote(note) {
+
+    const newNote = () => {
+      setTimeout(() => {
+        this.setState({
+          guessStatus: false,
+          note: _.sample(this.possibleNotes)
+        });
+      }, this.answerDelay);
+    };
+
+    // pitch and octave are equal  or the input has no octave and the pitches are equal
+    if (_.isEqual(note, this.note) || (note.octave === null && note.pitch === this.note.pitch)) {
+      const correct = this.correct.concat(this.note);
+      this.setState({
+        correct,
+        guessStatus: {
+          incorrect: null,
+          correct: note
+        }
+      });
+      newNote();
+    } else {
+      const incorrect = this.incorrect.concat(this.note);
+      const guessStatus = {
+        incorrect: note,
+        correct: this.note
+      };
+      this.setState({incorrect, guessStatus});
+      newNote();
+    }
 
   }
 
@@ -62,41 +97,6 @@ class GameStore {
 
   _enharmonicNames(note, accidentals) {
     return note;
-  }
-
-  guessNote(note) {
-
-    const newNote = () => {
-      setTimeout(() => {
-        this.setState({
-          guessStatus: false,
-          note: _.sample(this.possibleNotes)
-        });
-      }, this.answerDelay);
-    };
-
-    // pitch and octave are equal  or the input has no octave and the pitches are equal
-    if (_.isEqual(note, this.note) || (note.octave === null && note.pitch === this.note.pitch)) {
-
-      const correct = this.correct.concat(this.note);
-      this.setState({
-        correct,
-        guessStatus: 'correct'
-      });
-      newNote();
-
-    } else {
-
-      const incorrect = this.incorrect.concat(this.note);
-      const guessStatus = {
-        incorrect: note,
-        correct: this.note
-      };
-      this.setState({incorrect, guessStatus});
-      newNote();
-
-    }
-
   }
 }
 
