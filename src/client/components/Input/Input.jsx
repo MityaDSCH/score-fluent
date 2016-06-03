@@ -13,7 +13,6 @@ export default class App extends React.Component {
       correct = guessStatus.correct.pitch;
       incorrect = guessStatus.incorrect ? guessStatus.incorrect.pitch : null;
     }
-    console.log(correct, incorrect);
     return (
       <div id="keyboard">{this.props.inputNotes.map((note) => {
         let status = '';

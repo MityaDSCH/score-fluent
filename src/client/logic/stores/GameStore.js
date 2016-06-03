@@ -36,25 +36,27 @@ class GameStore {
       }, this.answerDelay);
     };
 
-    // pitch and octave are equal  or the input has no octave and the pitches are equal
-    if (_.isEqual(note, this.note) || (note.octave === null && note.pitch === this.note.pitch)) {
-      const correct = this.correct.concat(this.note);
-      this.setState({
-        correct,
-        guessStatus: {
-          incorrect: null,
-          correct: note
-        }
-      });
-      newNote();
-    } else {
-      const incorrect = this.incorrect.concat(this.note);
-      const guessStatus = {
-        incorrect: note,
-        correct: this.note
-      };
-      this.setState({incorrect, guessStatus});
-      newNote();
+    if (!this.guessStatus) {
+      // pitch and octave are equal  or the input has no octave and the pitches are equal
+      if (_.isEqual(note, this.note) || (note.octave === null && note.pitch === this.note.pitch)) {
+        const correct = this.correct.concat(this.note);
+        this.setState({
+          correct,
+          guessStatus: {
+            incorrect: null,
+            correct: note
+          }
+        });
+        newNote();
+      } else {
+        const incorrect = this.incorrect.concat(this.note);
+        const guessStatus = {
+          incorrect: note,
+          correct: this.note
+        };
+        this.setState({incorrect, guessStatus});
+        newNote();
+      }
     }
 
   }
