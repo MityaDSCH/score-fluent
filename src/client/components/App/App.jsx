@@ -27,13 +27,11 @@ export default class App extends React.Component {
           store={MenuStore}>
           <Menu />
         </AltContainer>
-        <div id='game-container'>
-          <AltContainer
-            store={GameStore}>
-            <Display />
-            <Input />
-          </AltContainer>
-        </div>
+        <AltContainer
+          store={GameStore}>
+          <Display />
+          <Input />
+        </AltContainer>
       </div>
     );
   }

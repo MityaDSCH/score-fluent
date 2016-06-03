@@ -11,13 +11,28 @@
 
 body {
   height: 100vh;
-  width: 100%;
+  width: 100vw;
 
-  background: #D6EFFF;
-  color: white;
+  overflow: hidden;
+
+  background: #444;
+
 }
 
-#app, #app-root {
+#app {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  height: calc(100% - 20px);
+  width: calc(100% - 20px);
+
+  background: #D6EFFF;
+  box-shadow: 0 0 10px 4px black;
+}
+
+#app-root {
   height: 100%;
   width: 100%;
+
+  overflow: hidden;
 }

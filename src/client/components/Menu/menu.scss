@@ -4,10 +4,17 @@ $wide-menu-card-width: 200;
 $menu-transition: transform .7s cubic-bezier(0.920, 0.040, 0.240, 1.000);
 
 #menu-container {
+  position: absolute;
+  z-index: 0;
+  height: 100%;
+  width: 100%;
+
 
   font-family: Raleway, Arial;
   font-size: 22px;
   color: black;
+
+  overflow: hidden;
 }
 
 // ----------------------------------------------------------------------------
@@ -16,7 +23,8 @@ $menu-transition: transform .7s cubic-bezier(0.920, 0.040, 0.240, 1.000);
 
 #pulldown {
 
-  position: fixed;
+  position: absolute;
+  z-index: 2;
   top: $menu-gap + 0px;
   // -4 for left padding
   left: $menu-gap + $menu-card-width/4 - 4 + 0px;
@@ -73,8 +81,8 @@ $menu-transition: transform .7s cubic-bezier(0.920, 0.040, 0.240, 1.000);
 // ----------------------------------------------------------------------------
 
 #menu-card {
-  position: fixed;
-  z-index: 2;
+  position: absolute;
+  z-index: 3;
   top: 0;
   left: $menu-gap + 0px;
   height: 250px;
