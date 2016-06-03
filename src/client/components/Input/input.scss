@@ -1,7 +1,41 @@
 #keyboard {
   position: absolute;
-  z-index: 4;
-
-  left: 10px;
+  z-index: 3;
+  width: 420px;
+  left: 50%;
   bottom: 10px;
+  transform: translateX(-50%);
+
+  @include flex-container(row, space-around, center);
+  flex-wrap: wrap;
+}
+
+.keyboard-button {
+  height: 50px;
+  width: 50px;
+  margin: 10px;
+  padding: 20px;
+
+  @include flex-container(column, center, center);
+
+  background: none;
+  color: $lightgray;
+  outline: none;
+  border: 2px solid $lightgray;
+  border-radius: 6px;
+
+  transition: color .6s,
+              border-color .6s;
+
+  &:hover {
+    color: black;
+    border-color: black;
+  }
+}
+
+@media screen and (min-width: 890px) {
+  #keyboard {
+    width: 850px;
+    bottom: 20px;
+  }
 }
