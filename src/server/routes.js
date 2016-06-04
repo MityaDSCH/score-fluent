@@ -50,16 +50,33 @@ module.exports = function(app) {
           if (err.code == 11000) { // Catch mongoose duplicate errors
             var errmsg = err.toJSON().errmsg;
             var duplicate = errmsg.slice(errmsg.indexOf('$') + 1, errmsg.indexOf('_'));
-            return res.json({success: false, message: 'Duplicate ' + duplicate});
+            return res.json({
+              success: false,
+              invalidFields: [
+                {field: duplicate, message: 'Duplicate ' + duplicate}
+              ]
+            });
           } else if (err.name == 'ValidationError') { // Catch mongoose validation errors
             var errors = Object.keys(err.errors);
             errors = errors.map(function(errName) {
-              return err.errors[errName].message;
+              return {
+                field: errName,
+                message: err.errors[errName].message
+              };
             });
-            return res.json({success: false, message: [errors]});
+            console.log(err);
+            return res.json({
+              success: false,
+              invalidFields: errors
+            });
           } else {
             console.log(err);
-            return res.json({success: false, message: 'Unknown err'});
+            return res.json({
+              success: false,
+              invalidFields: [
+                {field: null, message: 'Unknown error'}
+              ]
+            });
           }
         }
         var token = tokenFromModel(newUser, ['_id', 'username', 'email', 'role'], app.get('jwtDuration'), app.get('jwtSecret'));
@@ -76,16 +93,29 @@ module.exports = function(app) {
         {username: req.body.id}
       ]
     }, function(err, user) {
-      if (err) throw err;
+      if (err) {
+        console.log(err);
+        throw err;
+      }
       if (!user) {
-        res.send({success: false, message: 'User not found'});
+        res.send({
+          success: false,
+          invalidFields: [
+            {field: 'id', message: 'User not found'}
+          ]
+        });
       } else {
         user.comparePassword(req.body.password, function(err, isMatch) {
           if (isMatch && !err) {
             var token = tokenFromModel(user, ['_id', 'username', 'email', 'role'], app.get('jwtDuration'), app.get('jwtSecret'));
             res.json({success: true, token: 'JWT ' + token});
           } else {
-            res.send({success: false, message: 'Password did not match'});
+            res.send({
+              success: false,
+              invalidFields: [
+                {field: 'password', message: 'Password did not match'}
+              ]
+            });
           }
         });
       }
