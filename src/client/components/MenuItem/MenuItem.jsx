@@ -4,6 +4,13 @@ import MenuActions from '../../logic/actions/MenuActions';
 
 export default class MenuItem extends React.Component {
 
+  constructor() {
+    super();
+    this.state = {
+      hasFocus: false
+    };
+  }
+
   render() {
 
     const item = this.props.item;
@@ -16,14 +23,19 @@ export default class MenuItem extends React.Component {
               {item.value}
             </p>
     } else if (item.type == 'input' || item.type == 'password') {
-      out = <input
-              className={'menu-item menu-input ' + item.validationState}
-              type={item.type}
-              placeholder={item.placeholder}
-              value={item.value}
-              onChange={this.inputChange.bind(this)}
-              required='true'>
-            </input>
+      out = <div className='input-container'>
+              <input
+                className={'menu-item menu-input ' + item.validationState}
+                type={item.type}
+                placeholder={item.placeholder}
+                value={item.value}
+                onChange={this.inputChange.bind(this)}
+                onFocus={this.focus.bind(this)}
+                onBlur={this.blur.bind(this)}
+                required='true'>
+              </input>
+              {this.state.hasFocus ? <p className="help">{item.help}</p> : null}
+            </div>
     } else if (item.type == 'validation-button') {
       out = <p
               className={'menu-item validation-button ' + this.props.item.validationState}
@@ -43,4 +55,11 @@ export default class MenuItem extends React.Component {
     MenuActions.updateFormValidation(this.props.item.placeholder, e.target.value);
   }
 
+  focus() {
+    this.setState({hasFocus: true});
+  }
+
+  blur() {
+    this.setState({hasFocus: false});
+  }
 };

@@ -121,6 +121,17 @@ class MenuStore {
     this._setLoggedInForm();
   }
 
+  registerLoginFail(invalidFields) {
+    invalidFields.forEach((err) => {
+      const i = _.findIndex(this.items, (item) => {
+        if (item.type == 'input' && item.placeholder.toLowerCase() == err.field) {
+          item.error = err.message;
+          item.validationState = 'dirty';
+        }
+      });
+    });
+  }
+
   // --------------------------------------------------------------------------
   // Internal methods
   // ----------------------------------------------------------------------------
@@ -191,6 +202,8 @@ class MenuStore {
           type: 'input',
           placeholder: 'Username',
           value: '',
+          error: '',
+          help: 'Username can include letters and symbols, must be > 3 long',
           regex: /^[A-Za-z\d$@$!%*?&]{3,}/,
           validationState: 'clean'
         },
@@ -198,6 +211,8 @@ class MenuStore {
           type: 'input',
           placeholder: 'Email',
           value: '',
+          error: '',
+          help: 'Email must be valid',
           regex: /[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,4}/,
           validationState: 'clean'
         },
@@ -205,6 +220,8 @@ class MenuStore {
           type: 'password',
           placeholder: 'Password',
           value: '',
+          error: '',
+          help: 'Password must include upper and lowercase + number; must be > 8 long',
           regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&]{8,}/,
           validationState: 'clean'
         },
@@ -212,6 +229,8 @@ class MenuStore {
           type: 'password',
           placeholder: 'Confirm password',
           value: '',
+          error: '',
+          help: 'Must match other password',
           regex: /\S+/,
           validationState: 'clean'
         },
@@ -236,6 +255,8 @@ class MenuStore {
           type: 'input',
           placeholder: 'Username or Email',
           value: '',
+          error: '',
+          help: 'Email must be valid',
           regex: /^[A-Za-z\d$@$!%*?&]{3,}/,
           validationState: 'clean'
         },
@@ -243,6 +264,8 @@ class MenuStore {
           type: 'password',
           placeholder: 'Password',
           value: '',
+          error: '',
+          help: 'Password must include upper and lowercase + number; > must be 8 long',
           regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&]{8,}/,
           validationState: 'clean'
         },

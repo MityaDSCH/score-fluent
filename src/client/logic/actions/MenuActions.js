@@ -5,5 +5,6 @@ export default alt.generateActions(
   'close',
   'btnClick',
   'updateFormValidation',
-  'registerLoginSuccess'
+  'registerLoginSuccess',
+  'registerLoginFail'
 );

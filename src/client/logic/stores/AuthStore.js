@@ -53,7 +53,9 @@ class AuthStore {
       contentType: 'application/x-www-form-urlencoded',
       data: body,
     }).then((res) => {
-      if (!res.success) console.log(res);
+      if (!res.success) {
+        MenuActions.registerLoginFail(res.invalidFields);
+      }
       else {
         this.setState({
           payload: JSON.parse(atob(res.token.split('.')[1]))
