@@ -45,14 +45,18 @@ module.exports = function(app) {
         email: req.body.email,
         password: req.body.password
       });
-
       newUser.save(function(err) {
         if (err) {
-          // if error code is duplicate of unique field return duplicate err
-          if (err.code == 11000) {
+          if (err.code == 11000) { // Catch mongoose duplicate errors
             var errmsg = err.toJSON().errmsg;
             var duplicate = errmsg.slice(errmsg.indexOf('$') + 1, errmsg.indexOf('_'));
             return res.json({success: false, message: 'Duplicate ' + duplicate});
+          } else if (err.name == 'ValidationError') { // Catch mongoose validation errors
+            var errors = Object.keys(err.errors);
+            errors = errors.map(function(errName) {
+              return err.errors[errName].message;
+            });
+            return res.json({success: false, message: [errors]});
           } else {
             console.log(err);
             return res.json({success: false, message: 'Unknown err'});
