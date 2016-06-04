@@ -85,6 +85,7 @@ class MenuStore {
   updateFormValidation([placeholder, val]) {
     const fieldIndex = _.findIndex(this.items, {placeholder});
     const o = this.items[fieldIndex];
+    o.error = '';
     o.value = val;
     const regex = o.regex;
 
@@ -123,8 +124,8 @@ class MenuStore {
 
   registerLoginFail(invalidFields) {
     invalidFields.forEach((err) => {
-      const i = _.findIndex(this.items, (item) => {
-        if (item.type == 'input' && item.placeholder.toLowerCase() == err.field) {
+      this.items.forEach((item) => {
+        if ((item.type == 'input' || item.type == 'password') && item.placeholder.toLowerCase() == err.field.toLowerCase()) {
           item.error = err.message;
           item.validationState = 'dirty';
         }

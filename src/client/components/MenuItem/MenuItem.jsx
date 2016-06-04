@@ -23,6 +23,9 @@ export default class MenuItem extends React.Component {
               {item.value}
             </p>
     } else if (item.type == 'input' || item.type == 'password') {
+      let helpText = null;
+      if (item.error) helpText = item.error;
+      else if (this.state.hasFocus && item.validationState != 'valid') helpText = item.help;
       out = <div className='input-container'>
               <input
                 className={'menu-item menu-input ' + item.validationState}
@@ -34,7 +37,7 @@ export default class MenuItem extends React.Component {
                 onBlur={this.blur.bind(this)}
                 required='true'>
               </input>
-              {this.state.hasFocus ? <p className="help">{item.help}</p> : null}
+              {helpText ? <p className="help">{helpText}</p> : null}
             </div>
     } else if (item.type == 'validation-button') {
       out = <p

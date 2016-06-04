@@ -101,7 +101,7 @@ module.exports = function(app) {
         res.send({
           success: false,
           invalidFields: [
-            {field: 'id', message: 'User not found'}
+            {field: 'Username or Email', message: 'User not found'}
           ]
         });
       } else {
