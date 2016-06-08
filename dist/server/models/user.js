@@ -4,18 +4,37 @@ var bcrypt = require('bcrypt');
 var UserSchema = new mongoose.Schema({
   username: {
     type: String,
+    lowercase: true,
     unique: true,
-    required: true
+    required: true,
+    validate: {
+      validator: function(v) {
+        return /^[A-Za-z\d$@$!%*?&]{3,}/.test(v);
+      },
+      message: 'Invalid Username'
+    }
   },
   email: {
     type: String,
     lowercase: true,
     unique: true,
     required: true,
+    validate: {
+      validator: function(v) {
+        return /[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,4}/.test(v);
+      },
+      message: 'Invalid Email'
+    }
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    validate: {
+      validator: function(v) {
+        return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&]{8,}/.test(v);
+      },
+      message: 'Invalid Password'
+    }
   },
   role: {
     type: String,

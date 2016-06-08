@@ -43,6 +43,7 @@ class GameStore {
         this.setState({
           correct,
           guessStatus: {
+            guess: 'correct',
             incorrect: null,
             correct: note
           }
@@ -51,6 +52,7 @@ class GameStore {
       } else {
         const incorrect = this.incorrect.concat(this.note);
         const guessStatus = {
+          guess: 'incorrect',
           incorrect: note,
           correct: this.note
         };

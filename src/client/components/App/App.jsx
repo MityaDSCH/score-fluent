@@ -17,21 +17,23 @@ export default class App extends React.Component {
   render() {
 
     return (
-      <div id="app-root"
+      <div id="app-background"
         onClick={this.closeMenu}>
-        <AltContainer
-          store={AuthStore}>
-          <Greeting />
-        </AltContainer>
-        <AltContainer
-          store={MenuStore}>
-          <Menu />
-        </AltContainer>
-        <AltContainer
-          store={GameStore}>
-          <Display />
-          <Input />
-        </AltContainer>
+        <div id="app-card">
+          <AltContainer
+            store={AuthStore}>
+            <Greeting />
+          </AltContainer>
+          <AltContainer
+            store={MenuStore}>
+            <Menu />
+          </AltContainer>
+          <AltContainer
+            store={GameStore}>
+            <Display />
+            <Input />
+          </AltContainer>
+        </div>
       </div>
     );
   }

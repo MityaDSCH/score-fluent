@@ -9,16 +9,29 @@
 @import './Display/display.scss';
 @import './Input/input.scss';
 
-body {
+body, #app {
   height: 100vh;
   width: 100vw;
 
   overflow: hidden;
-
-  background: #143346;
 }
 
-#app {
+#app-background {
+  height: 100%;
+  width: 100%;
+
+  background: #143346;
+
+  &.incorrect {
+    animation: incorrectFlash 1.5s;
+  }
+
+  &.correct {
+    animation: correctFlash 1.5s;
+  }
+}
+
+#app-card {
   $border-width: 2px;
   position: absolute;
   top: 10px;
@@ -31,11 +44,26 @@ body {
   box-shadow: 0 0 10px 4px black;
 
   border: $border-width solid #DDD;
-}
-
-#app-root {
-  height: 100%;
-  width: 100%;
 
   overflow: hidden;
+}
+
+@keyframes incorrectFlash {
+  0%, 100% {
+    background: #143346;
+  }
+
+  30% {
+    background: $invalid-color;
+  }
+}
+
+@keyframes correctFlash {
+  0%, 100% {
+    background: #143346;
+  }
+
+  30% {
+    background: $valid-color;
+  }
 }
