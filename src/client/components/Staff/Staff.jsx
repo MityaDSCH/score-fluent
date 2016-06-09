@@ -9,7 +9,6 @@ export default class Staff extends React.Component {
   // --------------------------------------------------------------------------
 
   render() {
-    console.log(this.props.type);
     return (
       <div className={'staff-container ' + this.props.type}>
         {this.props.type == 'lastStaff' ? <p>{'Last Note: ' + this.props.note.pitch + this.props.note.octave}</p> : ''}
@@ -40,7 +39,7 @@ export default class Staff extends React.Component {
     this.ctx = this.renderer.getContext();
 
     this._drawStave(props.clef);
-    this._drawNote(props.note);
+    this._drawNote(props);
   }
 
   _drawStave(clef) {
@@ -48,15 +47,15 @@ export default class Staff extends React.Component {
     this.stave.addClef(clef).setContext(this.ctx).draw();
   }
 
-  _drawNote(note) {
+  _drawNote(props) {
 
     // Record what objects are added to the canvas for a Raphael group
     this.ctx.paper.setStart();
 
     // Make VF note object
-    const vfNote = new VF.StaveNote({ keys: [note.pitch + "/" + note.octave], duration: "q" });
-    if (note.pitch.length > 1) { // Has accidental, i.e. 'Bb'
-      vfNote.addAccidental(0, new VF.Accidental(note.pitch.substr(1)));
+    const vfNote = new VF.StaveNote({ keys: [props.note.pitch + "/" + props.note.octave], duration: "q" });
+    if (props.note.pitch.length > 1) { // Has accidental, i.e. 'Bb'
+      vfNote.addAccidental(0, new VF.Accidental(props.note.pitch.substr(1)));
     }
 
     // Make VF measure
@@ -75,7 +74,7 @@ export default class Staff extends React.Component {
     this.noteSet.translate(15); // It's too close to the clef for some reason
 
     if (this.props.type == 'lastStaff') { // Immediately set note color of last guess
-      if (this.props.noteStatus == 'correct') {
+      if (props.noteStatus == 'correct') {
         this.noteSet.attr({stroke: '#00FF00', fill: '#00FF00'});
       } else {
         this.noteSet.attr({stroke: '#FF0000', fill: '#FF0000'});
