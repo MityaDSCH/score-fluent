@@ -7,6 +7,7 @@
 @import './MenuItem/menuitem.scss';
 @import './Greeting/greeting.scss';
 @import './Display/display.scss';
+@import './Staff/staff.scss';
 @import './Input/input.scss';
 
 body, #app {
@@ -38,7 +39,7 @@ body, #app {
   left: 10px;
   height: calc(100% - 20px - #{$border-width*2});
   width: calc(100% - 20px - #{$border-width*2});
-  min-width: 420px;
+  min-width: 452px;
 
   background: #D6EFFF;
   box-shadow: 0 0 10px 4px black;

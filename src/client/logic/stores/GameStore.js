@@ -10,57 +10,55 @@ class GameStore {
   constructor() {
     this.bindActions(GameActions);
 
-    this.clef = 'treble';
     this.accidentals = ['flat'];
-    this.rangeDifficulty = 'hard';
     this.inputNotes = ['A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab'];
-    this.possibleNotes = this._rangeToNotes(clefRanges[this.clef][this.rangeDifficulty]);
-    this.note = _.sample(this.possibleNotes);
+
+    this.curStaff = {
+      clef: 'treble',
+      note: _.sample(this._rangeToNotes(clefRanges['treble']['hard'])),
+      noteStatus: ''
+    }
+    this.lastStaff = null;
 
     this.answerDelay = 1500;
-    this.guessStatus = false;
+    this.guessStatus = null; // Contains info about a guess for answerDelay, then reset to null
 
     this.correct = [];
     this.incorrect = [];
 
   }
 
-  guessNote(note) {
-
-    const newNote = () => {
-      setTimeout(() => {
-        this.setState({
-          guessStatus: false,
-          note: _.sample(this.possibleNotes)
-        });
-      }, this.answerDelay);
-    };
-
-    if (!this.guessStatus) {
-      // pitch and octave are equal  or the input has no octave and the pitches are equal
-      if (_.isEqual(note, this.note) || (note.octave === null && note.pitch === this.note.pitch)) {
-        const correct = this.correct.concat(this.note);
+  guessNote(guessedNote) {
+    if (!this.guessStatus) { // If not in animation delay
+      if (_.isEqual(guessedNote, this.curStaff.note) || (guessedNote.octave === null && guessedNote.pitch === this.curStaff.note.pitch)) {
+        const correct = this.correct.concat(this.curStaff.note);
         this.setState({
           correct,
           guessStatus: {
             guess: 'correct',
             incorrect: null,
-            correct: note
-          }
+            correct: guessedNote
+          },
+          curStaff: {...this.curStaff, noteStatus: 'correct'}
         });
-        newNote();
       } else {
-        const incorrect = this.incorrect.concat(this.note);
-        const guessStatus = {
-          guess: 'incorrect',
-          incorrect: note,
-          correct: this.note
-        };
-        this.setState({incorrect, guessStatus});
-        newNote();
+        const incorrect = this.incorrect.concat(this.curStaff.note);
+        this.setState({
+          incorrect,
+          guessStatus: {
+            guess: 'incorrect',
+            incorrect: guessedNote,
+            correct: this.curStaff.note
+          },
+          curStaff: {...this.curStaff, noteStatus: 'incorrect'}
+        });
       }
-    }
 
+      setTimeout(() => {
+        this._setRandNote();
+      }, this.answerDelay);
+
+    }
   }
 
   _rangeToNotes(range, accidentals) {
@@ -102,6 +100,23 @@ class GameStore {
   _enharmonicNames(note, accidentals) {
     return note;
   }
+
+  _setRandNote() {
+    let newNote = this._rangeToNotes(clefRanges['treble']['hard']);
+    while(_.isEqual(newNote, this.curStaff.note)) {
+      newNote = this._rangeToNotes(clefRanges['treble']['hard']);
+    }
+    this.setState({
+      guessStatus: null,
+      lastStaff: this.curStaff,
+      curStaff: {
+        clef: 'treble',
+        note: _.sample(this._rangeToNotes(clefRanges['treble']['hard'])),
+        noteStatus: ''
+      }
+    });
+  }
+
 }
 
 export default alt.createStore(GameStore, 'GameStore');
