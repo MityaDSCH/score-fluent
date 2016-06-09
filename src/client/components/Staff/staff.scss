@@ -18,7 +18,23 @@
     font-weight: 300;
     font-style: italic;
     font-size: 14px;
-    
+
     transform: translateY(-50px);
   }
+}
+
+#display .last-guess-pitch {
+  position: absolute;
+  height: 38px;
+  width: 38px;
+  left: 50%;
+  transform: translate(-17px, -48px);
+
+  margin: 0;
+  padding: 0;
+
+  border-width: 1px;
+  color: black;
+  border-color: black;
+  cursor: default;
 }

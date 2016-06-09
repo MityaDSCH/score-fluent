@@ -11,7 +11,10 @@ export default class Staff extends React.Component {
   render() {
     return (
       <div className={'staff-container ' + this.props.type}>
-        {this.props.type == 'lastStaff' ? <p>{'Last Note: ' + this.props.note.pitch + this.props.note.octave}</p> : ''}
+        {this.props.type == 'lastStaff' ?
+          <p className='keyboard-button last-guess-pitch'>{this.props.note.pitch + this.props.note.octave}</p> 
+          : ''
+        }
       </div>
     );
   }
