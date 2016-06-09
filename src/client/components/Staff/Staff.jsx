@@ -27,7 +27,7 @@ export default class Staff extends React.Component {
     if (nextProps.guessStatus) {
       if (this.props.type == 'curStaff') this._updateNoteColor(nextProps.noteStatus);
     } else if (this.props.guessStatus && !nextProps.guessStatus) {
-      this.container.innerHTML = '';
+      this.container.removeChild(this.container.querySelector('svg'));
       this._draw(nextProps);
     }
   }
