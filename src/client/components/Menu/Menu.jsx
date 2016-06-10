@@ -5,22 +5,16 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div id="menu-container">
-        <div id='menu-items'>
-          {this.props.menuItems.map((menuItem) =>
-            <p
-              className='menu-item'
-              onClick={this.menuClick.bind(menuItem)}
-              key={menuItem}>
-                {menuItem}
-            </p>
-          )}
-        </div>
+      <div id="menu-container" className={this.props.class}>
+        {this.props.items.map((item) =>
+          <p
+            className='menu-item'
+            onClick={() => MenuActions.btnClick(item)}
+            key={item}>
+              {item}
+          </p>
+        )}
       </div>
     );
-  }
-
-  menuClick() {
-    MenuActions.btnClick(this);
   }
 }

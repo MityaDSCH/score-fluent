@@ -12,7 +12,9 @@ class MenuStore {
   constructor() {
     this.bindActions(MenuActions);
 
-    this.menuItems = [];
+    this.items = [];
+    this.class = 'active';
+    this.animationDuration = 600;
 
   }
 
@@ -53,18 +55,34 @@ class MenuStore {
 
   // --------------------------------------------------------------------------
   // Internal methods
-  // ----------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
+
+  _animateMenu(items) {
+    this.setState({class: ''});
+    setTimeout(() => this.setState({
+      class: 'active',
+      items
+    }), this.animationDuration);
+  }
 
   _setLoggedOutMenu() {
-    this.setState({
-      menuItems: ['Login', 'Register', 'Mode', 'Clefs', 'Difficulty']
-    });
+    this._animateMenu([
+      'Login',
+      'Register',
+      'Mode',
+      'Clefs',
+      'Difficulty'
+    ]);
   }
 
   _setLoggedInMenu(payload) {
-    this.setState({
-      menuItems: [`Hi ${payload.username}!`, 'Mode', 'Clefs', 'Difficulty', 'Logout']
-    });
+    this._animateMenu([
+      `Hi ${payload.username}!`,
+      'Mode',
+      'Clefs',
+      'Difficulty',
+      'Logout'
+    ]);
   }
 }
 
