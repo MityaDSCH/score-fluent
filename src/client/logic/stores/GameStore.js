@@ -12,10 +12,13 @@ class GameStore {
 
     this.accidentals = ['flat'];
     this.inputNotes = ['A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab'];
+    this.clefs = ['treble'];
+    this.difficulty = 'hard';
 
+    const clef = _.sample(this.clefs);
     this.curStaff = {
-      clef: 'treble',
-      note: _.sample(this._rangeToNotes(clefRanges['treble']['hard'])),
+      clef,
+      note: this._newNote(clef, this.difficulty),
       noteStatus: ''
     }
     this.lastStaff = null;
@@ -61,7 +64,7 @@ class GameStore {
     }
   }
 
-  _rangeToNotes(range, accidentals) {
+  _rangeToNotes(range, accidentals) { // Take a range defined by a high and low note and return an array of notes in the range
     let low = range.low;
     let high = range.high;
     let notes = [];
@@ -102,19 +105,26 @@ class GameStore {
   }
 
   _setRandNote() {
-    let newNote = this._rangeToNotes(clefRanges['treble']['hard']);
-    while(_.isEqual(newNote, this.curStaff.note)) {
-      newNote = this._rangeToNotes(clefRanges['treble']['hard']);
+    let note = this._newNote();
+    while(_.isEqual(note, this.curStaff.note)) {
+      note = this._newNote();
     }
     this.setState({
       guessStatus: null,
       lastStaff: this.curStaff,
       curStaff: {
         clef: 'treble',
-        note: _.sample(this._rangeToNotes(clefRanges['treble']['hard'])),
+        note,
         noteStatus: ''
       }
     });
+  }
+
+  _newNote(clef, difficulty) { // Return note in cleff/difficulty passed or randomly out of this.clefs
+    if (arguments.length !== 0) {
+      return _.sample(this._rangeToNotes(clefRanges[clef][difficulty]));
+    }
+    return _.sample(this._rangeToNotes(clefRanges[_.sample(this.clefs)][this.difficulty]));
   }
 
 }
