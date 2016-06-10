@@ -26,9 +26,8 @@ class MenuStore {
   // --------------------------------------------------------------------------
 
   init(payload) {
-    console.log(payload);
-    if (payload) this.menuItems = ['Logout', `Hi ${payload.username}!`];
-    else this.menuItems = ['Login', 'Register'];
+    if (payload) this._setLoggedInMenu(payload);
+    else this._setLoggedOutMenu();
   }
 
   closeModal() {
@@ -70,7 +69,7 @@ class MenuStore {
         }
         break;
       case 'Logout':
-        this.setState({menuItems: ['Login', 'Register']});
+        this._setLoggedOutMenu();
         setTimeout(() => AuthActions.logout(), 0);
         break;
       default:
@@ -117,7 +116,7 @@ class MenuStore {
 
   registerLoginSuccess(payload) {
     this.closeModal();
-    this.menuItems = ['Logout', 'Hi ' + payload.username + '!']
+    this._setLoggedInMenu(payload);
   }
 
   registerLoginFail(invalidFields) {
@@ -236,6 +235,18 @@ class MenuStore {
           value: 'Submit'
         }
       ]
+    });
+  }
+
+  _setLoggedOutMenu() {
+    this.setState({
+      menuItems: ['Login', 'Register', 'Mode', 'Clefs', 'Difficulty']
+    });
+  }
+
+  _setLoggedInMenu(payload) {
+    this.setState({
+      menuItems: [`Hi ${payload.username}!`, 'Mode', 'Clefs', 'Difficulty', 'Logout']
     });
   }
 }
