@@ -1,9 +1,10 @@
 import alt from '../libs/alt';
 
 export default alt.generateActions(
-  'init',
-  'closeModal',
-  'btnClick',
-  'registerLoginSuccess',
+  'close',
+  'register',
+  'login',
+  'submit',
+  'updateFormValidation',
   'registerLoginFail'
-);
+)

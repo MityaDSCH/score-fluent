@@ -3,6 +3,7 @@ import reqwest from 'reqwest';
 
 import AuthActions from '../actions/AuthActions';
 import MenuActions from '../actions/MenuActions';
+import ModalActions from '../actions/ModalActions';
 
 class AuthStore {
 
@@ -54,13 +55,14 @@ class AuthStore {
       data: body,
     }).then((res) => {
       if (!res.success) {
-        MenuActions.registerLoginFail(res.invalidFields);
+        ModalActions.registerLoginFail(res.invalidFields);
       }
       else {
         const payload = JSON.parse(atob(res.token.split('.')[1]));
         this.setState({payload});
         this._setLocalToken(res.token);
         MenuActions.registerLoginSuccess(payload);
+        ModalActions.close();
       }
     });
   }

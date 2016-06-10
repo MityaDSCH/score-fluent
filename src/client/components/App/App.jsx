@@ -4,6 +4,7 @@ import AltContainer from 'alt-container';
 import AuthStore from '../../logic/stores/AuthStore';
 import MenuStore from '../../logic/stores/MenuStore';
 import GameStore from '../../logic/stores/GameStore';
+import ModalStore from '../../logic/stores/ModalStore';
 
 import MenuActions from '../../logic/actions/MenuActions';
 
@@ -29,7 +30,7 @@ export default class App extends React.Component {
             <Menu />
           </AltContainer>
           <AltContainer
-            store={MenuStore}>
+            store={ModalStore}>
             <Modal />
           </AltContainer>
         </div>

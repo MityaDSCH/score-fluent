@@ -1,8 +1,8 @@
 import React from 'react';
 
-import MenuActions from '../../logic/actions/MenuActions';
+import ModalActions from '../../logic/actions/ModalActions';
 
-export default class MenuItem extends React.Component {
+export default class ModalFormItem extends React.Component {
 
   constructor() {
     super();
@@ -16,13 +16,7 @@ export default class MenuItem extends React.Component {
     const item = this.props.item;
     let out = null;
 
-    if (item.type == 'button') {
-      out = <p
-              className='form-item menu-btn'
-              onClick={this.btnClick.bind(this)}>
-              {item.value}
-            </p>
-    } else if (item.type == 'input' || item.type == 'password') {
+    if (item.type == 'input' || item.type == 'password') {
       let helpText = null;
       if (item.error) helpText = item.error;
       else if (this.state.hasFocus && item.validationState != 'valid') helpText = item.help;
@@ -42,7 +36,7 @@ export default class MenuItem extends React.Component {
     } else if (item.type == 'validation-button') {
       out = <p
               className={'form-item validation-button ' + this.props.item.validationState}
-              onClick={this.btnClick.bind(this)}>
+              onClick={this.submit.bind(this)}>
               {item.value}
             </p>
     }
@@ -50,12 +44,12 @@ export default class MenuItem extends React.Component {
     return out;
   }
 
-  btnClick() {
-    MenuActions.btnClick(this.props.item.value);
+  submit() {
+    ModalActions.submit();
   }
 
   inputChange(e) {
-    MenuActions.updateFormValidation(this.props.item.placeholder, e.target.value);
+    ModalActions.updateFormValidation(this.props.item.placeholder, e.target.value);
   }
 
   focus() {

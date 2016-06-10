@@ -1,24 +1,24 @@
 import React from 'react';
 
-import MenuItem from '../MenuItem/MenuItem.jsx';
+import ModalFormItem from '../ModalFormItem/ModalFormItem.jsx';
 
-import MenuActions from '../../logic/actions/MenuActions';
+import ModalActions from '../../logic/actions/ModalActions';
 
 export default class Modal extends React.Component {
 
   render() {
     return (
-      this.props.modal ?
+      this.props.active ?
 
         <div
           id="modal-background"
-          className={this.props.fadeModal ? 'fade' : ''}>
+          className={this.props.fade ? 'fade' : ''}>
           <p
             id="back-button"
-            onClick={MenuActions.closeModal}>Back</p>
-          <div id="modal-card" className={this.props.modalCardClass}>
-            {this.props.modalFormItems.map((item, ind) =>
-              <MenuItem key={ind} item={item} valid={this.props.valid} />
+            onClick={ModalActions.close}>Back</p>
+          <div id="modal-card" className={this.props.cardClass}>
+            {this.props.formItems.map((item, ind) =>
+              <ModalFormItem key={ind} item={item} valid={this.props.valid} />
             )}
           </div>
         </div>
