@@ -5,7 +5,7 @@
 @import './App/app.scss';
 @import './Menu/menu.scss';
 @import './MenuItem/menuitem.scss';
-@import './Greeting/greeting.scss';
+@import './Modal/modal.scss';
 @import './Display/display.scss';
 @import './Staff/staff.scss';
 @import './Input/input.scss';
@@ -21,7 +21,7 @@ body, #app {
   height: 100%;
   width: 100%;
 
-  background: #143346;
+  background: $background-blue;
 
   &.incorrect {
     animation: incorrectFlash 1.5s;
@@ -39,9 +39,9 @@ body, #app {
   left: 10px;
   height: calc(100% - 20px - #{$border-width*2});
   width: calc(100% - 20px - #{$border-width*2});
-  min-width: 840px;
+  min-width: 460px;
 
-  background: #D6EFFF;
+  background: $card-blue;
   box-shadow: 0 0 10px 4px black;
 
   border: $border-width solid #DDD;
@@ -51,7 +51,7 @@ body, #app {
 
 @keyframes incorrectFlash {
   0%, 100% {
-    background: #143346;
+    background: $background-blue;
   }
 
   30% {
@@ -61,7 +61,7 @@ body, #app {
 
 @keyframes correctFlash {
   0%, 100% {
-    background: #143346;
+    background: $background-blue;
   }
 
   30% {

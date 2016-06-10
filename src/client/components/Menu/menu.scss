@@ -1,126 +1,34 @@
-$menu-gap: 10;
-$menu-card-width: 160;
-$wide-menu-card-width: 200;
-$menu-transition: transform .7s cubic-bezier(0.920, 0.040, 0.240, 1.000);
-
 #menu-container {
   position: absolute;
   z-index: 0;
-  height: 100%;
   width: 100%;
 
-
   font-family: Raleway, Arial;
-  font-size: 22px;
   color: black;
-
-  overflow: hidden;
-}
-
-// ----------------------------------------------------------------------------
-// pulldown
-// ----------------------------------------------------------------------------
-
-#pulldown {
-
-  position: absolute;
-  z-index: 2;
-  top: $menu-gap + 0px;
-  // -4 for left padding
-  left: $menu-gap + $menu-card-width/4 - 4 + 0px;
-
-  height: 68px;
-  width: $menu-card-width/2 + 0px;
-  padding: 3px 3px 3px 4px;
-
-  @include flex-container(column, space-between, center);
-
-  transition: $menu-transition;
-  transform: translateY(-100%);
-
-  cursor: pointer;
-  color: #888;
-  fill: #888;
-
-  p {
-    text-align: center;
-    margin: 0;
-  }
-
-  &> * {
-    transition: .6s;
-  }
-
-  &:hover > * {
-      color: black;
-      fill: black;
-  }
-
-}
-
-#pulldown.active {
-  transform: translateY(0);
-}
-
-#pulldown {
-  &.register, &.login {
-    left: $menu-gap + $wide-menu-card-width/4 - 4 + 0px;
-  }
-}
-
-#menu-pulldown-arrow {
-  height: 32px;
-  width: 32px;
-  padding: 1px;
-
-  transform: scale(.8);
 }
 
 // ----------------------------------------------------------------------------
 // Menu
 // ----------------------------------------------------------------------------
 
-#menu-card {
+#menu-items {
   position: absolute;
-  z-index: 3;
-  top: 0;
-  left: $menu-gap + 0px;
-  height: 250px;
-  width: $menu-card-width + 0px;
+  top: 10px;
+  left: 10px;
+  width: calc(100% - 20px);
 
-  @include flex-container(column, space-around, center);
+  @include flex-container(row, space-between, center);
+}
 
-  transition: $menu-transition;
-  transform: translateY(-100%);
+.menu-item {
+  margin: 0;
 
-  box-shadow: 0 0 3px 1px black;
-  background: #444;
+  cursor: pointer;
+  color: $lightgray;
+  font-size: 20px;
 
-  text-align: center;
-  color: white;
-
-  > * {
-    margin: 0;
+  transition: color .6s;
+  &:hover {
+    color: black;
   }
-
-  > .menu-btn {
-    cursor: pointer;
-  }
-}
-
-#menu-card.active {
-  transform: translateY(0);
-}
-
-#menu-card.register {
-  height: 350px;
-  width: $wide-menu-card-width + 0px;
-}
-
-#menu-card.login {
-  width: $wide-menu-card-width + 0px;
-}
-
-#menu-card.logged-in {
-  height: 175px;
 }

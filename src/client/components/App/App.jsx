@@ -7,8 +7,8 @@ import GameStore from '../../logic/stores/GameStore';
 
 import MenuActions from '../../logic/actions/MenuActions';
 
-import Greeting from '../Greeting/Greeting.jsx';
 import Menu from '../Menu/Menu.jsx';
+import Modal from '../Modal/Modal.jsx';
 import Display from '../Display/Display.jsx';
 import Input from '../Input/Input.jsx';
 
@@ -17,31 +17,23 @@ export default class App extends React.Component {
   render() {
 
     return (
-      <div id="app-background"
-        onClick={this.closeMenu}>
+      <div id="app-background">
         <div id="app-card">
           <AltContainer
-            store={AuthStore}>
-            <Greeting />
+            store={GameStore}>
+            <Display />
+            <Input />
           </AltContainer>
           <AltContainer
             store={MenuStore}>
             <Menu />
           </AltContainer>
           <AltContainer
-            store={GameStore}>
-            <Display />
-            <Input />
+            store={MenuStore}>
+            <Modal />
           </AltContainer>
         </div>
       </div>
     );
   }
-
-  closeMenu(e) {
-    if (e.target.id != 'menu-card' && !e.target.classList.contains('menu-item')) {
-      MenuActions.close();
-    }
-  }
-
 }

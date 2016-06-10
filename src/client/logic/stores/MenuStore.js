@@ -11,80 +11,77 @@ class MenuStore {
   constructor() {
     this.bindActions(MenuActions);
 
-    this.open = false;
-    this.valid = false;
-    this.status = null;
+    this.menuItems = [];
 
-    this.items = [];
-
-    // Get data from auth store to see if token stored
-    setTimeout(() => {
-      const payload = AuthStore.getPayload();
-      if (payload) {
-        this._setLoggedInForm();
-      } else {
-        this._setNullForm();
-      }
-    }, 0);
-
+    this.modal = false;
+    this.fadeModal = false;
+    this.modalAnimationDelay = 500;
+    this.modalCardClass = '';
+    this.modalFormItems = [];
+    this.validForm = false;
   }
 
   // --------------------------------------------------------------------------
   // Actions
   // --------------------------------------------------------------------------
 
-  open() {
-    if (!this.open) this.setState({open: true});
+  init(payload) {
+    console.log(payload);
+    if (payload) this.menuItems = ['Logout', `Hi ${payload.username}!`];
+    else this.menuItems = ['Login', 'Register'];
   }
 
-  close() {
-    if (this.open) this.setState({open: false});
+  closeModal() {
+    this.setState({
+      fadeModal: true
+    });
+    setTimeout(() => {
+      this.setState({
+        fadeModal: false,
+        modal: false
+      });
+    }, this.modalAnimationDelay);
   }
 
   btnClick(btnName) {
     switch (btnName) {
       case 'Register':
-        this._setRegisterForm();
+        this._setRegisterModal();
         break;
       case 'Login':
-        this._setLoginForm();
-        break;
-      case 'Stats':
-
-        break;
-      case 'Back':
-        this._setNullForm();
+        this._setLoginModal();
         break;
       case 'Submit':
-        if (this.valid) {
-          if (this.status == 'register') {
+        if (this.validForm) {
+          if (this.modalCardClass == 'register') {
             const body = {
-              username: this.items[1].value,
-              email: this.items[2].value,
-              password: this.items[3].value
+              username: this.modalFormItems[0].value,
+              email: this.modalFormItems[1].value,
+              password: this.modalFormItems[2].value
             };
             setTimeout(() => AuthActions.register(body), 0);
-          } else if (this.status == 'login') {
+          } else if (this.modalCardClass == 'login') {
             const body = {
-              id: this.items[1].value,
-              password: this.items[2].value
+              id: this.modalFormItems[0].value,
+              password: this.modalFormItems[1].value
             };
             setTimeout(() => AuthActions.login(body), 0);
           }
         }
         break;
-      case 'Log Out':
-        this._setNullForm();
+      case 'Logout':
+        this.setState({menuItems: ['Login', 'Register']});
         setTimeout(() => AuthActions.logout(), 0);
+        break;
       default:
-        console.log(btnName, 'menu-btn click unhandled');
+        console.warn(btnName, 'menu-btn click unhandled');
         break;
     }
   }
 
   updateFormValidation([placeholder, val]) {
-    const fieldIndex = _.findIndex(this.items, {placeholder});
-    const o = this.items[fieldIndex];
+    const fieldIndex = _.findIndex(this.modalFormItems, {placeholder});
+    const o = this.modalFormItems[fieldIndex];
     o.error = '';
     o.value = val;
     const regex = o.regex;
@@ -102,7 +99,7 @@ class MenuStore {
         o.validationState = 'valid';
       }
     } else {
-      const password = this.items[_.findIndex(this.items, {placeholder: 'Password'})];
+      const password = this.modalFormItems[_.findIndex(this.modalFormItems, {placeholder: 'Password'})];
       if (val === '' && o.validationState != 'clean') {
         o.validationState = 'clean';
       } else if (val != password.value) {
@@ -113,18 +110,19 @@ class MenuStore {
     }
 
     // Update this.items
-    this.items[fieldIndex] = o;
+    this.modalFormItems[fieldIndex] = o;
     // Check if form is valid
     this._updateValid();
   }
 
-  registerLoginSuccess() {
-    this._setLoggedInForm();
+  registerLoginSuccess(payload) {
+    this.closeModal();
+    this.menuItems = ['Logout', 'Hi ' + payload.username + '!']
   }
 
   registerLoginFail(invalidFields) {
     invalidFields.forEach((err) => {
-      this.items.forEach((item) => {
+      this.modalFormItems.forEach((item) => {
         if ((item.type == 'input' || item.type == 'password') && item.placeholder.toLowerCase() == err.field.toLowerCase()) {
           item.error = err.message;
           item.validationState = 'dirty';
@@ -138,73 +136,39 @@ class MenuStore {
   // ----------------------------------------------------------------------------
 
   _updateValid() {
-    let valid = true;
-    for (var i = 0; i < this.items.length; i++) {
-      const item = this.items[i];
+    let validForm = true;
+    for (var i = 0; i < this.modalFormItems.length; i++) { // Check if all form items are valid -> validForm
+      const item = this.modalFormItems[i];
       if (item.type == 'input' || item.type == 'password') {
         if (item.validationState != 'valid') {
-          valid = false;
+          validForm = false;
           break;
         }
       }
     }
-    if (valid) {
-      this.setState({valid});
-      _.each(this.items, (ele) => {
+    this.setState({validForm});
+    if (validForm) { // If valid set submit button valid
+      _.each(this.modalFormItems, (ele) => {
         if (ele.type == 'validation-button') ele.validationState = 'valid';
+      });
+    } else {
+      _.each(this.modalFormItems, (ele) => {
+        if (ele.type == 'validation-button') ele.validationState = '';
       });
     }
   }
 
-  _setNullForm() {
-    this.valid = false,
-    this.status = null,
-    this.items = [
-      {
-        type: 'button',
-        value: 'Register'
-      },
-      {
-        type: 'button',
-        value: 'Login'
-      },
-      {
-        type: 'button',
-        value: 'Stats'
-      }
-    ]
-  }
-
-  _setLoggedInForm() {
-    this.valid = false;
-    this.status = 'logged-in';
-    this.items= [
-      {
-        type: 'button',
-        value: 'Log Out'
-      },
-      {
-        type: 'button',
-        value: 'Stats'
-      }
-    ];
-  }
-
-  _setRegisterForm() {
+  _setRegisterModal() {
     this.setState({
-      valid: false,
-      status: 'register',
-      items: [
-        {
-          type: 'button',
-          value: 'Back'
-        },
+      modal: true,
+      modalCardClass: 'register',
+      modalFormItems: [
         {
           type: 'input',
           placeholder: 'Username',
           value: '',
           error: '',
-          help: 'Username can include letters and symbols, must be > 3 long',
+          help: 'Username can include letters and symbols, must be > 2 long',
           regex: /^[A-Za-z\d$@$!%*?&]{3,}/,
           validationState: 'clean'
         },
@@ -244,20 +208,17 @@ class MenuStore {
     });
   }
 
-  _setLoginForm() {
+  _setLoginModal() {
     this.setState({
-      status: 'login',
-      items: [
-        {
-          type: 'button',
-          value: 'Back'
-        },
+      modal: true,
+      modalCardClass: 'login',
+      modalFormItems: [
         {
           type: 'input',
           placeholder: 'Username or Email',
           value: '',
           error: '',
-          help: 'Email must be valid',
+          help: 'Must be valid',
           regex: /^[A-Za-z\d$@$!%*?&]{3,}/,
           validationState: 'clean'
         },
@@ -277,7 +238,6 @@ class MenuStore {
       ]
     });
   }
-
 }
 
 export default alt.createStore(MenuStore, 'MenuStore');

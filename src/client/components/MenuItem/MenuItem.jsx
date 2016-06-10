@@ -18,7 +18,7 @@ export default class MenuItem extends React.Component {
 
     if (item.type == 'button') {
       out = <p
-              className='menu-item menu-btn'
+              className='form-item menu-btn'
               onClick={this.btnClick.bind(this)}>
               {item.value}
             </p>
@@ -28,7 +28,7 @@ export default class MenuItem extends React.Component {
       else if (this.state.hasFocus && item.validationState != 'valid') helpText = item.help;
       out = <div className='input-container'>
               <input
-                className={'menu-item menu-input ' + item.validationState}
+                className={'form-item menu-input ' + item.validationState}
                 type={item.type}
                 placeholder={item.placeholder}
                 value={item.value}
@@ -41,7 +41,7 @@ export default class MenuItem extends React.Component {
             </div>
     } else if (item.type == 'validation-button') {
       out = <p
-              className={'menu-item validation-button ' + this.props.item.validationState}
+              className={'form-item validation-button ' + this.props.item.validationState}
               onClick={this.btnClick.bind(this)}>
               {item.value}
             </p>

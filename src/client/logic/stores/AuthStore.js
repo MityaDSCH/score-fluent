@@ -57,11 +57,10 @@ class AuthStore {
         MenuActions.registerLoginFail(res.invalidFields);
       }
       else {
-        this.setState({
-          payload: JSON.parse(atob(res.token.split('.')[1]))
-        });
+        const payload = JSON.parse(atob(res.token.split('.')[1]));
+        this.setState({payload});
         this._setLocalToken(res.token);
-        MenuActions.registerLoginSuccess();
+        MenuActions.registerLoginSuccess(payload);
       }
     });
   }

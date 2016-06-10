@@ -1,8 +1,12 @@
-$inactive-color: #777;
-
+$modal-valid-color: desaturate(darken($valid-color, 35%), 30%);
+$modal-invalid-color: desaturate(darken($invalid-color, 35%), 30%);
 
 .input-container {
-  width: $menu-card-width + 20px;
+  width: 80%;
+}
+
+.menu-input, .help {
+  transform: translateY(10px);
 }
 
 .menu-input {
@@ -10,43 +14,48 @@ $inactive-color: #777;
 
   padding-bottom: 2px;
 
-  color: white;
-  font-size: 16px;
+  color: black;
+  font-size: 18px;
   font-family: Raleway, Arial;
   font-weight: 300;
   font-style: italic;
 
   background: rgba(#000, 0);
   border: none;
-  border-bottom: 1px solid $inactive-color;
+  border-bottom: 1px solid $lightgray;
   outline: 0;
 
-  transition: .6s;
+  transition: border-color .6s;
 
   &.dirty {
-    border-color: $invalid-color;
+    box-shadow: inset 0 -7px 9px -7px $modal-invalid-color;
+    border-color: $modal-invalid-color;
   }
 
   &.valid {
-    border-color: $valid-color;
-  }
-}
-
-.validation-button {
-  cursor: not-allowed;
-  color: #777;
-
-  transition: .6s;
-  &.valid {
-    cursor: pointer;
-    color: $valid-color;
-    text-shadow: 0 0 15px #AAA;
+    box-shadow: inset 0 -7px 9px -7px $modal-valid-color;
+    border-color: $modal-valid-color;
   }
 }
 
 .help {
   width: 100%;
   margin: 2px 0 0 0;
+
+  color: #444;
   font-size: 12px;
   text-align: left;
+}
+
+.validation-button {
+  cursor: not-allowed;
+  color: #777;
+  font-size: 24px;
+
+  transition: .6s;
+  &.valid {
+    cursor: pointer;
+    color: $modal-valid-color;
+    text-shadow: 0 0 15px #AAA;
+  }
 }
