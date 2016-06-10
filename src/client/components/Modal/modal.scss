@@ -8,6 +8,8 @@
 
   @include flex-container(column, center, center);
 
+  font-family: Raleway, Arial;
+
   background-color: rgba(#000, .9);
   animation: fadeIn .8s;
 
