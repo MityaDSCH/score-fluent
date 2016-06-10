@@ -15,7 +15,7 @@ export default class Modal extends React.Component {
           className={this.props.fade ? 'fade' : ''}>
           <p
             id="back-button"
-            onClick={ModalActions.close}>Back</p>
+            onClick={() => ModalActions.close()}>Back</p>
           <div id="modal-card" className={this.props.cardClass}>
             {this.props.formItems.map((item, ind) =>
               <ModalFormItem key={ind} item={item} valid={this.props.valid} />
