@@ -134,7 +134,7 @@ class ModalStore {
 
   updateFormValidation([placeholder, val]) {
     const fieldIndex = _.findIndex(this.formItems, {placeholder});
-    const o = this.formItems[fieldIndex];
+    let o = this.formItems[fieldIndex];
     o.error = '';
     o.value = val;
     const regex = o.regex;
@@ -151,15 +151,9 @@ class ModalStore {
       else if (regex.test(val) && o.validationState != 'valid') {
         o.validationState = 'valid';
       }
-    } else {
-      const password = this.formItems[_.findIndex(this.formItems, {placeholder: 'Password'})];
-      if (val === '' && o.validationState != 'clean') {
-        o.validationState = 'clean';
-      } else if (val != password.value) {
-        o.validationState = 'dirty';
-      } else {
-        o.validationState = 'valid';
-      }
+    }
+    if ((placeholder == 'Password' || placeholder == 'Confirm password') && this.cardClass === 'register') {
+      this._validatePasswordConfirm();
     }
 
     // Update this.items
@@ -170,7 +164,7 @@ class ModalStore {
 
   registerLoginFail(invalidFields) {
     invalidFields.forEach((err) => {
-      this.modalFormItems.forEach((item) => {
+      this.formItems.forEach((item) => {
         if ((item.type == 'input' || item.type == 'password') && item.placeholder.toLowerCase() == err.field.toLowerCase()) {
           item.error = err.message;
           item.validationState = 'dirty';
@@ -182,6 +176,22 @@ class ModalStore {
   // --------------------------------------------------------------------------
   // Internal methods
   // --------------------------------------------------------------------------
+
+  _validatePasswordConfirm() {
+    const password = this.formItems[_.findIndex(this.formItems, {placeholder: 'Password'})].value;
+    const confInd = _.findIndex(this.formItems, {placeholder: 'Confirm password'});
+    const conf = this.formItems[confInd];
+    let state;
+    if (conf.value === '') {
+      if (conf.validationState != 'clean') state = 'clean';
+    } else if (conf.value != password) {
+      state = 'dirty';
+    } else {
+      state = 'valid';
+    }
+    this.formItems[confInd].validationState = state;
+    this._updateValid();
+  }
 
   _updateValid() {
     let valid = true;
