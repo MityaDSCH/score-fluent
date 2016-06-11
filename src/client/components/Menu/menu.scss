@@ -26,12 +26,13 @@
 .menu-item {
   margin: 0;
 
-  cursor: pointer;
+  cursor: default;
   color: $lightgray;
   font-size: 20px;
 
   transition: color .6s;
-  &:hover {
+  &.active:hover {
+    cursor: pointer;
     color: black;
   }
 }
