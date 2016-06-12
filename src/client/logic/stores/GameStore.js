@@ -12,6 +12,8 @@ class GameStore {
 
     this.accidentals = ['flat'];
     this.inputNotes = ['A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab'];
+
+    this.mode = 'practice';
     this.clefs = ['treble'];
     this.difficulty = 'hard';
 
@@ -28,6 +30,12 @@ class GameStore {
 
     this.correct = [];
     this.incorrect = [];
+
+    this.exportPublicMethods({
+      getMode: () => this.mode,
+      getClefs: () => this.clefs,
+      getDifficulty: () => this.difficulty
+    });
 
   }
 
