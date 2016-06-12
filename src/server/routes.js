@@ -28,12 +28,14 @@ module.exports = function(app) {
 
   var apiRoutes = express.Router();
 
-  // Enable cors preflighting
-  apiRoutes.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-  });
+  // Enable cors
+  if (process.env.NODE_ENV !== 'production') {
+    apiRoutes.use(function(req, res, next) {
+      res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+      next();
+    });
+  }
 
   // Register a new user
   apiRoutes.post('/register', function(req, res) {
