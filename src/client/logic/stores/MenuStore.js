@@ -4,6 +4,7 @@ import _ from 'lodash';
 import MenuActions from '../actions/MenuActions';
 import ModalActions from '../actions/ModalActions';
 import AuthActions from '../actions/AuthActions';
+import GameActions from '../actions/GameActions';
 
 import AuthStore from './AuthStore';
 import GameStore from './GameStore';
@@ -16,6 +17,7 @@ class MenuStore {
     this.rootItems = [];
     this.items = []; // Items in menu
     this.optionsMenu = false;
+    this.originalOptions = [];
     this.doneBtn = false;
 
     this.class = 'active'; // Transition menu down into card
@@ -59,25 +61,34 @@ class MenuStore {
   }
 
   toggleOption(option) {
-    console.log(option);
     if (this.doneBtn) { // If there is a done button (multipe options can be active), toggle the clicked option
-      const items = this.items.map((item) => {
+      const items = this.items.map(item => {
         return {...item, active: (item.name === option ? !item.active : item.active)}
       });
       this.setState({items});
     } else { // Toggle option and update game state, then after delay animate out options
-      const items = this.items.map((item) => {
+      const items = this.items.map(item => {
         return {...item, active: item.name === option}
       });
       this.setState({items});
-      setTimeout(() => this._animateMenu(this.rootItems), 600);
+      setTimeout(() => {
+        const newOption = {};
+        // Find which option changed and create a corresponding object: {changedOption: 'new value'}
+        newOption[this.optionsMenu] = this.items.filter(item => item.name === option)[0].name.toLowerCase();
+        setTimeout(() => GameActions.setNewOption(newOption), 0);
+        this._animateMenu(this.rootItems);
+      }, 200);
     }
   }
 
   submitOptions() {
-    let activeOptions = this.items.filter((item) => item.active);
-    activeOptions = activeOptions.map((item) => item.name.toLowerCase());
-    console.log(activeOptions);
+    if (!this._optionsChanged()) {
+      let activeOptions = this.items.filter(item => item.active);
+      activeOptions = activeOptions.map(item => item.name.toLowerCase());
+      const newSetting = {};
+      newSetting[this.optionsMenu] = activeOptions;
+      setTimeout(() => GameActions.setNewOption(newSetting), 0);
+    }
     this._animateMenu(this.rootItems);
   }
 
@@ -89,16 +100,26 @@ class MenuStore {
   // Internal methods
   // --------------------------------------------------------------------------
 
+  _optionsChanged() {
+    return _.isEqual(this.items.filter(item => item.clickable).map(item => item.active), this.originalOptions);
+  }
+
   // If 2nd param, save cur menu in rootMenu
   // If 3rd param, menu might toggle multiple options, so display done btn
   _animateMenu(items, optionsMenu, doneBtn) {
     this.setState({class: ''});
-    setTimeout(() => this.setState({
-      class: 'active',
-      items,
-      rootItems: optionsMenu ? this.items : [],
-      doneBtn
-    }), this.animationDuration);
+    setTimeout(() => {
+      let originalState = items.filter(item => item.clickable);
+      originalState = originalState.map(item => item.active);
+      this.setState({
+        class: 'active', // fade in
+        items, // w/ these items
+        rootItems: optionsMenu ? this.items : [], // saving the original buttons here if the new menu is for options
+        optionsMenu, // And recording whether this is an options menu
+        originalOptions: optionsMenu ? originalState : [], // And recording the original active state of the options
+        doneBtn
+      });
+    }, this.animationDuration);
   }
 
   // --------------------------------------------------------------------------
@@ -125,7 +146,7 @@ class MenuStore {
       {name: 'Clefs', clickable: true},
       {name: 'Difficulty', clickable: true},
       {name: 'Logout', clickable: true}
-    ], true);
+    ]);
   }
 
   _setModeMenu() {
@@ -144,7 +165,7 @@ class MenuStore {
         option: true,
         active: mode === 'timed'
       }
-    ], true);
+    ], 'mode');
   }
 
   _setClefsMenu() { // List of VexFlow clefs: https://github.com/0xfe/vexflow/blob/master/tests/clef_tests.js
@@ -175,7 +196,7 @@ class MenuStore {
         option: true,
         active: _.includes(clefs, 'tenor')
       }
-    ], true, true);
+    ], 'clefs', true);
   }
 
   // _setMoreClefsMenu() {
@@ -200,7 +221,7 @@ class MenuStore {
         active: difficulty === 'hard'
       },
       {
-        name: 'Medum',
+        name: 'Medium',
         clickable: true,
         option: true,
         active: difficulty === 'medium'
@@ -211,7 +232,7 @@ class MenuStore {
         option: true,
         active: difficulty === 'easy'
       }
-    ], true);
+    ], 'difficulty');
   }
 }
 

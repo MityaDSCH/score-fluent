@@ -12,7 +12,7 @@ export default class Staff extends React.Component {
     return (
       <div className={'staff-container ' + this.props.type}>
         {this.props.type == 'lastStaff' ?
-          <p className='keyboard-button last-guess-pitch'>{this.props.note.pitch + this.props.note.octave}</p> 
+          <p className='keyboard-button last-guess-pitch'>{this.props.note.pitch + this.props.note.octave}</p>
           : ''
         }
       </div>
@@ -23,14 +23,23 @@ export default class Staff extends React.Component {
 
     this.container = findDOMNode(this);
 
+    this.renderer = null;
+    this.ctx = null;
+    this.stave = null;
+    this.noteSet = null;
+
     this._draw(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.guessStatus) {
       if (this.props.type == 'curStaff') this._updateNoteColor(nextProps.noteStatus);
-    } else if (this.props.guessStatus && !nextProps.guessStatus) {
+    } else  {
       this.container.removeChild(this.container.querySelector('svg'));
+      this.renderer = null;
+      this.ctx = null;
+      this.stave = null;
+      this.noteSet = null;
       this._draw(nextProps);
     }
   }
@@ -46,7 +55,7 @@ export default class Staff extends React.Component {
   }
 
   _drawStave(clef) {
-    this.stave = new VF.Stave(32, 29, 100);
+    this.stave = new VF.Stave(32, 32, 100);
     this.stave.addClef(clef).setContext(this.ctx).draw();
   }
 
@@ -56,7 +65,7 @@ export default class Staff extends React.Component {
     this.ctx.paper.setStart();
 
     // Make VF note object
-    const vfNote = new VF.StaveNote({ keys: [props.note.pitch + "/" + props.note.octave], duration: "q" });
+    const vfNote = new VF.StaveNote({ clef: props.clef, keys: [props.note.pitch + "/" + props.note.octave], duration: "q" });
     if (props.note.pitch.length > 1) { // Has accidental, i.e. 'Bb'
       vfNote.addAccidental(0, new VF.Accidental(props.note.pitch.substr(1)));
     }

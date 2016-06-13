@@ -17,12 +17,7 @@ class GameStore {
     this.clefs = ['treble'];
     this.difficulty = 'hard';
 
-    const clef = _.sample(this.clefs);
-    this.curStaff = {
-      clef,
-      note: this._newNote(clef, this.difficulty),
-      noteStatus: ''
-    }
+    this.curStaff = this._newStaff(this.clefs, this.difficulty);
     this.lastStaff = null;
 
     this.answerDelay = 1500;
@@ -37,6 +32,22 @@ class GameStore {
       getDifficulty: () => this.difficulty
     });
 
+  }
+
+  setNewOption(newSetting) {
+    this.setState({
+      lastStaff: null,
+      curStaff: null,
+    });
+    setTimeout(() => this.setState({
+      lastStaff: null,
+      curStaff: this._newStaff(
+        newSetting.clefs ? newSetting.clefs : this.clefs,
+        newSetting.difficulty ? newSetting.difficulty : this.difficulty),
+      correct: [],
+      incorrect: [],
+      ...newSetting
+    }), 0);
   }
 
   guessNote(guessedNote) {
@@ -64,11 +75,9 @@ class GameStore {
           curStaff: {...this.curStaff, noteStatus: 'incorrect'}
         });
       }
-
       setTimeout(() => {
         this._setRandNote();
       }, this.answerDelay);
-
     }
   }
 
@@ -113,26 +122,34 @@ class GameStore {
   }
 
   _setRandNote() {
-    let note = this._newNote();
+    let clef = _.sample(this.clefs);
+    let note = this._newNote(clef, this.difficulty);
     while(_.isEqual(note, this.curStaff.note)) {
-      note = this._newNote();
+      clef = _.sample(this.clefs);
+      note = this._newNote(clef, this.difficulty);
     }
     this.setState({
       guessStatus: null,
       lastStaff: this.curStaff,
       curStaff: {
-        clef: 'treble',
+        clef,
         note,
         noteStatus: ''
       }
     });
   }
 
-  _newNote(clef, difficulty) { // Return note in cleff/difficulty passed or randomly out of this.clefs
-    if (arguments.length !== 0) {
-      return _.sample(this._rangeToNotes(clefRanges[clef][difficulty]));
+  _newStaff(clefs, difficulty) {
+    const clef = _.sample(clefs);
+    return {
+      clef,
+      note: this._newNote(clef, difficulty),
+      noteStatus: ''
     }
-    return _.sample(this._rangeToNotes(clefRanges[_.sample(this.clefs)][this.difficulty]));
+  }
+
+  _newNote(clef, difficulty) { // Return note in cleff/difficulty passed or randomly out of this.clefs
+    return _.sample(this._rangeToNotes(clefRanges[clef][difficulty]));
   }
 
 }
