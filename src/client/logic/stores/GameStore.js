@@ -25,6 +25,7 @@ class GameStore {
 
     this.correct = [];
     this.incorrect = [];
+    this.numGuesses = 0;
 
     this.exportPublicMethods({
       getMode: () => this.mode,
@@ -46,12 +47,14 @@ class GameStore {
         newSetting.difficulty ? newSetting.difficulty : this.difficulty),
       correct: [],
       incorrect: [],
+      numGuesses: 0,
       ...newSetting
     }), 0);
   }
 
   guessNote(guessedNote) {
     if (!this.guessStatus) { // If not in animation delay
+      const numGuesses = this.numGuesses + 1;
       if (_.isEqual(guessedNote, this.curStaff.note) || (guessedNote.octave === null && guessedNote.pitch === this.curStaff.note.pitch)) {
         const correct = this.correct.concat(this.curStaff.note);
         this.setState({
@@ -61,6 +64,7 @@ class GameStore {
             incorrect: null,
             correct: guessedNote
           },
+          numGuesses,
           curStaff: {...this.curStaff, noteStatus: 'correct'}
         });
       } else {
@@ -72,6 +76,7 @@ class GameStore {
             incorrect: guessedNote,
             correct: this.curStaff.note
           },
+          numGuesses,
           curStaff: {...this.curStaff, noteStatus: 'incorrect'}
         });
       }

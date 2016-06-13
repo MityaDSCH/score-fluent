@@ -12,16 +12,25 @@ export default class Display extends React.Component {
   }
 
   render() {
+
+    let percentCorrect = null;
+    if (this.props.numGuesses != 0) {
+      percentCorrect = Math.floor(100*(this.props.correct.length / this.props.numGuesses));
+    }
+
     return (
       <div id="display">
         {this.props.lastStaff ?
-          <Staff
-            clef={this.props.lastStaff.clef}
-            note={this.props.lastStaff.note}
-            noteStatus={this.props.lastStaff.noteStatus}
-            guessStatus={this.props.guessStatus}
-            answerDelay={this.props.answerDelay}
-            type='lastStaff'></Staff>
+          <div id='lastStaff' className='display-component'>
+            <p>Last note:</p>
+            <Staff
+              clef={this.props.lastStaff.clef}
+              note={this.props.lastStaff.note}
+              noteStatus={this.props.lastStaff.noteStatus}
+              guessStatus={this.props.guessStatus}
+              answerDelay={this.props.answerDelay}
+              type='lastStaff'></Staff>
+          </div>
         : null}
 
         {this.props.curStaff ?
@@ -32,6 +41,12 @@ export default class Display extends React.Component {
             guessStatus={this.props.guessStatus}
             answerDelay={this.props.answerDelay}
             type='curStaff'></Staff>
+        : null}
+
+        {percentCorrect ?
+          <div id='percent' className='display-component'>
+            <h1>{percentCorrect + '%'}</h1>
+          </div>
         : null}
       </div>
     );

@@ -10,7 +10,7 @@ export default class Staff extends React.Component {
 
   render() {
     return (
-      <div className={'staff-container ' + this.props.type}>
+      <div>
         {this.props.type == 'lastStaff' ?
           <p className='keyboard-button last-guess-pitch'>{this.props.note.pitch + this.props.note.octave}</p>
           : ''
@@ -55,7 +55,7 @@ export default class Staff extends React.Component {
   }
 
   _drawStave(clef) {
-    this.stave = new VF.Stave(32, 32, 100);
+    this.stave = new VF.Stave(28, 32, 100);
     this.stave.addClef(clef).setContext(this.ctx).draw();
   }
 
