@@ -63,7 +63,7 @@ class MenuStore {
   toggleOption(option) {
     if (this.doneBtn) { // If there is a done button (multipe options can be active), toggle the clicked option
       const items = this.items.map(item => {
-        return {...item, active: (item.name === option ? !item.active : item.active)}
+        return {...item, active: (item.name === option ? !item.active : item.active)};
       });
       this.setState({items});
     } else { // Toggle option and update game state, then after delay animate out options
@@ -71,18 +71,22 @@ class MenuStore {
         return {...item, active: item.name === option}
       });
       this.setState({items});
-      setTimeout(() => {
-        const newOption = {};
-        // Find which option changed and create a corresponding object: {changedOption: 'new value'}
-        newOption[this.optionsMenu] = this.items.filter(item => item.name === option)[0].name.toLowerCase();
-        setTimeout(() => GameActions.setNewOption(newOption), 0);
+      if (this._optionsChanged()) {
+        setTimeout(() => {
+          const newOption = {};
+          // Find which option changed and create a corresponding object: {changedOption: 'new value'}
+          newOption[this.optionsMenu] = this.items.filter(item => item.name === option)[0].name.toLowerCase();
+          setTimeout(() => GameActions.setNewOption(newOption), 0);
+          this._animateMenu(this.rootItems);
+        }, 200);
+      } else {
         this._animateMenu(this.rootItems);
-      }, 200);
+      }
     }
   }
 
   submitOptions() {
-    if (!this._optionsChanged()) {
+    if (this._optionsChanged()) {
       let activeOptions = this.items.filter(item => item.active);
       activeOptions = activeOptions.map(item => item.name.toLowerCase());
       const newSetting = {};
@@ -101,7 +105,8 @@ class MenuStore {
   // --------------------------------------------------------------------------
 
   _optionsChanged() {
-    return _.isEqual(this.items.filter(item => item.clickable).map(item => item.active), this.originalOptions);
+    const newOptions = this.items.filter(item => item.clickable).map(item => item.active);
+    return !_.isEqual(newOptions, this.originalOptions);
   }
 
   // If 2nd param, save cur menu in rootMenu
@@ -109,14 +114,13 @@ class MenuStore {
   _animateMenu(items, optionsMenu, doneBtn) {
     this.setState({class: ''});
     setTimeout(() => {
-      let originalState = items.filter(item => item.clickable);
-      originalState = originalState.map(item => item.active);
+      let originalOptions = items.filter(item => item.clickable).map(item => item.active);
       this.setState({
         class: 'active', // fade in
         items, // w/ these items
         rootItems: optionsMenu ? this.items : [], // saving the original buttons here if the new menu is for options
         optionsMenu, // And recording whether this is an options menu
-        originalOptions: optionsMenu ? originalState : [], // And recording the original active state of the options
+        originalOptions: optionsMenu ? originalOptions : [], // And recording the original active state of the options
         doneBtn
       });
     }, this.animationDuration);
