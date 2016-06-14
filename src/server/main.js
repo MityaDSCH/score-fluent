@@ -19,7 +19,7 @@ app.set('jwtSecret', process.env.JWT_SECRET);
 app.set('jwtDuration', '1 year');
 
 // connect to mongodb
-mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGO_URI || 'mongodb://localhost:27017/score-fluent');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/score-fluent');
 
 // Parse json and url-encodec middleware
 app.use(bodyParser.urlencoded({extended: true}));
