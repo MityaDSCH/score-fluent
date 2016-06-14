@@ -14,7 +14,7 @@
     margin: 0;
     text-align: center;
 
-    color: $lightgray;
+    color: #000;
     font-weight: 300;
     font-size: 16px;
   }
@@ -32,17 +32,19 @@
   width: 100%;
 }
 
-#lastStaff div {
+#display div {
   position: absolute;
   top: 0;
   height: 100%;
   width: 100%;
 }
 
-#lastStaff div svg {
+#display div svg, #lastStaff div svg {
   height: 100%;
+}
 
-  transform: scale(.75) translate(-8px, -12px);
+#lastStaff div svg {
+  transform: scale(.75) translate(-4px, -12px);
 }
 
 #lastStaff .last-guess-pitch {
@@ -71,4 +73,72 @@
     font-weight: 300;
   }
   @include flex-container(column, center, center);
+}
+
+@media screen and (min-width: $media-width-1) {
+  #display >* {
+    transform: scale(1.2);
+  }
+
+  #display {
+    height: 200px;
+    transform: translate(-50%, -60%);
+  }
+
+  #curStaff {
+    transform: scale(1.2);
+
+    svg {
+      transform: translateY(10px);
+    }
+  }
+
+  #display #lastStaff {
+    height: 90%;
+    left: -120%;
+  }
+
+  #percent {
+    left: 120%;
+  }
+}
+
+@media screen and (min-width: $media-width-2) {
+  #display #lastStaff {
+    left: -140%;
+  }
+
+  #percent {
+    left: 140%;
+  }
+}
+
+@media screen and (min-width: $media-width-4) {
+  #display >* {
+    transform: scale(1.5);
+  }
+
+  #display {
+    height: 260px;
+    width: 200px;
+  }
+
+  #curStaff {
+    transform: scale(1.5);
+
+    svg {
+      transform: translate(22px, 35px);
+    }
+  }
+
+  #lastStaff div svg {
+    transform: scale(.75) translate(0, -12px);
+  }
+
+  #display #lastStaff {
+    top: 10%;
+    height: 70%;
+    width: 82%;
+    left: -170%;
+  }
 }

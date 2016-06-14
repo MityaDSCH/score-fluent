@@ -34,7 +34,8 @@
   border: 1px solid rgba(black, 0);
   border-radius: 6px;
 
-  transition: .6s;
+  transition: color .6s,
+              border-color .6s;
 
   &.clickable:hover {
     cursor: pointer;
@@ -62,5 +63,40 @@
     opacity: 1;
     left: 50%;
     transform: translateX(-50%);
+  }
+}
+
+@media screen and (min-width: $media-width-1) {
+  #menu-container {
+    top: 15px;
+    left: 20px;
+    width: calc(100% - 40px);
+
+    transform: translateY(calc(-100% - 20px));
+  }
+}
+
+@media screen and (min-width: $media-width-2) {
+  .menu-item {
+    font-size: 22px;
+  }
+}
+
+@media screen and (min-width: $media-width-3) {
+  #menu-container {
+    top: 35px;
+    left: 40px;
+    width: calc(100% - 100px);
+
+    transform: translateY(calc(-100% - 40px));
+  }
+  .menu-item {
+    font-size: 25px;
+  }
+}
+
+@media screen and (min-width: $media-width-4) {
+  .menu-item {
+    font-size: 28px;
   }
 }

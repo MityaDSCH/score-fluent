@@ -6,7 +6,7 @@
   bottom: 10px;
   transform: translateX(-50%);
 
-  @include flex-container(row, space-around, center);
+  @include flex-container(row, space-between, center);
   flex-wrap: wrap;
 }
 
@@ -51,10 +51,43 @@
   }
 }
 
-@media screen and (min-width: 890px) {
+@media screen and (min-width: $media-width-1) {
   #keyboard {
-    width: 850px;
+    width: 580px;
+  }
+  .keyboard-button {
+    height: 55px;
+    width: 55px;
+    margin: 15px;
+  }
+}
+
+@media screen and (min-width: $media-width-2) {
+  #keyboard {
+    width: calc(100% - 40px);
     bottom: 20px;
+  }
+  .keyboard-button {
+    margin: 0;
+  }
+}
+
+@media screen and (min-width: $media-width-3) {
+  #keyboard {
+    width: calc(100% - 100px);
+    bottom: 50px;
+  }
+  .keyboard-button {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media screen and (min-width: $media-width-4) {
+  .keyboard-button {
+    width: 65px;
+    height: 65px;
+    border-width: 2px;
   }
 }
 

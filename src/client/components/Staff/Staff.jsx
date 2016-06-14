@@ -10,7 +10,7 @@ export default class Staff extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id={this.props.type == 'curStaff' ? 'curStaff' : ''}>
         {this.props.type == 'lastStaff' ?
           <p className='keyboard-button last-guess-pitch'>{this.props.note.pitch + this.props.note.octave}</p>
           : ''

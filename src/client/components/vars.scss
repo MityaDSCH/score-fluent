@@ -4,6 +4,11 @@ $lightgray: #888;
 $invalid-color: #ff828a;
 $valid-color: #abff8e;
 
+$media-width-1: 775px;
+$media-width-2: 950px;
+$media-width-3: 1400px;
+$media-width-4: 1900px;
+
 @mixin flex-container($direction, $justify, $align) {
   display: flex;
   flex-direction: $direction;
