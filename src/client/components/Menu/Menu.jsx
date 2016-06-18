@@ -1,5 +1,7 @@
 import React from 'react';
+
 import MenuActions from '../../logic/actions/MenuActions';
+import GameActions from '../../logic/actions/GameActions';
 
 export default class App extends React.Component {
 
@@ -9,7 +11,7 @@ export default class App extends React.Component {
         {this.props.items.map((item) =>
           <p
             className={'menu-item' + (item.clickable ? ' clickable' : '') + (item.active ? ' active' : '')}
-            onClick={this.handleClick.bind(item)}
+            onClick={this.handleClick.bind(this, item)}
             key={item.name}>
               {item.name}
           </p>
@@ -17,7 +19,7 @@ export default class App extends React.Component {
         <div
           id="options-done"
           className={'menu-item clickable' + (this.props.doneBtn ? ' show' : '')}
-          onClick={() => MenuActions.submitOptions()}>
+          onClick={this.submitToggled.bind(this)}>
           Done
         </div>
 
@@ -25,13 +27,25 @@ export default class App extends React.Component {
     );
   }
 
-  handleClick() {
-    if (this.clickable) {
-      if (this.option) {
-        MenuActions.toggleOption(this.name);
+  handleClick(item) {
+    if (item.clickable) {
+      if (item.option) {
+        if (this.props.doneBtn) {
+          MenuActions.toggleOption(item.name);
+        } else {
+          MenuActions.chooseOption(item.name);
+          GameActions.setNewOption(this.props.optionsMenu.toLowerCase(), item.name.toLowerCase());
+        }
       } else {
-        MenuActions.btnClick(this.name);
+        MenuActions.btnClick(item.name);
       }
     }
   }
+
+  submitToggled() {
+    const activeItems = this.props.items.filter(item => item.active).map(item => item.name.toLowerCase());
+    MenuActions.submitOptions(activeItems);
+    GameActions.setNewOption(this.props.optionsMenu.toLowerCase(), activeItems);
+  }
+
 }

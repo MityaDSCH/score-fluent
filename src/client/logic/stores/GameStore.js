@@ -35,21 +35,26 @@ class GameStore {
 
   }
 
-  setNewOption(newSetting) {
-    this.setState({
-      lastStaff: null,
-      curStaff: null,
-    });
-    setTimeout(() => this.setState({
-      lastStaff: null,
-      curStaff: this._newStaff(
-        newSetting.clefs ? newSetting.clefs : this.clefs,
-        newSetting.difficulty ? newSetting.difficulty : this.difficulty),
-      correct: [],
-      incorrect: [],
-      numGuesses: 0,
-      ...newSetting
-    }), 0);
+  setNewOption([setting, active]) {
+    if (!_.isEqual(this[setting], active)) {
+      this.setState({
+        lastStaff: null,
+        curStaff: null,
+      });
+
+      const newSetting = {};
+      newSetting[setting] = active;
+      setTimeout(() => this.setState({
+        lastStaff: null,
+        curStaff: this._newStaff(
+          setting === 'clefs' ? active : this.clefs,
+          setting === 'difficulty' ? active : this.difficulty),
+        correct: [],
+        incorrect: [],
+        numGuesses: 0,
+        ...newSetting
+      }), 0);
+    }
   }
 
   guessNote(guessedNote) {

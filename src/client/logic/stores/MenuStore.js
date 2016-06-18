@@ -2,9 +2,6 @@ import alt from '../libs/alt';
 import _ from 'lodash';
 
 import MenuActions from '../actions/MenuActions';
-import GameActions from '../actions/GameActions';
-
-import GameStore from './GameStore';
 
 export class UnwrappedMenuStore {
 
@@ -34,19 +31,19 @@ export class UnwrappedMenuStore {
     this._setLoggedInMenu(payload);
   }
 
-  btnClick(btnName) {
+  btnClick([btnName, curSetting]) {
     switch (btnName) {
       case 'Logout':
         this._setLoggedOutMenu();
         break;
       case 'Mode':
-        this._setModeMenu();
+        this._setModeMenu(curSetting);
         break;
       case 'Clefs':
-        this._setClefsMenu();
+        this._setClefsMenu(curSetting);
         break;
       case 'Difficulty':
-        this._setDifficultyMenu();
+        this._setDifficultyMenu(curSetting);
         break;
       default:
         console.warn(btnName, 'menu-btn click unhandled');
@@ -54,39 +51,29 @@ export class UnwrappedMenuStore {
     }
   }
 
-  toggleOption(option) {
-    if (this.doneBtn) { // If there is a done button (multipe options can be active), toggle the clicked option
-      const items = this.items.map(item => {
-        return {...item, active: (item.name === option ? !item.active : item.active)};
-      });
-      this.setState({items});
-    } else { // Toggle option and update game state, then after delay animate out options
+  chooseOption(option) {
+    const curOption = this.items.filter(item => item.active).name;
+    if (option !== curOption) {
       const items = this.items.map(item => {
         return {...item, active: item.name === option}
       });
       this.setState({items});
-      if (this._optionsChanged()) {
-        setTimeout(() => {
-          const newOption = {};
-          // Find which option changed and create a corresponding object: {changedOption: 'new value'}
-          newOption[this.optionsMenu] = this.items.filter(item => item.name === option)[0].name.toLowerCase();
-          setTimeout(() => GameActions.setNewOption(newOption), 0);
-          this._animateMenu(this.rootItems);
-        }, 200);
-      } else {
+      setTimeout(() => {
         this._animateMenu(this.rootItems);
-      }
+      }, 200)
+    } else {
+      this._animateMenu(this.rootItems);
     }
   }
 
+  toggleOption(option) {
+    const items = this.items.map(item => {
+      return {...item, active: (item.name === option ? !item.active : item.active)};
+    });
+    this.setState({items});
+  }
+
   submitOptions() {
-    if (this._optionsChanged()) {
-      let activeOptions = this.items.filter(item => item.active);
-      activeOptions = activeOptions.map(item => item.name.toLowerCase());
-      const newSetting = {};
-      newSetting[this.optionsMenu] = activeOptions;
-      setTimeout(() => GameActions.setNewOption(newSetting), 0);
-    }
     this._animateMenu(this.rootItems);
   }
 
@@ -143,52 +130,50 @@ export class UnwrappedMenuStore {
     ]);
   }
 
-  _setModeMenu() {
-    const mode = GameStore.getMode();
+  _setModeMenu(setting) {
     this._animateMenu([
       {name: 'Mode:', clickable: false},
       {
         name: 'Practice',
         clickable: true,
         option: true,
-        active: mode === 'practice'
+        active: setting === 'practice'
       },
       {
         name: 'Timed',
         clickable: true,
         option: true,
-        active: mode === 'timed'
+        active: setting === 'timed'
       }
     ], 'mode');
   }
 
-  _setClefsMenu() { // List of VexFlow clefs: https://github.com/0xfe/vexflow/blob/master/tests/clef_tests.js
-    const clefs = GameStore.getClefs();
+  _setClefsMenu(setting) { // List of VexFlow clefs: https://github.com/0xfe/vexflow/blob/master/tests/clef_tests.js
     this._animateMenu([
       {name: 'Clefs:', clickable: false},
       {
         name: 'Treble',
         clickable: true,
         option: true,
-        active: _.includes(clefs, 'treble')
+        active: _.includes(setting, 'treble')
       },
       {
         name: 'Bass',
         clickable: true,
         option: true,
-        active: _.includes(clefs, 'bass')
+        active: _.includes(setting, 'bass')
       },
       {
         name: 'Alto',
         clickable: true,
         option: true,
-        active: _.includes(clefs, 'alto')
+        active: _.includes(setting, 'alto')
       },
       {
         name: 'Tenor',
         clickable: true,
         option: true,
-        active: _.includes(clefs, 'tenor')
+        active: _.includes(setting, 'tenor')
       }
     ], 'clefs', true);
   }
@@ -204,27 +189,26 @@ export class UnwrappedMenuStore {
   //   ]);
   // }
 
-  _setDifficultyMenu() {
-    const difficulty = GameStore.getDifficulty();
+  _setDifficultyMenu(setting) {
     this._animateMenu([
       {name: 'Difficulty:', clickable: false},
       {
         name: 'Hard',
         clickable: true,
         option: true,
-        active: difficulty === 'hard'
+        active: setting === 'hard'
       },
       {
         name: 'Medium',
         clickable: true,
         option: true,
-        active: difficulty === 'medium'
+        active: setting === 'medium'
       },
       {
         name: 'Easy',
         clickable: true,
         option: true,
-        active: difficulty === 'easy'
+        active: setting === 'easy'
       }
     ], 'difficulty');
   }

@@ -17,7 +17,6 @@ export default class Display extends React.Component {
     if (this.props.numGuesses != 0) {
       percentCorrect = Math.floor(100*(this.props.correct.length / this.props.numGuesses));
     }
-    console.log(percentCorrect);
 
     return (
       <div id="display">
