@@ -1,7 +1,9 @@
 import alt from '../libs/alt';
 
-export default alt.generateActions(
-  'register',
-  'login',
-  'logout'
-);
+class AuthActions {
+  constructor() {
+    this.generateActions('register', 'login', 'logout');
+  }
+}
+
+export default alt.createActions(AuthActions);

@@ -2,11 +2,8 @@ import alt from '../libs/alt';
 import _ from 'lodash';
 
 import MenuActions from '../actions/MenuActions';
-import ModalActions from '../actions/ModalActions';
-import AuthActions from '../actions/AuthActions';
 import GameActions from '../actions/GameActions';
 
-import AuthStore from './AuthStore';
 import GameStore from './GameStore';
 
 export class UnwrappedMenuStore {
@@ -33,17 +30,14 @@ export class UnwrappedMenuStore {
     else this._setLoggedOutMenu();
   }
 
+  registerLoginSuccess(payload) {
+    this._setLoggedInMenu(payload);
+  }
+
   btnClick(btnName) {
     switch (btnName) {
-      case 'Register':
-        setTimeout(() => ModalActions.register(), 0);
-        break;
-      case 'Login':
-        setTimeout(() => ModalActions.login(), 0);
-        break;
       case 'Logout':
         this._setLoggedOutMenu();
-        setTimeout(() => AuthActions.logout(), 0);
         break;
       case 'Mode':
         this._setModeMenu();
@@ -94,10 +88,6 @@ export class UnwrappedMenuStore {
       setTimeout(() => GameActions.setNewOption(newSetting), 0);
     }
     this._animateMenu(this.rootItems);
-  }
-
-  registerLoginSuccess(payload) {
-    this._setLoggedInMenu(payload);
   }
 
   // --------------------------------------------------------------------------
