@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for stores/MenuStore.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">stores/</a> MenuStore.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">44.62% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>58/130</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">25.64% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>10/39</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">24.32% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>9/37</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">30.26% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>23/76</span>
+      </div>
+      <div class='fl pad1y'>
+        <span class="strong">17 statements, 4 functions</span>
+        <span class="quiet">Ignored</span>  &nbsp;&nbsp;&nbsp;&nbsp;
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244</td><td class="line-coverage quiet"><span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import alt from '../libs/alt';<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="missing-if-branch" title="if path not taken" >I</span><span class="missing-if-branch" title="else path not taken" >E</span><span class="missing-if-branch" title="else path not taken" >E</span><span class="branch-1 cbranch-no" title="branch not covered" ></span></span></span></span></span></span></span></span></span>
+import _ from 'lodash';
+&nbsp;
+import MenuActions from '../actions/MenuActions';
+import ModalActions from '../actions/ModalActions';
+import AuthActions from '../actions/AuthActions';
+import GameActions from '../actions/GameActions';
+&nbsp;
+import AuthStore from './AuthStore';
+import GameStore from './GameStore';<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span></span>
+&nbsp;
+export class UnwrappedMenuStore {
+&nbsp;
+<span class="fstat-no" title="function not covered" >  constructor() {<span class="cstat-no" title="statement not covered" ></span></span>
+<span class="cstat-no" title="statement not covered" >    this.bindActions(MenuActions);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.rootItems = [];</span>
+<span class="cstat-no" title="statement not covered" >    this.items = []; </span>// Items in menu
+<span class="cstat-no" title="statement not covered" >    this.optionsMenu = false;</span>
+<span class="cstat-no" title="statement not covered" >    this.originalOptions = [];</span>
+<span class="cstat-no" title="statement not covered" >    this.doneBtn = false;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.class = 'active'; </span>// Transition menu down into card
+<span class="cstat-no" title="statement not covered" >    this.animationDuration = 600;</span>
+  }
+&nbsp;
+  // --------------------------------------------------------------------------
+  // Actions
+  // --------------------------------------------------------------------------
+<span class="fstat-no" title="function not covered" ></span>
+  init(payload) {
+    if<span class="cstat-no" title="statement not covered" > (payload) th<span class="cstat-no" title="statement not covered" >is._setLoggedInMenu(payload);</span></span>
+    el<span class="cstat-no" title="statement not covered" >se this._setLoggedOutMenu(</span>);<span class="fstat-no" title="function not covered" ></span>
+  }
+&nbsp;
+  btnClick(btnName) {
+    sw<span class="cstat-no" title="statement not covered" >itch (btnName) {</span>
+      case 'Register':
+        se<span class="cstat-no" title="statement not covered" >tTimeout(()<span class="fstat-no" title="function not covered" > =&gt; ModalActions.register(), 0);<span class="cstat-skip" title="statement not covered" ></span></span></span>
+        br<span class="cstat-no" title="statement not covered" >eak;</span>
+      case 'Login':
+        se<span class="cstat-no" title="statement not covered" >tTimeout(()<span class="fstat-no" title="function not covered" > =&gt; ModalActions.login(), 0);<span class="cstat-skip" title="statement not covered" ></span></span></span>
+        br<span class="cstat-no" title="statement not covered" >eak;</span>
+      case 'Logout':
+        th<span class="cstat-no" title="statement not covered" >is._setLoggedOutMenu();</span>
+        se<span class="cstat-no" title="statement not covered" >tTimeout(()<span class="fstat-no" title="function not covered" > =&gt; AuthActions.logout(), 0);<span class="cstat-skip" title="statement not covered" ></span></span></span>
+        br<span class="cstat-no" title="statement not covered" >eak;</span>
+      case 'Mode':
+        th<span class="cstat-no" title="statement not covered" >is._setModeMenu();</span>
+        br<span class="cstat-no" title="statement not covered" >eak;</span>
+      case 'Clefs':
+        th<span class="cstat-no" title="statement not covered" >is._setClefsMenu();</span>
+        br<span class="cstat-no" title="statement not covered" >eak;</span>
+      case 'Difficulty':
+        th<span class="cstat-no" title="statement not covered" >is._setDifficultyMenu();</span>
+        br<span class="cstat-no" title="statement not covered" >eak;</span>
+      default:
+        co<span class="cstat-no" title="statement not covered" >nsole.warn(btnName, 'menu-btn click unhandled');</span>
+        br<span class="cstat-no" title="statement not covered" >eak;<span class="fstat-no" title="function not covered" ></span></span>
+    }
+  }
+&nbsp;
+  toggleOption(option) {<span class="cstat-no" title="statement not covered" ></span>
+    if<span class="cstat-no" title="statement not covered" > (this.doneBtn) { // If there is a done button (multipe options can be active), toggle the clicked option</span>
+      co<span class="cstat-no" title="statement not covered" >nst items = this.items.map(<span class="fstat-no" title="function not covered" >item =&gt; {</span></span>
+        re<span class="cstat-no" title="statement not covered" >turn {...item, active: (item.name === option ? !item.active : item.active)};</span>
+      });
+      th<span class="cstat-no" title="statement not covered" >is.setState({items});</span>
+    } else { // Toggle option and update game state, then after delay animate out options
+      co<span class="cstat-no" title="statement not covered" >nst items = this.items.map(i<span class="fstat-no" title="function not covered" >tem =&gt; {</span></span>
+        re<span class="cstat-no" title="statement not covered" >turn {...item, active: item.name === option}</span>
+      });
+      th<span class="cstat-no" title="statement not covered" >is.setState({items});</span>
+      if<span class="cstat-no" title="statement not covered" > (this._optionsChanged()) {</span>
+        se<span class="cstat-no" title="statement not covered" >tTimeout(()<span class="fstat-no" title="function not covered" > =&gt; {</span></span>
+          co<span class="cstat-no" title="statement not covered" >nst newOption = {};</span>
+          // Find which option changed and create a corresponding object: {changedOption: 'new value'}
+          ne<span class="cstat-no" title="statement not covered" >wOption[this.optionsMenu] = this.items.filter(item =&gt; item.name === option)[0].name.toLowerCase();<span class="cstat-skip" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span></span>
+          se<span class="cstat-no" title="statement not covered" >tTimeout(()<span class="fstat-no" title="function not covered" > =&gt; GameActions.setNewOption(newOption)<span class="cstat-skip" title="statement not covered" ></span>, 0);</span></span>
+          this._animateMenu(this.rootI<span class="cstat-no" title="statement not covered" >tems);</span>
+        }, 200);
+      } else {
+        th<span class="cstat-no" title="statement not covered" >is._animateMenu(this.rootItems);<span class="fstat-no" title="function not covered" ></span></span>
+      }
+    }
+  }
+&nbsp;
+  submitOptions() {<span class="cstat-no" title="statement not covered" ></span>
+    if<span class="cstat-no" title="statement not covered" > (this._optionsChanged()) {<span class="cstat-no" title="statement not covered" ><span class="fstat-skip" title="function not covered" ></span></span></span>
+      let <span class="cstat-skip" title="statement not covered" >activeOptions = this.items.filter(item =&gt; item.active);<span class="cstat-skip" title="statement not covered" ><span class="fstat-skip" title="function not covered" ></span></span></span>
+      acti<span class="cstat-skip" title="statement not covered" >veOptions = activeOptions.map(item<span class="fstat-skip" title="function not covered" > =&gt; item.name.toLowerCase());<span class="cstat-skip" title="statement not covered" ></span></span></span>
+      cons<span class="cstat-skip" title="statement not covered" >t newSetting = {};</span>
+      newS<span class="cstat-skip" title="statement not covered" >etting[this.optionsMenu] = activeOptions;</span>
+      setT<span class="cstat-skip" title="statement not covered" >imeout(() =<span class="fstat-skip" title="function not covered" >&gt; GameActions.setNewOption(newSetting),<span class="cstat-skip" title="statement not covered" ></span> 0);</span></span>
+    }
+    th<span class="cstat-no" title="statement not covered" >is._animateMenu(this.rootItems);<span class="fstat-no" title="function not covered" ></span></span>
+  }
+&nbsp;
+  registerLoginSuccess(payload) {
+    th<span class="cstat-no" title="statement not covered" >is._setLoggedInMenu(payload);</span>
+  }
+&nbsp;
+  // --------------------------------------------------------------------------
+  // Internal methods
+  // --------------------------------------------------------------------------
+<span class="fstat-no" title="function not covered" ></span>
+  _optionsChanged() {
+    co<span class="cstat-no" title="statement not covered" >nst newOptions = this.items.filter(<span class="fstat-no" title="function not covered" >item =&gt; item.clickable).map(item =&gt; item.ac<span class="cstat-skip" title="statement not covered" ></span>tive);<span class="cstat-skip" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span></span></span>
+    re<span class="cstat-no" title="statement not covered" >turn !_.isEqual(newOptions, this.originalOptions);</span>
+  }
+&nbsp;
+  // If 2nd param, save cur menu in rootMenu
+  // If 3rd param, menu might toggle multiple options, so display done btn
+  _animateMenu(items, optionsMenu, <span class="fstat-no" title="function not covered" >doneBtn) {<span class="cstat-no" title="statement not covered" ></span></span>
+    th<span class="cstat-no" title="statement not covered" >is.setState({class: ''});</span>
+    se<span class="cstat-no" title="statement not covered" >tTimeout(()<span class="fstat-no" title="function not covered" > =&gt; {</span></span>
+      le<span class="cstat-no" title="statement not covered" >t originalOptions = items.filter(it<span class="fstat-no" title="function not covered" >em =&gt; item.clickable).map(item =&gt; item.acti<span class="cstat-skip" title="statement not covered" ></span>ve);<span class="cstat-skip" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span></span></span>
+      this.setState({<span class="cstat-no" title="statement not covered" ></span>
+        class: 'active', // fade in
+        items, // w/ these items
+        rootItems: optionsMenu ? this.items : [], // saving the original buttons here if the new menu is for options
+        optionsMenu, // And recording whether this is an options menu
+        originalOptions: optionsMenu ? originalOptions : [], // And recording the original active state of the options
+        doneBtn
+      });
+    }, this.animationDuration);
+  }
+&nbsp;
+  // --------------------------------------------------------------------------
+  // Menu objects:
+  //  name is displayed in menu bar
+  //  clickable is disabled for labels like "Difficulty: " or "Clefs: "
+  //  option implies toggleable
+  //  active implies toggle state
+<span class="fstat-no" title="function not covered" ></span>
+  _setLoggedOutMenu() {
+    th<span class="cstat-no" title="statement not covered" >is._animateMenu([</span>
+      {name: 'Login', clickable: true},
+      {name: 'Register', clickable: true},
+      {name: 'Mode', clickable: true},
+      {name: 'Clefs', clickable: true},
+      {name: 'Difficulty', clickable: true}<span class="fstat-no" title="function not covered" ></span>
+    ]);
+  }
+&nbsp;
+  _setLoggedInMenu(payload) {
+    th<span class="cstat-no" title="statement not covered" >is._animateMenu([</span>
+      {name: `Hi ${payload.username}!`, clickable: false},
+      {name: 'Mode', clickable: true},
+      {name: 'Clefs', clickable: true},
+      {name: 'Difficulty', clickable: true},
+      {name: 'Logout', clickable: true}<span class="fstat-no" title="function not covered" ></span>
+    ]);
+  }
+&nbsp;
+  _setModeMenu() {
+    co<span class="cstat-no" title="statement not covered" >nst mode = GameStore.getMode();</span>
+    th<span class="cstat-no" title="statement not covered" >is._animateMenu([</span>
+      {name: 'Mode:', clickable: false},
+      {
+        name: 'Practice',
+        clickable: true,
+        option: true,
+        active: mode === 'practice'
+      },
+      {
+        name: 'Timed',
+        clickable: true,
+        option: true,
+        active: mode === 'timed'
+      }
+    ], 'mode');<span class="fstat-no" title="function not covered" ></span>
+  }
+&nbsp;
+  _setClefsMenu() { // List of VexFlow clefs: https://github.com/0xfe/vexflow/blob/master/tests/clef_tests.js
+    co<span class="cstat-no" title="statement not covered" >nst clefs = GameStore.getClefs();</span>
+    th<span class="cstat-no" title="statement not covered" >is._animateMenu([</span>
+      {name: 'Clefs:', clickable: false},
+      {
+        name: 'Treble',
+        clickable: true,
+        option: true,
+        active: _.includes(clefs, 'treble')
+      },
+      {
+        name: 'Bass',
+        clickable: true,
+        option: true,
+        active: _.includes(clefs, 'bass')
+      },
+      {
+        name: 'Alto',
+        clickable: true,
+        option: true,
+        active: _.includes(clefs, 'alto')
+      },
+      {
+        name: 'Tenor',
+        clickable: true,
+        option: true,
+        active: _.includes(clefs, 'tenor')
+      }
+    ], 'clefs', true);
+  }
+&nbsp;
+  // _setMoreClefsMenu() {
+  //   this._animateMenu([
+  //     {name: 'Back', clickable: true},
+  //     {name: 'Soprano', clickable: true, option: true},
+  //     {name: 'Mezzo-Soprano', clickable: true, option: true},
+  //     {name: 'Baritone-F', clickable: true, option: true},
+  //     {name: 'Baritone-C', clickable: true, option: true},
+  //     {name: 'Subbass', clickable: true, option: true}
+  //   ]);
+  // }
+<span class="fstat-no" title="function not covered" ></span>
+  _setDifficultyMenu() {
+    co<span class="cstat-no" title="statement not covered" >nst difficulty = GameStore.getDifficulty();</span>
+    th<span class="cstat-no" title="statement not covered" >is._animateMenu([</span>
+      {name: 'Difficulty:', clickable: false},
+      {
+        name: 'Hard',
+        clickable: true,
+        option: true,
+        active: difficulty === 'hard'
+      },
+      {
+        name: 'Medium',
+        clickable: true,
+        option: true,
+        active: difficulty === 'medium'
+      },
+      {
+        name: 'Easy',
+        clickable: true,
+        option: true,
+        active: difficulty === 'easy'
+      }
+    ], 'difficulty');
+  }
+}
+&nbsp;
+export default alt.createStore(UnwrappedMenuStore, 'MenuStore');
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Jun 18 2016 13:47:15 GMT-0500 (CDT)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

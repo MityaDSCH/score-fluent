@@ -61,7 +61,7 @@ if (TARGET === 'start' || !TARGET) {
     module: {
       loaders: [
         {
-          test: /\.s(c|a)ss$/,
+          test: /\.scss$/,
           loaders: ['style', 'css', 'sass'],
           include: PATHS.app
         }
@@ -103,7 +103,7 @@ if (TARGET === 'build' || TARGET === 'stats') {
     module: {
       loaders: [
         {
-          test: /\.s(c|a)ss$/,
+          test: /\.scss$/,
           loader: ExtractTextPlugin.extract('style', 'css!sass'),
           include: PATHS.app
         }

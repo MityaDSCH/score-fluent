@@ -9,7 +9,7 @@ import GameActions from '../actions/GameActions';
 import AuthStore from './AuthStore';
 import GameStore from './GameStore';
 
-class MenuStore {
+export class UnwrappedMenuStore {
 
   constructor() {
     this.bindActions(MenuActions);
@@ -240,4 +240,4 @@ class MenuStore {
   }
 }
 
-export default alt.createStore(MenuStore, 'MenuStore');
+export default alt.createStore(UnwrappedMenuStore, 'MenuStore');
