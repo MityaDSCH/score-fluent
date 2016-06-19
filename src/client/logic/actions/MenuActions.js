@@ -27,7 +27,7 @@ class MenuActions {
           ModalActions.login();
           break;
         case 'Logout':
-          dispatch(btnName);
+          dispatch([btnName, null]);
           AuthActions.logout();
           break;
         case 'Mode':
