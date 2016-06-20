@@ -2,9 +2,8 @@
   position: absolute;
   z-index: 0;
   top: 5px;
-  left: 10px;
-  // height: 50px;
-  width: calc(100% - 20px);
+  left: 5px;
+  width: calc(100% - 15px);
 
   @include flex-container(row, space-between, center);
 
@@ -28,7 +27,7 @@
 
   cursor: default;
   color: $lightgray;
-  font-size: 20px;
+  font-size: 15px;
 
   padding: 5px;
   border: 1px solid rgba(black, 0);
@@ -68,6 +67,17 @@
 
 @media screen and (min-width: $media-width-1) {
   #menu-container {
+    left: 10px;
+    width: calc(100% - 20px);
+  }
+
+  .menu-item {
+    font-size: 20px;
+  }
+}
+
+@media screen and (min-width: $media-width-2) {
+  #menu-container {
     top: 15px;
     left: 20px;
     width: calc(100% - 40px);
@@ -76,13 +86,13 @@
   }
 }
 
-@media screen and (min-width: $media-width-2) {
+@media screen and (min-width: $media-width-3) {
   .menu-item {
     font-size: 22px;
   }
 }
 
-@media screen and (min-width: $media-width-3) {
+@media screen and (min-width: $media-width-4) {
   #menu-container {
     top: 35px;
     left: 40px;
@@ -95,7 +105,7 @@
   }
 }
 
-@media screen and (min-width: $media-width-4) {
+@media screen and (min-width: $media-width-5) {
   .menu-item {
     font-size: 28px;
   }

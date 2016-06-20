@@ -48,8 +48,8 @@
 }
 
 #modal-card.register {
-  height: 400px;
-  width: 300px;
+  height: 300px;
+  width: 250px;
 }
 
 #modal-card.login {
@@ -64,5 +64,17 @@
 
   100% {
     opacity: 1;
+  }
+}
+
+@media screen and (min-width: $media-width-1) {
+  #modal-card.register {
+    height: 400px;
+    width: 300px;
+  }
+
+  #modal-card.login {
+    height: 280px;
+    width: 255px;
   }
 }
