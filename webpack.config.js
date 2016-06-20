@@ -47,7 +47,8 @@ const common = {
       template: 'node_modules/html-webpack-template/index.ejs',
       title: 'Score Fluent',
       appMountId: 'app',
-      inject: false
+      inject: false,
+      mobile: true
     })
   ]
 }
