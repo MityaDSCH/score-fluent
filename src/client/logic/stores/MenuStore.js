@@ -11,7 +11,6 @@ export class UnwrappedMenuStore {
     this.rootItems = [];
     this.items = []; // Items in menu
     this.optionsMenu = false;
-    this.originalOptions = [];
     this.doneBtn = false;
 
     this.class = 'active'; // Transition menu down into card
@@ -67,10 +66,13 @@ export class UnwrappedMenuStore {
   }
 
   toggleOption(option) {
-    const items = this.items.map(item => {
-      return {...item, active: (item.name === option ? !item.active : item.active)};
-    });
-    this.setState({items});
+    const activeItems = this.items.filter(item => item.active);
+    if (activeItems.length > 1 || option !== activeItems[0].name) {
+      const items = this.items.map(item => {
+        return {...item, active: (item.name === option ? !item.active : item.active)};
+      });
+      this.setState({items});
+    }
   }
 
   submitOptions() {
@@ -80,11 +82,6 @@ export class UnwrappedMenuStore {
   // --------------------------------------------------------------------------
   // Internal methods
   // --------------------------------------------------------------------------
-
-  _optionsChanged() {
-    const newOptions = this.items.filter(item => item.clickable).map(item => item.active);
-    return !_.isEqual(newOptions, this.originalOptions);
-  }
 
   // If 2nd param, save cur menu in rootMenu
   // If 3rd param, menu might toggle multiple options, so display done btn

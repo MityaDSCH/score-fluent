@@ -73,6 +73,7 @@
   },
   "jest": {
     "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/lodash",
       "<rootDir>/node_modules/alt",
       "alt.js"
     ],

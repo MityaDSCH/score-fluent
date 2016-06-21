@@ -2,4 +2,10 @@ jest.unmock('../../libs/alt');
 
 import alt from '../../libs/alt';
 
-export default alt.generateActions('init');
+export default alt.generateActions(
+  'init',
+  'btnClick',
+  'chooseOption',
+  'toggleOption',
+  'submitOptions'
+);
