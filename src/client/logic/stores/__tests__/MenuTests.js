@@ -16,7 +16,7 @@ const examplePayload = {
   "exp": 1497853374
 };
 
-describe('MenuStore', () => {
+describe('MenuStore API', () => {
 
   describe('init()', () => {
     it('inits properly when passed a JWT payload', () => {

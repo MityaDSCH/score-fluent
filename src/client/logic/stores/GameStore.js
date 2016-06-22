@@ -4,8 +4,7 @@ import _ from 'lodash';
 import clefRanges from '../libs/clefRanges.json';
 import GameActions from '../actions/GameActions';
 
-
-class GameStore {
+export class UnwrappedGameStore {
 
   constructor() {
     this.bindActions(GameActions);
@@ -164,4 +163,4 @@ class GameStore {
 
 }
 
-export default alt.createStore(GameStore, 'GameStore');
+export default alt.createStore(UnwrappedGameStore, 'GameStore');
