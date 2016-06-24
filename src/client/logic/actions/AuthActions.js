@@ -6,6 +6,7 @@ import MenuActions from './MenuActions';
 import ModalActions from './ModalActions';
 
 import AuthStore from '../stores/AuthStore';
+import ModalStore from '../stores/ModalStore';
 
 class AuthActions {
   constructor() {
@@ -13,12 +14,12 @@ class AuthActions {
   }
 
   register(body) {
-    this._authRequest(body, AuthStore.getUrl() + '/api/register');
+    this._authRequest(ModalStore.getAuthBody(), AuthStore.getUrl() + '/api/register');
     return null;
   }
 
   login(body) {
-    this._authRequest(body, AuthStore.getUrl() + '/api/authenticate');
+    this._authRequest(ModalStore.getAuthBody(), AuthStore.getUrl() + '/api/authenticate');
     return null;
   }
 

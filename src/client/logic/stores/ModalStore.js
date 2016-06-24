@@ -2,7 +2,6 @@ import alt from '../libs/alt';
 import _ from 'lodash';
 
 import ModalActions from '../actions/ModalActions';
-import AuthActions from '../actions/AuthActions';
 
 class ModalStore {
 
@@ -15,6 +14,11 @@ class ModalStore {
     this.cardClass = '';
     this.formItems = [];
     this.valid = false;
+    this.authBody = {};
+
+    this.exportPublicMethods({
+      getAuthBody: () => this.authBody
+    });
 
   }
 
@@ -113,25 +117,6 @@ class ModalStore {
     });
   }
 
-  submit() {
-    if (this.valid) {
-      if (this.cardClass == 'register') {
-        const body = {
-          username: this.formItems[0].value,
-          email: this.formItems[1].value,
-          password: this.formItems[2].value
-        };
-        setTimeout(() => AuthActions.register(body), 0);
-      } else if (this.cardClass == 'login') {
-        const body = {
-          id: this.formItems[0].value,
-          password: this.formItems[1].value
-        };
-        setTimeout(() => AuthActions.login(body), 0);
-      }
-    }
-  }
-
   updateFormValidation([placeholder, val]) {
     const fieldIndex = _.findIndex(this.formItems, {placeholder});
     let o = this.formItems[fieldIndex];
@@ -204,16 +189,29 @@ class ModalStore {
         }
       }
     }
-    this.setState({valid});
+    let authBody = {};
     if (valid) { // If valid set submit button valid
       _.each(this.formItems, (ele) => {
         if (ele.type == 'validation-button') ele.validationState = 'valid';
       });
+      if (this.cardClass == 'register') {
+        authBody = {
+          username: this.formItems[0].value,
+          email: this.formItems[1].value,
+          password: this.formItems[2].value
+        };
+      } else if (this.cardClass == 'login') {
+        authBody = {
+          id: this.formItems[0].value,
+          password: this.formItems[1].value
+        };
+      }
     } else {
       _.each(this.formItems, (ele) => {
         if (ele.type == 'validation-button') ele.validationState = '';
       });
     }
+    this.setState({valid, authBody});
   }
 }
 

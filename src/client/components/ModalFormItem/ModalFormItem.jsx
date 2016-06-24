@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ModalActions from '../../logic/actions/ModalActions';
+import AuthActions from '../../logic/actions/AuthActions';
 
 export default class ModalFormItem extends React.Component {
 
@@ -45,7 +46,10 @@ export default class ModalFormItem extends React.Component {
   }
 
   submit() {
-    ModalActions.submit();
+    if (this.props.valid) {
+      if (this.props.cardType === 'login') AuthActions.login();
+      else if (this.props.cardType === 'register') AuthActions.register();
+    }
   }
 
   inputChange(e) {
