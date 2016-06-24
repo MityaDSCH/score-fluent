@@ -7,6 +7,7 @@ import MenuActions from './logic/actions/MenuActions';
 
 import AuthStore from './logic/stores/AuthStore';
 
+AuthActions.init();
 const localToken = AuthStore.getPayload();
 MenuActions.init(localToken);
 
