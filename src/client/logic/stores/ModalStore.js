@@ -31,7 +31,10 @@ class ModalStore {
     setTimeout(() => {
       this.setState({
         fade: false,
-        active: false
+        active: false,
+        valid: false,
+        cardClass: '',
+        authBody: {}
       });
     }, this.animationDelay);
   }
@@ -130,7 +133,7 @@ class ModalStore {
         o.validationState = 'clean';
       }
       // if not empty and not already marked dirty, set dirty
-      else if (!regex.test(val) && o.validationState != 'dirty') {
+      else if (val !== '' && !regex.test(val) && o.validationState != 'dirty') {
         o.validationState = 'dirty';
       }
       else if (regex.test(val) && o.validationState != 'valid') {
@@ -156,6 +159,7 @@ class ModalStore {
         }
       });
     });
+    this._updateValid();
   }
 
   // --------------------------------------------------------------------------
