@@ -20,6 +20,7 @@ export default class Staves extends React.Component {
           </div>
         : null}
 
+        {this.props.curStaff ?
           <Staff
             clef={this.props.curStaff.clef}
             note={this.props.curStaff.note}
@@ -27,6 +28,7 @@ export default class Staves extends React.Component {
             guessStatus={this.props.guessStatus}
             answerDelay={this.props.answerDelay}
             type='curStaff'></Staff>
+        : null}
       </div>
     )
   }
