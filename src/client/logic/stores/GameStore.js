@@ -12,15 +12,18 @@ export class UnwrappedGameStore {
     this.accidentals = ['flat'];
     this.inputNotes = ['A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab'];
 
-    this.mode = 'practice';
     this.clefs = ['treble'];
     this.difficulty = 'hard';
+    this.mode = 'practice';
+    this.screen = 'staves';
+    this.fadeCurDisplay = false;
+    this.fadeDisplayTime = 1000;
 
     this.curStaff = this._newStaff(this.clefs, this.difficulty);
     this.lastStaff = null;
 
     this.answerDelay = 1500;
-    this.guessStatus = null; // Contains info about a guess for answerDelay, then reset to null
+    this.guessStatus = null; // Contains info about a guess for answerDelay long after guess, then reset to null
 
     this.correct = [];
     this.incorrect = [];
@@ -36,23 +39,54 @@ export class UnwrappedGameStore {
 
   setNewOption([setting, active]) {
     if (!_.isEqual(this[setting], active)) {
-      this.setState({
-        lastStaff: null,
-        curStaff: null,
-      });
+      if (setting === 'mode') {
 
-      const newSetting = {};
-      newSetting[setting] = active;
-      setTimeout(() => this.setState({
-        lastStaff: null,
-        curStaff: this._newStaff(
-          setting === 'clefs' ? active : this.clefs,
-          setting === 'difficulty' ? active : this.difficulty),
-        correct: [],
-        incorrect: [],
-        numGuesses: 0,
-        ...newSetting
-      }), 0);
+        this.setState({fadeCurDisplay: true});
+        setTimeout(() => {
+          if (active == 'timed') {
+            this.setState({
+              fadeCurDisplay: false,
+              mode: 'timed',
+              screen: 'start',
+              curStaff: null,
+              lastStaff: null,
+              correct: [],
+              incorrect: [],
+              numGuesses: 0
+            });
+          } else {
+            this.setState({
+              fadeCurDisplay: false,
+              mode: 'practice',
+              screen: 'staves',
+              curStaff: this._newStaff(this.clefs, this.difficulty),
+              lastStaff: null,
+              correct: [],
+              incorrect: [],
+              numGuesses: 0
+            });
+          }
+        }, this.fadeDisplayTime);
+
+      } else { // Reset staffs w/ new parameters
+        this.setState({
+          lastStaff: null,
+          curStaff: null,
+        });
+
+        const newSetting = {};
+        newSetting[setting] = active;
+        setTimeout(() => this.setState({
+          lastStaff: null,
+          curStaff: this._newStaff(
+            setting === 'clefs' ? active : this.clefs,
+            setting === 'difficulty' ? active : this.difficulty),
+          correct: [],
+          incorrect: [],
+          numGuesses: 0,
+          ...newSetting
+        }), 0);
+      }
     }
   }
 
