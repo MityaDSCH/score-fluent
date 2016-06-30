@@ -1,0 +1,57 @@
+#display {
+  @include flex-container(column, space-around, center);
+}
+
+#start {
+
+  cursor: pointer;
+}
+
+#display #start-help {
+  position: static;
+  height: 33px;
+  width: 33px;
+
+  cursor: help;
+
+  .button {
+    position: static;
+    height: 100%;
+    width: 100%;
+
+    @include flex-container(row, center, center);
+
+    color: $lightgray;
+    font-size: 25px;
+    font-weight: 600;
+
+    border: 1px solid $lightgray;
+    border-radius: 50%;
+
+    .help-text {
+      position: absolute;
+      top: calc(100% + 20px);
+      left: 50%;
+      height: auto;
+      width: 350px;
+
+      text-align: justify;
+      font-size: 16px;
+      font-weight: 300;
+
+      visibility: hidden;
+      opacity: 0;
+      transform: translate(-50%, calc(-50% + 50px));
+      transition: visibility .5s,
+                  opacity .5s ease-in-out,
+                  transform .5s;
+    }
+
+    &:hover > .help-text {
+      visibility: visible;
+
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+}

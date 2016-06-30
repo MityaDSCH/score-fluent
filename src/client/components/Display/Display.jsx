@@ -3,22 +3,17 @@ import { findDOMNode } from 'react-dom';
 import Raphael from 'raphael';
 window.Raphael = Raphael;
 
-import Staves from '../Staves/Staves.jsx';
+import StavesScreen from '../StavesScreen/StavesScreen.jsx';
+import StartScreen from '../StartScreen/StartScreen.jsx';
 
 export default class Display extends React.Component {
-
-  componentDidMount() {
-    this.container = findDOMNode(this);
-  }
-
   render() {
-
     if (this.props.screen === 'staves') {
-      return <Staves {...this.props} />
+      return <StavesScreen {...this.props} />
+    } else if (this.props.screen === 'start') {
+      return <StartScreen fade={this.props.fadeCurDisplay}></StartScreen>
     } else {
       return null;
     }
-
   }
-
 }

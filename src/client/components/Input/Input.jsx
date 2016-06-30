@@ -5,6 +5,7 @@ import DisplayActions from '../../logic/actions/GameActions';
 export default class App extends React.Component {
 
   render() {
+    this.active = this.props.screen === 'staves';
     const guessStatus = this.props.guessStatus;
     let correct;
     let incorrect;
@@ -26,7 +27,7 @@ export default class App extends React.Component {
         return (
           <button
             key={('keyboard-' + note)}
-            className={'keyboard-button' + status}
+            className={'keyboard-button' + status + (this.active ? ' active' : '')}
             onClick={this.guessNote.bind(null, note)}>
             {note}
           </button>
@@ -37,7 +38,7 @@ export default class App extends React.Component {
   }
 
   guessNote = (pitch) => {
-    DisplayActions.guessNote({pitch, octave: null});
+    if (this.active) DisplayActions.guessNote({pitch, octave: null});
   };
 
 }

@@ -8,8 +8,6 @@
 
   transform: translate(-50%, -75%);
 
-  background: rgba(#FFF, .8);
-
   animation: fadeIn 1s;
 
   &.fade {
@@ -40,6 +38,7 @@
 #curStaff {
   width: 100%;
   transform: scale(.8) translate(-22px, -10px);
+  background: rgba(#FFF, .8);
 }
 
 #lastStaff {

@@ -11,7 +11,7 @@
   font-family: Raleway, Arial;
 
   background-color: rgba(#000, .9);
-  animation: fadeIn .8s;
+  animation: fadeInModal .8s;
 
   transition: opacity .8s;
   &.fade {
@@ -57,7 +57,7 @@
   width: 255px;
 }
 
-@keyframes fadeIn {
+@keyframes fadeInModal {
   0% {
     opacity: 0;
   }

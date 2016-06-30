@@ -6,7 +6,7 @@ export default class Staves extends React.Component {
 
   render() {
     return (
-      <div id="display" className={this.props.fadeCurDisplay ? 'fade' : ''}>
+      <div id="display" className={'staves' + (this.props.fadeCurDisplay ? ' fade' : '')}>
         {this.props.lastStaff ?
           <div id='lastStaff' className='display-component'>
             <p>Last note:</p>

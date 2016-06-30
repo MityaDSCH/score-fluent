@@ -9,15 +9,17 @@ import GameStore from '../GameStore';
 describe('GameStore API', () => {
 
   it('starts with the correct defaults', () => {
-    const storeState = GameStore.getState();
-    expect(storeState.mode).toBe('practice');
-    expect(storeState.clefs).toEqual(['treble']);
-    expect(storeState.difficulty).toBe('hard');
-    expect(storeState.guessStatus).toBeNull();
-    expect(storeState.correct).toEqual([]);
-    expect(storeState.incorrect).toEqual([]);
-    expect(storeState.numGuesses).toBe(0);
-    expect(Object.keys(storeState.curStaff)).toEqual(['clef', 'note', 'noteStatus']);
+    const state = GameStore.getState();
+    expect(state.clefs).toEqual(['treble']);
+    expect(state.difficulty).toBe('hard');
+    expect(state.mode).toBe('practice');
+    expect(state.screen).toBe('staves');
+    expect(state.fadeCurDisplay).toBe(false);
+    expect(state.guessStatus).toBeNull();
+    expect(state.correct).toEqual([]);
+    expect(state.incorrect).toEqual([]);
+    expect(state.numGuesses).toBe(0);
+    expect(Object.keys(state.curStaff)).toEqual(['clef', 'note', 'noteStatus']);
   });
 
   describe('guessNote()', () => {
@@ -29,19 +31,19 @@ describe('GameStore API', () => {
         action: GameActions.GUESS_NOTE
       });
 
-      let storeState = GameStore.getState();
-      const initStaff = storeState.curStaff;
-      expect(storeState.guessStatus.guess).toBe('correct');
-      expect(storeState.guessStatus.incorrect).toBeNull();
-      expect(storeState.guessStatus.correct).toEqual(curNote);
-      expect(storeState.numGuesses).toBe(1);
+      let state = GameStore.getState();
+      const initStaff = state.curStaff;
+      expect(state.guessStatus.guess).toBe('correct');
+      expect(state.guessStatus.incorrect).toBeNull();
+      expect(state.guessStatus.correct).toEqual(curNote);
+      expect(state.numGuesses).toBe(1);
 
       jest.runAllTimers();
 
-      storeState = GameStore.getState();
-      expect(storeState.lastStaff).toEqual(initStaff);
-      expect(storeState.curStaff).not.toEqual(initStaff);
-      expect(storeState.guessStatus).toBeNull();
+      state = GameStore.getState();
+      expect(state.lastStaff).toEqual(initStaff);
+      expect(state.curStaff).not.toEqual(initStaff);
+      expect(state.guessStatus).toBeNull();
     });
 
     it ('handles an incorrect guess', () => {
@@ -57,18 +59,18 @@ describe('GameStore API', () => {
         action: GameActions.GUESS_NOTE
       });
 
-      let storeState = GameStore.getState();
-      expect(storeState.guessStatus.guess).toBe('incorrect');
-      expect(storeState.guessStatus.incorrect).toEqual(wrongNote);
-      expect(storeState.guessStatus.correct).toEqual(initNote);
-      expect(storeState.numGuesses).toBe(2);
+      let state = GameStore.getState();
+      expect(state.guessStatus.guess).toBe('incorrect');
+      expect(state.guessStatus.incorrect).toEqual(wrongNote);
+      expect(state.guessStatus.correct).toEqual(initNote);
+      expect(state.numGuesses).toBe(2);
 
       jest.runAllTimers();
 
-      storeState = GameStore.getState();
-      expect(storeState.lastStaff.note).toEqual(initNote);
-      expect(storeState.curStaff).not.toEqual(initStaff);
-      expect(storeState.guessStatus).toBeNull();
+      state = GameStore.getState();
+      expect(state.lastStaff.note).toEqual(initNote);
+      expect(state.curStaff).not.toEqual(initStaff);
+      expect(state.guessStatus).toBeNull();
     });
 
   });
@@ -76,8 +78,8 @@ describe('GameStore API', () => {
   describe('setNewOption()', () => {
 
     it('updates mode', () => {
-      let storeState = GameStore.getState();
-      expect(storeState.mode).toBe('practice');
+      let state = GameStore.getState();
+      expect(state.mode).toBe('practice');
 
       alt.dispatcher.dispatch({
         data: ['mode', 'timed'],
@@ -85,8 +87,8 @@ describe('GameStore API', () => {
       });
       jest.runAllTimers();
 
-      storeState = GameStore.getState();
-      expect(storeState.mode).toBe('timed');
+      state = GameStore.getState();
+      expect(state.mode).toBe('timed');
 
       alt.dispatcher.dispatch({
         data: ['mode', 'practice'],
@@ -94,13 +96,13 @@ describe('GameStore API', () => {
       });
       jest.runAllTimers();
 
-      storeState = GameStore.getState();
-      expect(storeState.mode).toBe('practice');
+      state = GameStore.getState();
+      expect(state.mode).toBe('practice');
     });
 
     it('updates clefs', () => {
-      let storeState = GameStore.getState();
-      expect(storeState.clefs).toEqual(['treble']);
+      let state = GameStore.getState();
+      expect(state.clefs).toEqual(['treble']);
 
       alt.dispatcher.dispatch({
         data: ['clefs', ['treble']],
@@ -108,13 +110,13 @@ describe('GameStore API', () => {
       });
       jest.runAllTimers();
 
-      storeState = GameStore.getState();
-      expect(storeState.clefs).toEqual(['treble']);
+      state = GameStore.getState();
+      expect(state.clefs).toEqual(['treble']);
     });
 
     it('updates difficulty', () => {
-      let storeState = GameStore.getState();
-      expect(storeState.difficulty).toBe('hard');
+      let state = GameStore.getState();
+      expect(state.difficulty).toBe('hard');
 
       alt.dispatcher.dispatch({
         data: ['difficulty', 'easy'],
@@ -122,8 +124,8 @@ describe('GameStore API', () => {
       });
       jest.runAllTimers();
 
-      storeState = GameStore.getState();
-      expect(storeState.difficulty).toBe('easy');
+      state = GameStore.getState();
+      expect(state.difficulty).toBe('easy');
 
       alt.dispatcher.dispatch({
         data: ['difficulty', 'medium'],
@@ -131,15 +133,58 @@ describe('GameStore API', () => {
       });
       jest.runAllTimers();
 
-      storeState = GameStore.getState();
-      expect(storeState.difficulty).toBe('medium');
+      state = GameStore.getState();
+      expect(state.difficulty).toBe('medium');
+    });
+
+    describe('updating mode', () => {
+
+      function testModeState(state, mode, screen, fade) {
+        expect(state.mode).toBe(mode);
+        expect(state.screen).toBe(screen);
+        expect(state.fadeCurDisplay).toBe(fade);
+      }
+
+      it('updates practice to timed', () => {
+        let state = GameStore.getState();
+        testModeState(state, 'practice', 'staves', false);
+
+        alt.dispatcher.dispatch({
+          data: ['mode', 'timed'],
+          action: GameActions.SET_NEW_OPTION
+        });
+
+        state = GameStore.getState();
+        testModeState(state, 'practice', 'staves', true);
+
+        jest.runAllTimers();
+
+        state = GameStore.getState();
+        testModeState(state, 'timed', 'start', false);
+      });
+
+      it('updates times to practice', () => {
+        alt.dispatcher.dispatch({
+          data: ['mode', 'practice'],
+          action: GameActions.SET_NEW_OPTION
+        });
+
+        let state = GameStore.getState();
+        testModeState(state, 'timed', 'start', true);
+
+        jest.runAllTimers();
+
+        state = GameStore.getState();
+        testModeState(state, 'practice', 'staves', false);
+      });
+
     });
 
     it('doesn\'t update the staff if the mode isn\'t new', () => {
 
-      let storeState = GameStore.getState();
-      const initStaff = storeState.curStaff;
-      expect(storeState.mode).toBe('practice');
+      let state = GameStore.getState();
+      const initStaff = state.curStaff;
+      expect(state.mode).toBe('practice');
 
       alt.dispatcher.dispatch({
         data: ['mode', 'practice'],
@@ -147,16 +192,16 @@ describe('GameStore API', () => {
       });
       jest.runAllTimers();
 
-      storeState = GameStore.getState();
-      expect(storeState.curStaff).toEqual(initStaff);
+      state = GameStore.getState();
+      expect(state.curStaff).toEqual(initStaff);
 
     });
 
     it('doesn\'t update the staff if the clefs aren\'t new', () => {
 
-      let storeState = GameStore.getState();
-      const initStaff = storeState.curStaff;
-      expect(storeState.clefs).toEqual(['treble']);
+      let state = GameStore.getState();
+      const initStaff = state.curStaff;
+      expect(state.clefs).toEqual(['treble']);
 
       alt.dispatcher.dispatch({
         data: ['clefs', ['treble']],
@@ -164,16 +209,16 @@ describe('GameStore API', () => {
       });
       jest.runAllTimers();
 
-      storeState = GameStore.getState();
-      expect(storeState.curStaff).toEqual(initStaff);
+      state = GameStore.getState();
+      expect(state.curStaff).toEqual(initStaff);
 
     });
 
     it('doesn\'t update the staff if the difficulty isn\'t new', () => {
 
-      let storeState = GameStore.getState();
-      const initStaff = storeState.curStaff;
-      expect(storeState.difficulty).toBe('medium');
+      let state = GameStore.getState();
+      const initStaff = state.curStaff;
+      expect(state.difficulty).toBe('medium');
 
       alt.dispatcher.dispatch({
         data: ['difficulty', 'medium'],
@@ -181,8 +226,8 @@ describe('GameStore API', () => {
       });
       jest.runAllTimers();
 
-      storeState = GameStore.getState();
-      expect(storeState.curStaff).toEqual(initStaff);
+      state = GameStore.getState();
+      expect(state.curStaff).toEqual(initStaff);
 
     });
 

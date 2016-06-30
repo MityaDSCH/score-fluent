@@ -31,7 +31,7 @@
               border-color .6s,
               transform .6s;
 
-  &:hover {
+  &.active:hover {
     color: black;
     border-color: black;
   }
