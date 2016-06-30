@@ -1,5 +1,7 @@
 import React from 'react';
 
+import GameActions from '../../logic/actions/GameActions';
+
 export default class StartScreen extends React.Component {
   render() {
     return (
@@ -16,6 +18,6 @@ export default class StartScreen extends React.Component {
   }
 
   startTimed() {
-    console.log('start');
+    GameActions.startTimed();
   }
 }

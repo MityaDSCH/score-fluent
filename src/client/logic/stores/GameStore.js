@@ -18,6 +18,7 @@ export class UnwrappedGameStore {
     this.screen = 'staves';
     this.fadeCurDisplay = false;
     this.fadeDisplayTime = 1000;
+    this.timedTimeoutId = null;
 
     this.curStaff = this._newStaff(this.clefs, this.difficulty);
     this.lastStaff = null;
@@ -27,12 +28,13 @@ export class UnwrappedGameStore {
 
     this.correct = [];
     this.incorrect = [];
-    this.numGuesses = 0;
+    this.score = 0;
 
     this.exportPublicMethods({
       getMode: () => this.mode,
       getClefs: () => this.clefs,
-      getDifficulty: () => this.difficulty
+      getDifficulty: () => this.difficulty,
+      getScore: () => this.score
     });
 
   }
@@ -44,16 +46,7 @@ export class UnwrappedGameStore {
         this.setState({fadeCurDisplay: true});
         setTimeout(() => {
           if (active == 'timed') {
-            this.setState({
-              fadeCurDisplay: false,
-              mode: 'timed',
-              screen: 'start',
-              curStaff: null,
-              lastStaff: null,
-              correct: [],
-              incorrect: [],
-              numGuesses: 0
-            });
+            this._setStartScreen();
           } else {
             this.setState({
               fadeCurDisplay: false,
@@ -63,7 +56,7 @@ export class UnwrappedGameStore {
               lastStaff: null,
               correct: [],
               incorrect: [],
-              numGuesses: 0
+              score: 0
             });
           }
         }, this.fadeDisplayTime);
@@ -83,7 +76,7 @@ export class UnwrappedGameStore {
             setting === 'difficulty' ? active : this.difficulty),
           correct: [],
           incorrect: [],
-          numGuesses: 0,
+          score: 0,
           ...newSetting
         }), 0);
       }
@@ -92,29 +85,28 @@ export class UnwrappedGameStore {
 
   guessNote(guessedNote) {
     if (!this.guessStatus) { // If not in animation delay
-      const numGuesses = this.numGuesses + 1;
       if (_.isEqual(guessedNote, this.curStaff.note) || (guessedNote.octave === null && guessedNote.pitch === this.curStaff.note.pitch)) {
         const correct = this.correct.concat(this.curStaff.note);
         this.setState({
           correct,
+          score: this._score(correct, this.incorrect),
           guessStatus: {
             guess: 'correct',
             incorrect: null,
             correct: guessedNote
           },
-          numGuesses,
           curStaff: {...this.curStaff, noteStatus: 'correct'}
         });
       } else {
         const incorrect = this.incorrect.concat(this.curStaff.note);
         this.setState({
           incorrect,
+          score: this._score(this.correct, incorrect),
           guessStatus: {
             guess: 'incorrect',
             incorrect: guessedNote,
             correct: this.curStaff.note
           },
-          numGuesses,
           curStaff: {...this.curStaff, noteStatus: 'incorrect'}
         });
       }
@@ -123,6 +115,29 @@ export class UnwrappedGameStore {
       }, this.answerDelay);
     }
   }
+
+  startTimed() {
+    this.setState({fadeCurDisplay: true});
+    const timedTimeoutId = setTimeout(() => {
+      this.setState({
+        fadeCurDisplay: false,
+        screen: 'staves',
+        curStaff: this._newStaff(this.clefs, this.difficulty),
+        timedTimeoutId
+      });
+    }, this.fadeDisplayTime);
+  }
+
+  stopTimed() {
+    clearTimeout(this.timedTimeoutId);
+    this.setState({fadeCurDisplay: true});
+    setTimeout(() => {
+      this._setStartScreen();
+    }, this.fadeDisplayTime);
+  }
+
+  // --------------------------------------------------------------------------
+  // Internal Methods
 
   _rangeToNotes(range, accidentals) { // Take a range defined by a high and low note and return an array of notes in the range
     let low = range.low;
@@ -193,6 +208,24 @@ export class UnwrappedGameStore {
 
   _newNote(clef, difficulty) { // Return note in cleff/difficulty passed or randomly out of this.clefs
     return _.sample(this._rangeToNotes(clefRanges[clef][difficulty]));
+  }
+
+  _setStartScreen() {
+    this.setState({
+      fadeCurDisplay: false,
+      timedTimeoutId: null,
+      mode: 'timed',
+      screen: 'start',
+      curStaff: null,
+      lastStaff: null,
+      correct: [],
+      incorrect: [],
+      score: 0
+    });
+  }
+
+  _score(correct, incorrect) {
+    return correct.length*10 - incorrect.length*20;
   }
 
 }

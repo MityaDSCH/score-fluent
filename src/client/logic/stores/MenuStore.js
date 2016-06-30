@@ -44,6 +44,9 @@ export class UnwrappedMenuStore {
       case 'Difficulty':
         this._setDifficultyMenu(curSetting);
         break;
+      case 'Stop':
+        this._animateMenu(this.rootItems);
+        break;
       default:
         console.warn(btnName, 'menu-btn click unhandled');
         break;
@@ -77,6 +80,22 @@ export class UnwrappedMenuStore {
 
   submitOptions() {
     this._animateMenu(this.rootItems);
+  }
+
+  setTimedMenu() {
+    this._setTimedMenu();
+  }
+
+  updateScore(score) {
+    if (this.optionsMenu === 'timed') {
+      let ind;
+      this.items.forEach((item, i) => {
+        if (item.name.indexOf('Score:') != -1) ind = i;
+      });
+      const items = this.items;
+      items[ind].name = 'Score: ' + score;
+      this.setState({items});
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -208,6 +227,13 @@ export class UnwrappedMenuStore {
         active: setting === 'easy'
       }
     ], 'difficulty');
+  }
+
+  _setTimedMenu() {
+    this._animateMenu([
+      {name: 'Stop', clickable: true},
+      {name: 'Score: 0', clickable: false}
+    ], 'timed');
   }
 }
 

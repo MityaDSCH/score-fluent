@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DisplayActions from '../../logic/actions/GameActions';
+import MenuActions from '../../logic/actions/MenuActions';
 
 export default class App extends React.Component {
 
@@ -38,7 +39,10 @@ export default class App extends React.Component {
   }
 
   guessNote = (pitch) => {
-    if (this.active) DisplayActions.guessNote({pitch, octave: null});
+    if (this.active) {
+      DisplayActions.guessNote({pitch, octave: null});
+      MenuActions.updateScore();
+    }
   };
 
 }

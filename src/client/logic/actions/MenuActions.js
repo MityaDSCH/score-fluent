@@ -2,6 +2,7 @@ import alt from '../libs/alt';
 
 import ModalActions from './ModalActions';
 import AuthActions from './AuthActions';
+import GameActions from './GameActions';
 
 import GameStore from '../stores/GameStore';
 
@@ -13,8 +14,13 @@ class MenuActions {
       'registerLoginSuccess',
       'chooseOption',
       'toggleOption',
-      'submitOptions'
+      'submitOptions',
+      'setTimedMenu'
     );
+  }
+
+  updateScore() {
+    return GameStore.getScore();
   }
 
   btnClick(btnName) {
@@ -39,8 +45,12 @@ class MenuActions {
         case 'Difficulty':
           dispatch([btnName, GameStore.getDifficulty()]);
           break;
+        case 'Stop':
+          GameActions.stopTimed();
+          dispatch([btnName, null]);
+          break;
         default:
-          dispatch(btnName);
+          dispatch([btnName, null]);
           break;
       }
     }

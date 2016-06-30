@@ -18,7 +18,6 @@ describe('GameStore API', () => {
     expect(state.guessStatus).toBeNull();
     expect(state.correct).toEqual([]);
     expect(state.incorrect).toEqual([]);
-    expect(state.numGuesses).toBe(0);
     expect(Object.keys(state.curStaff)).toEqual(['clef', 'note', 'noteStatus']);
   });
 
@@ -36,7 +35,6 @@ describe('GameStore API', () => {
       expect(state.guessStatus.guess).toBe('correct');
       expect(state.guessStatus.incorrect).toBeNull();
       expect(state.guessStatus.correct).toEqual(curNote);
-      expect(state.numGuesses).toBe(1);
 
       jest.runAllTimers();
 
@@ -63,7 +61,6 @@ describe('GameStore API', () => {
       expect(state.guessStatus.guess).toBe('incorrect');
       expect(state.guessStatus.incorrect).toEqual(wrongNote);
       expect(state.guessStatus.correct).toEqual(initNote);
-      expect(state.numGuesses).toBe(2);
 
       jest.runAllTimers();
 
@@ -163,7 +160,7 @@ describe('GameStore API', () => {
         testModeState(state, 'timed', 'start', false);
       });
 
-      it('updates times to practice', () => {
+      it('updates timed to practice', () => {
         alt.dispatcher.dispatch({
           data: ['mode', 'practice'],
           action: GameActions.SET_NEW_OPTION
