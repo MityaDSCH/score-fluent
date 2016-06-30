@@ -39,7 +39,7 @@ export default class App extends React.Component {
   }
 
   guessNote = (pitch) => {
-    if (this.active) {
+    if (this.active && this.props.fadeCurDisplay === false) {
       DisplayActions.guessNote({pitch, octave: null});
       MenuActions.updateScore();
     }

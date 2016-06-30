@@ -86,6 +86,10 @@ export class UnwrappedMenuStore {
     this._setTimedMenu();
   }
 
+  removeTimedMenu() {
+    this._animateMenu(this.rootItems);
+  }
+
   updateScore(score) {
     if (this.optionsMenu === 'timed') {
       let ind;

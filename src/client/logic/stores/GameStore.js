@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import clefRanges from '../libs/clefRanges.json';
 import GameActions from '../actions/GameActions';
+import MenuActions from '../actions/MenuActions';
 
 export class UnwrappedGameStore {
 
@@ -18,6 +19,7 @@ export class UnwrappedGameStore {
     this.screen = 'staves';
     this.fadeCurDisplay = false;
     this.fadeDisplayTime = 1000;
+    this.timedDuration = 1000;
     this.timedTimeoutId = null;
 
     this.curStaff = this._newStaff(this.clefs, this.difficulty);
@@ -117,14 +119,24 @@ export class UnwrappedGameStore {
   }
 
   startTimed() {
+    // Fade start screen
     this.setState({fadeCurDisplay: true});
     const timedTimeoutId = setTimeout(() => {
+      // and fade in staves for timedDuration
       this.setState({
         fadeCurDisplay: false,
         screen: 'staves',
         curStaff: this._newStaff(this.clefs, this.difficulty),
         timedTimeoutId
       });
+      setTimeout(() => {
+        // then fade out staves screen
+        this.setState({fadeCurDisplay: true});
+        setTimeout(() => {
+          // and fade in score screen
+          this._setScoreScreen();
+        }, this.fadeDisplayTime);
+      }, this.timedDuration);
     }, this.fadeDisplayTime);
   }
 
@@ -226,6 +238,17 @@ export class UnwrappedGameStore {
 
   _score(correct, incorrect) {
     return correct.length*10 - incorrect.length*20;
+  }
+
+  _setScoreScreen() {
+    this.setState({
+      fadeCurDisplay: false,
+      timedTimeoutId: null,
+      screen: 'score',
+      curStaff: null,
+      lastStaff: null
+    });
+    MenuActions.removeTimedMenu();
   }
 
 }

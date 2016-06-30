@@ -12,6 +12,7 @@ import Menu from '../Menu/Menu.jsx';
 import Modal from '../Modal/Modal.jsx';
 import Display from '../Display/Display.jsx';
 import Input from '../Input/Input.jsx';
+import TimerCircle from '../TimerCircle/TimerCircle.jsx';
 
 export default class App extends React.Component {
 
@@ -19,6 +20,10 @@ export default class App extends React.Component {
 
     return (
       <div id="app-background">
+        <AltContainer
+          store={GameStore}>
+          <TimerCircle />
+        </AltContainer>
         <div id="app-card">
           <AltContainer
             store={GameStore}>

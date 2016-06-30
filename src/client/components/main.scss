@@ -3,11 +3,13 @@
 
 @import './vars.scss';
 @import './Menu/menu.scss';
-@import './ModalFormItem/modalformitem.scss';
+@import './ModalFormItem/modalFormItem.scss';
 @import './Modal/modal.scss';
 @import './Display/display.scss';
 @import './StartScreen/startScreen.scss';
+@import './ScoreScreen/scoreScreen.scss';
 @import './Input/input.scss';
+@import './TimerCircle/timerCircle.scss';
 
 body, #app {
   height: 100vh;

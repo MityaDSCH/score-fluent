@@ -15,12 +15,9 @@ class MenuActions {
       'chooseOption',
       'toggleOption',
       'submitOptions',
-      'setTimedMenu'
+      'setTimedMenu',
+      'removeTimedMenu'
     );
-  }
-
-  updateScore() {
-    return GameStore.getScore();
   }
 
   btnClick(btnName) {
@@ -54,6 +51,10 @@ class MenuActions {
           break;
       }
     }
+  }
+
+  updateScore() {
+    return GameStore.getScore();
   }
 
 }
