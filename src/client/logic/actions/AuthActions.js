@@ -7,10 +7,15 @@ import ModalActions from './ModalActions';
 
 import AuthStore from '../stores/AuthStore';
 import ModalStore from '../stores/ModalStore';
+import GameStore from '../stores/GameStore';
 
 class AuthActions {
+
   constructor() {
-    this.generateActions('init', 'logout');
+    this.generateActions(
+      'init',
+      'logout'
+    );
   }
 
   register(body) {
@@ -20,6 +25,12 @@ class AuthActions {
 
   login(body) {
     this._authRequest(ModalStore.getAuthBody(), AuthStore.getUrl() + '/api/authenticate');
+    return null;
+  }
+
+  submitScore() {
+    const {correct, incorrect} = GameStore.getAnswers();
+    const score = GameStore.getScore();
     return null;
   }
 
@@ -46,6 +57,7 @@ class AuthActions {
     });
     return null;
   }
+
 }
 
 export default alt.createActions(AuthActions);

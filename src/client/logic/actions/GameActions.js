@@ -1,20 +1,15 @@
 import alt from '../libs/alt';
 
-import MenuActions from './MenuActions';
 
 class GameActions {
 
   constructor() {
     this.generateActions(
       'setNewOption',
+      'startTimed',
       'stopTimed',
       'guessNote'
     );
-  }
-
-  startTimed() {
-    MenuActions.setTimedMenu();
-    return null;
   }
 
 }

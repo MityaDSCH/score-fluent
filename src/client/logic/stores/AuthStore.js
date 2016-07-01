@@ -8,6 +8,7 @@ class AuthStore {
     this.bindActions(AuthActions);
 
     this.url = null;
+    this.jwt = null;
     this.payload = null;
 
     this.exportPublicMethods({
@@ -22,16 +23,18 @@ class AuthStore {
 
   init() {
     const url = window.location.host.indexOf('local') !== -1 ? 'http://localhost:9000' : window.location.origin;
+    let jwt;
     let payload;
 
     const localToken = this._getLocalToken();
     if (!localToken) {
       payload = null;
     } else {
+      jwt = localToken;
       payload = JSON.parse(atob(localToken.split('.')[1]));
     }
 
-    this.setState({url, payload});
+    this.setState({url, jwt, payload});
   }
 
   logout() {

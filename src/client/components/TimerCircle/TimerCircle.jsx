@@ -39,7 +39,7 @@ export default class TimerCircle extends React.Component {
   }
 
   comonentWillUnmount() {
-    window.removeEventListener('resize');
+    window.removeEventListener('resize', this.handleResize);
   }
 
   componentWillReceiveProps(nextProps) {

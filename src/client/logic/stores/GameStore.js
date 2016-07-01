@@ -19,7 +19,7 @@ export class UnwrappedGameStore {
     this.screen = 'staves';
     this.fadeCurDisplay = false;
     this.fadeDisplayTime = 1000;
-    this.timedDuration = 1000;
+    this.timedDuration = 10000;
     this.timedTimeoutId = null;
 
     this.curStaff = this._newStaff(this.clefs, this.difficulty);
@@ -36,6 +36,12 @@ export class UnwrappedGameStore {
       getMode: () => this.mode,
       getClefs: () => this.clefs,
       getDifficulty: () => this.difficulty,
+      getAnswers: () => {
+        return {
+          correct: this.correct,
+          incorrect: this.incorrect
+        };
+      },
       getScore: () => this.score
     });
 
@@ -112,16 +118,23 @@ export class UnwrappedGameStore {
           curStaff: {...this.curStaff, noteStatus: 'incorrect'}
         });
       }
-      setTimeout(() => {
-        this._setRandNote();
-      }, this.answerDelay);
+      this._setRandNote();
     }
   }
 
   startTimed() {
     // Fade start screen
     this.setState({fadeCurDisplay: true});
-    const timedTimeoutId = setTimeout(() => {
+    setTimeout(() => {
+      // Then set timer for end of timed game
+      const timedTimeoutId = setTimeout(() => {
+        // After timedDuration fade out staves screen
+        this.setState({fadeCurDisplay: true});
+        setTimeout(() => {
+          // and fade in score screen
+          this._setScoreScreen();
+        }, this.fadeDisplayTime);
+      }, this.timedDuration);
       // and fade in staves for timedDuration
       this.setState({
         fadeCurDisplay: false,
@@ -129,14 +142,6 @@ export class UnwrappedGameStore {
         curStaff: this._newStaff(this.clefs, this.difficulty),
         timedTimeoutId
       });
-      setTimeout(() => {
-        // then fade out staves screen
-        this.setState({fadeCurDisplay: true});
-        setTimeout(() => {
-          // and fade in score screen
-          this._setScoreScreen();
-        }, this.fadeDisplayTime);
-      }, this.timedDuration);
     }, this.fadeDisplayTime);
   }
 
@@ -198,15 +203,17 @@ export class UnwrappedGameStore {
       clef = _.sample(this.clefs);
       note = this._newNote(clef, this.difficulty);
     }
-    this.setState({
-      guessStatus: null,
-      lastStaff: this.curStaff,
-      curStaff: {
-        clef,
-        note,
-        noteStatus: ''
-      }
-    });
+    setTimeout(() => {
+      this.setState({
+        guessStatus: null,
+        lastStaff: this.curStaff,
+        curStaff: {
+          clef,
+          note,
+          noteStatus: ''
+        }
+      });
+    }, this.answerDelay);
   }
 
   _newStaff(clefs, difficulty) {
