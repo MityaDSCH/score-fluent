@@ -6,7 +6,7 @@ import MenuActions from '../../logic/actions/MenuActions';
 export default class StartScreen extends React.Component {
 
   render() {
-    if (this.props.payload) {
+    if (this.props.AuthStore.payload) {
       return this._loggedInStart();
     }
     return this._loggedOutStart();
@@ -19,7 +19,7 @@ export default class StartScreen extends React.Component {
 
   _loggedInStart() {
     return (
-      <div id="display" className={'start' + (this.props.fade ? ' fade' : '')}>
+      <div id="display" className={'start' + (this.props.GameStore.fadeCurDisplay ? ' fade' : '')}>
         <h1 id="start" onClick={this.startTimed.bind(this)}>Start</h1>
         <div id="start-help">
           <div className="button">
@@ -36,7 +36,7 @@ export default class StartScreen extends React.Component {
 
   _loggedOutStart() {
     return (
-      <div id="display" className={'start' + (this.props.fade ? ' fade' : '')}>
+      <div id="display" className={'start' + (this.props.GameStore.fadeCurDisplay ? ' fade' : '')}>
         <h2 id="start-login-warning">You must log in or register to play timed mode</h2>
       </div>
     )
