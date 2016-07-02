@@ -32,7 +32,7 @@ app.use(morgan('dev'));
 app.use('/', express.static('./dist/client'));
 
 // Serve api routes
-require('./routes')(app);
+require('./routes.js')(app);
 
 app.listen(port);
 console.log(`listening on ${port}\n`);
