@@ -31,6 +31,23 @@ class AuthActions {
   submitScore() {
     const {correct, incorrect} = GameStore.getAnswers();
     const score = GameStore.getScore();
+    const body = {correct, incorrect, score};
+    const jwt =
+    reqwest({
+      url: AuthStore.getUrl() + '/api/timed-score',
+      type: 'json',
+      method: 'post',
+      crossOrigin: true,
+      contentType: 'application/x-www-form-urlencoded',
+      headers: {
+        Authorization: AuthStore.getJwt()
+      },
+      data: body
+    }).then((res) => {
+      console.log(res);
+    }).fail((err, msg) => {
+      console.log(err, msg);
+    });
     return null;
   }
 
@@ -54,6 +71,8 @@ class AuthActions {
         MenuActions.registerLoginSuccess(payload);
         ModalActions.close();
       }
+    }).fail((err, msg) => {
+      ModalActions.registerLoginFail({field: 'password', message: msg});
     });
     return null;
   }

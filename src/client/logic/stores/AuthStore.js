@@ -13,6 +13,7 @@ class AuthStore {
 
     this.exportPublicMethods({
       getUrl: () => this.url,
+      getJwt: () => this.jwt,
       getPayload: () => this.payload || null
     });
   }
