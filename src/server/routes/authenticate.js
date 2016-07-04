@@ -23,7 +23,7 @@ module.exports = function(app) {
       } else {
         user.comparePassword(req.body.password, function(err, isMatch) {
           if (isMatch && !err) {
-            var token = tokenFromModel(user, ['_id', 'username', 'email', 'role'], app.get('jwtDuration'), app.get('jwtSecret'));
+            var token = tokenFromModel(user, ['_id', 'username', 'email', 'role'], app);
             res.json({success: true, token: 'JWT ' + token});
           } else {
             res.send({

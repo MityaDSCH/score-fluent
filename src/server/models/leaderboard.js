@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var LeaderboardEntry = new mongoose.Schema({
+var LeaderboardEntrySchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -10,15 +10,18 @@ var LeaderboardEntry = new mongoose.Schema({
     type: Number,
     required: true
   }
+});
 
-var Leaderboard = new mongoose.Schema({
-  clefs: {
-    type: Array,
-    required: true
-  },
+var LeaderboardSchema = new mongoose.Schema({
   difficulty: {
     type: String,
     required: true
   },
-  entries: [LeaderboardEntry]
+  clefs: {
+    type: Array,
+    required: true
+  },
+  entries: [LeaderboardEntrySchema]
 });
+
+module.exports = mongoose.model('Leaderboard', LeaderboardSchema);

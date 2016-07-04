@@ -4,7 +4,6 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
 
-// Custom imports
 var User = require('./models/user');
 
 // Read environment vars

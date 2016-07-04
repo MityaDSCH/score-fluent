@@ -45,7 +45,7 @@ module.exports = function(app) {
             });
           }
         }
-        var token = tokenFromModel(newUser, ['_id', 'username', 'email', 'role'], app.get('jwtDuration'), app.get('jwtSecret'));
+        var token = tokenFromModel(newUser, ['_id', 'username', 'email', 'role'], app);
         res.json({success: true, message: 'New user added', token: 'JWT ' + token});
       });
     }

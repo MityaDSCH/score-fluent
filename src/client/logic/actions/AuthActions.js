@@ -29,10 +29,13 @@ class AuthActions {
   }
 
   submitScore() {
-    const {correct, incorrect} = GameStore.getAnswers();
-    const score = GameStore.getScore();
-    const body = {correct, incorrect, score};
-    const jwt =
+    const body = {
+      _id: AuthStore.getPayload()._id,
+      difficulty: GameStore.getDifficulty(),
+      clefs: GameStore.getClefs(),
+      score: GameStore.getScore()
+    };
+    console.log(body);
     reqwest({
       url: AuthStore.getUrl() + '/api/timed-score',
       type: 'json',

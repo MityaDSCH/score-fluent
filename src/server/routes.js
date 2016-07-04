@@ -2,9 +2,6 @@
 var passport = require('passport');
 var express = require('express');
 
-// Load models
-var User = require('./models/user');
-
 // Load routes
 var registerRoute = require('./routes/register');
 var authenticateRoute = require('./routes/authenticate');
@@ -38,11 +35,6 @@ module.exports = function(app) {
 
   // Authenticate a user
   apiRoutes.post('/authenticate', authenticateRoute(app));
-
-  // Authenticate jwt before responding
-  // apiRoutes.get('/stats', passport.authenticate('jwt', {session: false}), function(req, res) {
-  //   res.send('Woot!!! User id: ' + req.user._id);
-  // });
 
   // Post a score
   apiRoutes.post('/timed-score', passport.authenticate('jwt', {session: false}), timedScoreRoute(app));
