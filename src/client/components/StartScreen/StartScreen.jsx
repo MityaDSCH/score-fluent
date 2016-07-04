@@ -20,7 +20,7 @@ export default class StartScreen extends React.Component {
   _loggedInStart() {
     return (
       <div id="display" className={'start' + (this.props.GameStore.fadeCurDisplay ? ' fade' : '')}>
-        <h1 id="start" onClick={this.startTimed.bind(this)}>Start</h1>
+        <h1 id="start" onClick={this.startTimed}>Start</h1>
         <div id="start-help">
           <div className="button">
             ?

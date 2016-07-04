@@ -4,6 +4,7 @@ import alt from '../libs/alt';
 
 import MenuActions from './MenuActions';
 import ModalActions from './ModalActions';
+import GameActions from './GameActions';
 
 import AuthStore from '../stores/AuthStore';
 import ModalStore from '../stores/ModalStore';
@@ -14,6 +15,7 @@ class AuthActions {
   constructor() {
     this.generateActions(
       'init',
+      'logScore',
       'logout'
     );
   }
@@ -35,7 +37,6 @@ class AuthActions {
       clefs: GameStore.getClefs(),
       score: GameStore.getScore()
     };
-    console.log(body);
     reqwest({
       url: AuthStore.getUrl() + '/api/timed-score',
       type: 'json',
@@ -47,7 +48,7 @@ class AuthActions {
       },
       data: body
     }).then((res) => {
-      console.log(res);
+      GameActions.logScore(res);
     }).fail((err, msg) => {
       console.log(err, msg);
     });

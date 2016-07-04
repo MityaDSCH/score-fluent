@@ -1,11 +1,75 @@
-#score-loading {
+#score {
+  position: absolute;
+  top: 70px;
+  left: 0;
+  height: calc(100% - 220px);
+  width: 100%;
+
+  font-size: 28px;
+
+  animation: fadeInScore 1s;
+
+  &.fade {
+    animation: fadeOutScore 1s;
+  }
+
+  @include flex-container(column, center, center);
+}
+
+.title {
+  margin: 5px;
+}
+
+#scores {
+  font-size: 14px;
+
+  @include flex-container(row, space-between, space-around);
+
+  > * {
+    margin: 10px;
+  }
+
+  p {
+    margin: 5px;
+  }
+}
+
+.leaderboard {
+  text-align: center;
+}
+
+.score-center {
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
 
-  font-size: 28px;
-
+  animation: fadeIn 1s;
   @include flex-container(column, center, center);
+}
+
+// ----------------------------------------------------------------------------
+// Keyframes
+
+@keyframes fadeInScore {
+  0% {
+    opacity: 0;
+    top: calc(70px - 8%);
+  }
+  100% {
+    opacity: 1;
+    top: 70px;
+  }
+}
+
+@keyframes fadeOutScore {
+  0% {
+    opacity: 1;
+    top: 70px;
+  }
+  100% {
+    opacity: 0;
+    top: calc(70px + 8%);
+  }
 }

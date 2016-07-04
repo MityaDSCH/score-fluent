@@ -8,6 +8,7 @@ class GameActions {
       'setNewOption',
       'startTimed',
       'stopTimed',
+      'logScore',
       'guessNote'
     );
   }

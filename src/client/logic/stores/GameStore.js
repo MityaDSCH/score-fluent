@@ -19,7 +19,7 @@ export class UnwrappedGameStore {
     this.screen = 'staves';
     this.fadeCurDisplay = false;
     this.fadeDisplayTime = 1000;
-    this.timedDuration = 10000;
+    this.timedDuration = 2000;
     this.timedTimeoutId = null;
 
     this.curStaff = this._newStaff(this.clefs, this.difficulty);
@@ -31,6 +31,7 @@ export class UnwrappedGameStore {
     this.correct = [];
     this.incorrect = [];
     this.score = 0;
+    this.leaderboard = null;
 
     this.exportPublicMethods({
       getMode: () => this.mode,
@@ -140,6 +141,10 @@ export class UnwrappedGameStore {
         fadeCurDisplay: false,
         screen: 'staves',
         curStaff: this._newStaff(this.clefs, this.difficulty),
+        correct: [],
+        incorrect: [],
+        score: 0,
+        leaderboard: null,
         timedTimeoutId
       });
     }, this.fadeDisplayTime);
@@ -151,6 +156,10 @@ export class UnwrappedGameStore {
     setTimeout(() => {
       this._setStartScreen();
     }, this.fadeDisplayTime);
+  }
+
+  logScore(leaderboard) {
+    this.setState({leaderboard});
   }
 
   // --------------------------------------------------------------------------
@@ -253,7 +262,8 @@ export class UnwrappedGameStore {
       timedTimeoutId: null,
       screen: 'score',
       curStaff: null,
-      lastStaff: null
+      lastStaff: null,
+      leaderboard: null
     });
     MenuActions.removeTimedMenu();
   }

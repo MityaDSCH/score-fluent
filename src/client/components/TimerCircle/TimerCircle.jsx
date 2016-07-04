@@ -79,7 +79,13 @@ export default class TimerCircle extends React.Component {
     this.arc.stop();
     this.arc.animate({
       "opacity": "0"
-    }, 1000);
+    }, 1000, () => {
+      setTimeout(() => {
+        this.arc.attr({
+          "stroke": "#0F0"
+        })
+      }, 100);
+    });
   }
 
 }
