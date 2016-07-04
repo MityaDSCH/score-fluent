@@ -30,6 +30,13 @@ module.exports = function(app) {
         return String(entry.user) == newEntry.user
       });
 
+      var highScore;
+      if (leaderboard.entries[curUserEntryIndex]) {
+        highScore = leaderboard.entries[curUserEntryIndex].score;
+      } else {
+        highScore = -Infinity;
+      }
+
       if (curUserEntryIndex === -1) {
         leaderboard.entries = binaryInsertEntry(leaderboard.entries, newEntry);
       } else {
@@ -55,6 +62,7 @@ module.exports = function(app) {
               if (err) res.json({success: false, err: err});
               res.json({
                 success: true,
+                highScore: Math.max(highScore, newEntry.score),
                 topScores: leaderboard.entries.map(function(entry) {
                   return {
                     username: entry.user.username,
