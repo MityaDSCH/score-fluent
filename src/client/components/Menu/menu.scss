@@ -1,9 +1,18 @@
+$menu-height-1: 60;
+$menu-height-2: 80;
+$menu-height-3: 80;
+$menu-height-4: 100;
+$menu-height-5: 100;
+
 #menu-container {
   position: absolute;
   z-index: 0;
-  top: 5px;
-  left: 5px;
-  width: calc(100% - 15px);
+  top: 0;
+  left: 0;
+  height: #{$menu-height-1 - 10px};
+  width: calc(100% - 10px);
+
+  margin: 5px;
 
   @include flex-container(row, space-between, center);
 
@@ -28,6 +37,7 @@
   cursor: default;
   color: $lightgray;
   font-size: 15px;
+  text-align: center;
 
   padding: 5px;
   border: 1px solid rgba(black, 0);
@@ -65,10 +75,17 @@
   }
 }
 
-@media screen and (min-width: $media-width-1) {
+// -----------------------------------------------------------------------------
+// Media Queries
+
+@mixin menu-margin($margin) {
+  margin: $margin;
+  width: calc(100% - #{$margin*2});
+}
+
+@media screen and (min-width: $media-width-1 + 0px) {
   #menu-container {
-    left: 10px;
-    width: calc(100% - 20px);
+    @include menu-margin(10px);
   }
 
   .menu-item {
@@ -76,36 +93,32 @@
   }
 }
 
-@media screen and (min-width: $media-width-2) {
+@media screen and (min-width: $media-width-2 + 0px) {
   #menu-container {
-    top: 15px;
-    left: 20px;
-    width: calc(100% - 40px);
+    @include menu-margin(15px);
 
-    transform: translateY(calc(-100% - 20px));
+    transform: translateY(calc(-$menu-height-2 - 20px));
   }
 }
 
-@media screen and (min-width: $media-width-3) {
+@media screen and (min-width: $media-width-3 + 0px) {
   .menu-item {
     font-size: 22px;
   }
 }
 
-@media screen and (min-width: $media-width-4) {
+@media screen and (min-width: $media-width-4 + 0px) {
   #menu-container {
-    top: 35px;
-    left: 40px;
-    width: calc(100% - 100px);
+    @include menu-margin(25px);
 
-    transform: translateY(calc(-100% - 40px));
+    transform: translateY(calc(-$menu-height-4 - 40px));
   }
   .menu-item {
     font-size: 25px;
   }
 }
 
-@media screen and (min-width: $media-width-5) {
+@media screen and (min-width: $media-width-5 + 0px) {
   .menu-item {
     font-size: 28px;
   }

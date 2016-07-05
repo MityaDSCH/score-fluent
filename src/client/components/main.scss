@@ -11,12 +11,16 @@
 @import './Input/input.scss';
 @import './TimerCircle/timerCircle.scss';
 
-body, #app {
+html, body, #app {
   height: 100vh;
   width: 100vw;
-  min-width: 320px;
+  min-width: $media-width-0 + 0px;
 
   overflow: hidden;
+}
+
+body {
+  position: relative;
 }
 
 #app-background {
@@ -37,8 +41,8 @@ body, #app {
 #app-card {
   $border-width: 2px;
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: $app-card-gap + 0px;
+  left: $app-card-gap + 0px;
   height: calc(100% - 20px - #{$border-width*2});
   width: calc(100% - 20px - #{$border-width*2});
   min-width: 295px;

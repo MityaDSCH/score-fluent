@@ -4,11 +4,14 @@ $lightgray: #888;
 $invalid-color: #ff828a;
 $valid-color: #abff8e;
 
-$media-width-1: 500px;
-$media-width-2: 775px;
-$media-width-3: 950px;
-$media-width-4: 1400px;
-$media-width-5: 1900px;
+$media-width-0: 320;
+$media-width-1: 500;
+$media-width-2: 775;
+$media-width-3: 950;
+$media-width-4: 1400;
+$media-width-5: 1900;
+
+$app-card-gap: 10;
 
 @mixin flex-container($direction, $justify, $align) {
   display: flex;

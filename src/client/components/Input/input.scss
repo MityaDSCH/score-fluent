@@ -1,20 +1,54 @@
+$input-height-0: 95;
+$input-height-1: 110;
+$input-height-2: 130;
+$input-height-3: 100;
+$input-height-4: 115;
+$input-height-5: 130;
+
+
+// ----------------------------------------------------------------------------
+// SCSS magic
+
+@mixin keyboard-button($height, $width, $vMargin, $border-width, $rows) {
+  $side: ($height - 2*$rows*($vMargin + $border-width))/$rows;
+  $hMargin: ($width - 12*$rows*$border-width - 12/$rows*$side)/(24/$rows);
+  height: $side + 0px;
+  width: $side + 0px;
+  margin: $vMargin*1px $hMargin*1px;
+}
+
+@function keyboard-width($media-width) {
+  @return $media-width - $app-card-gap*2;
+}
+
+// ----------------------------------------------------------------------------
+// Body
+
 #keyboard {
   position: absolute;
   z-index: 3;
-  width: 280px;
+  height: $input-height-0 + 0px;
+  width: keyboard-width($media-width-0) + 0px;
   left: 50%;
-  bottom: 10px;
   transform: translateX(-50%);
+  bottom: 0;
 
-  @include flex-container(row, space-between, center);
+  @include flex-container(row, space-between, space-around);
   flex-wrap: wrap;
 }
 
 .keyboard-button {
-  height: 25px;
-  width: 25px;
-  padding: 15px;
-  margin: 5px;
+
+  $border-width: 1;
+  $vMargin: 5;
+
+  @include keyboard-button(
+    $input-height-0,
+    keyboard-width($media-width-0),
+    $vMargin,
+    $border-width,
+    2
+  );
 
   @include flex-container(column, center, center);
 
@@ -24,7 +58,7 @@
   font-weight: 300;
   font-size: 20px;
   outline: none;
-  border: 1px solid $lightgray;
+  border: #{$border-width + 0px} solid $lightgray;
   border-radius: 6px;
 
   transition: color .6s,
@@ -47,65 +81,119 @@
   &.correct {
     color: $valid-color;
     border-color: $valid-color;
-    transform: translateY(-10px) rotate(360deg);
+    transform: translateY(-$vMargin) rotate(360deg);
   }
 }
 
-@media screen and (min-width: $media-width-1) {
+// ----------------------------------------------------------------------------
+// Media Queries
+
+@media screen and (min-width: $media-width-1 + 0px) {
+
+  $border-width: 1;
+  $vMargin: 5;
+
   #keyboard {
-    width: 420px;
+    height: $input-height-1 + 0px;
+    width: keyboard-width($media-width-1) + 0px;
   }
 
   .keyboard-button {
-    height: 50px;
-    width: 50px;
 
-    padding: 20px;
-    margin: 10px;
+    @include keyboard-button(
+      $input-height-1,
+      keyboard-width($media-width-1),
+      $vMargin,
+      $border-width,
+      2
+    );
 
     font-size: 25px;
-    border-width: 2px;
   }
 }
 
-@media screen and (min-width: $media-width-2) {
+@media screen and (min-width: $media-width-2 + 0px) {
+
+  $border-width: 1;
+  $vMargin: 8;
+
   #keyboard {
-    width: 580px;
+    height: $input-height-2 + 0px;
+    width: keyboard-width($media-width-2) + 0px;
   }
   .keyboard-button {
-    height: 55px;
-    width: 55px;
-    margin: 15px;
+    @include keyboard-button(
+      $input-height-2,
+      keyboard-width($media-width-2),
+      $vMargin,
+      $border-width,
+      2
+    );
   }
 }
 
-@media screen and (min-width: $media-width-3) {
+@media screen and (min-width: $media-width-3 + 0px) {
+
+  $border-width: 1;
+  $vMargin: 20;
+
   #keyboard {
-    width: calc(100% - 40px);
-    bottom: 20px;
+    height: $input-height-3 + 0px;
+    width: keyboard-width($media-width-3) + 0px;
   }
   .keyboard-button {
-    margin: 0;
+    @include keyboard-button(
+      $input-height-3,
+      keyboard-width($media-width-3),
+      $vMargin,
+      $border-width,
+      1
+    );
   }
 }
 
-@media screen and (min-width: $media-width-4) {
+@media screen and (min-width: $media-width-4 + 0px) {
+
+  $border-width: 1;
+  $vMargin: 25;
+
   #keyboard {
-    width: calc(100% - 100px);
-    bottom: 50px;
+    height: $input-height-4 + 0px;
+    width: keyboard-width($media-width-4) + 0px;
   }
   .keyboard-button {
-    width: 60px;
-    height: 60px;
+    @include keyboard-button(
+      $input-height-4,
+      keyboard-width($media-width-4),
+      $vMargin,
+      $border-width,
+      1
+    );
   }
 }
 
-@media screen and (min-width: $media-width-5) {
+@media screen and (min-width: $media-width-5 + 0px) {
+
+  $border-width: 1;
+  $vMargin: 30;
+
+  #keyboard {
+    height: $input-height-5 + 0px;
+    width: keyboard-width($media-width-5) + 0px;
+  }
   .keyboard-button {
-    width: 65px;
-    height: 65px;
+    @include keyboard-button(
+      $input-height-5,
+      keyboard-width($media-width-5),
+      $vMargin,
+      $border-width,
+      1
+    );
   }
 }
+
+// ----------------------------------------------------------------------------
+// Animations
 
 @keyframes wobble {
   0% {
