@@ -43,8 +43,10 @@ class MenuActions {
           dispatch([btnName, GameStore.getDifficulty()]);
           break;
         case 'Stop':
-          GameActions.stopTimed();
-          dispatch([btnName, null]);
+          if (!GameStore.getFading()) {
+            GameActions.stopTimed();
+            dispatch([btnName, null]);
+          }
           break;
         default:
           dispatch([btnName, null]);

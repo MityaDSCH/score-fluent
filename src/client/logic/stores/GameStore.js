@@ -34,6 +34,7 @@ export class UnwrappedGameStore {
     this.leaderboard = null;
 
     this.exportPublicMethods({
+      getFading: () => this.fadeCurDisplay,
       getMode: () => this.mode,
       getClefs: () => this.clefs,
       getDifficulty: () => this.difficulty,
