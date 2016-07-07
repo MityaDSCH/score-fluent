@@ -32,6 +32,9 @@ class MenuActions {
         case 'Logout':
           dispatch([btnName, null]);
           AuthActions.logout();
+          if (GameStore.getScreen() === 'score') {
+            GameActions.setNewOption(['mode', 'practice']);
+          }
           break;
         case 'Mode':
           dispatch([btnName, GameStore.getMode()]);

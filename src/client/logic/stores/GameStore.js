@@ -36,6 +36,7 @@ export class UnwrappedGameStore {
     this.exportPublicMethods({
       getFading: () => this.fadeCurDisplay,
       getMode: () => this.mode,
+      getScreen: () => this.screen,
       getClefs: () => this.clefs,
       getDifficulty: () => this.difficulty,
       getAnswers: () => {
