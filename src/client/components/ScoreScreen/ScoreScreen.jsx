@@ -25,7 +25,7 @@ export default class ScoreScreen extends React.Component {
       if (lb.success) {
 
         screen = (
-          <div id="score" className={gameStore.fadeCurDisplay ? ' fade' : ''}>
+          <div id="display" className={gameStore.fadeCurDisplay ? ' fade' : ''}>
             <p className='title'>{this._clefString(this.state.clefs)}</p>
             <p className='title'>on {this.state.difficulty}</p>
 
@@ -53,7 +53,7 @@ export default class ScoreScreen extends React.Component {
             </div>
 
             <p
-              id='start'
+              className='play-again'
               onClick={this.startTimed}>Play Again</p>
           </div>
         );
