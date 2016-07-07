@@ -1,61 +1,82 @@
-#display {
-  @include flex-container(column, space-around, center);
-}
-
 #start {
-
   cursor: pointer;
 }
 
-#display #start-help {
-  position: static;
+.help-btn {
   height: 33px;
   width: 33px;
-
   cursor: help;
 
-  .button {
-    position: static;
-    height: 100%;
-    width: 100%;
+  @include flex-container(row, center, center);
 
-    @include flex-container(row, center, center);
+  color: $lightgray;
+  font-size: 25px;
+  font-weight: 600;
 
-    color: $lightgray;
-    font-size: 25px;
-    font-weight: 600;
+  border: 1px solid $lightgray;
+  border-radius: 50%;
+}
 
-    border: 1px solid $lightgray;
-    border-radius: 50%;
+.help-text {
+  height: auto;
+  width: 80%;
 
-    .help-text {
-      position: absolute;
-      top: calc(100% + 20px);
-      left: 50%;
-      height: auto;
-      width: 350px;
+  color: $lightgray;
+  text-align: justify;
+  font-size: 16px;
+  font-weight: 300;
 
-      text-align: justify;
-      font-size: 16px;
-      font-weight: 300;
+  transform: translateX(-50%);
+}
 
-      visibility: hidden;
-      opacity: 0;
-      transform: translate(-50%, calc(-50% + 50px));
-      transition: visibility .5s,
-                  opacity .5s ease-in-out,
-                  transform .5s;
-    }
+.fadable {
 
-    &:hover > .help-text {
-      visibility: visible;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(100%);
 
-      opacity: 1;
-      transform: translate(-50%, -50%);
-    }
-  }
+  transition: visibility .5s,
+              opacity .5s ease-in-out,
+              transform .5s;
+}
+
+.active {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 #start-login-warning {
   text-align: center;
+}
+
+// ----------------------------------------------------------------------------
+// Media queries
+
+
+@media screen and (min-width: $media-width-1 + 0px) {
+  .help-text {
+    width: 60%;
+  }
+}
+
+@media screen and (min-width: $media-width-4 + 0px) {
+  .help-text {
+    text-align: center;
+  }
+}
+
+@media screen and (min-width: $media-width-1 + 0px) {
+  #start {
+    font-size: 40px;
+  }
+  .help-btn {
+    height: 40px;
+    width: 40px;
+    font-size: 30px;
+  }
+  .help-text {
+    font-siez: 20px;
+    width: 60%;
+  }
 }

@@ -15,6 +15,7 @@ $input-height-5: 130;
   height: $side + 0px;
   width: $side + 0px;
   margin: $vMargin*1px $hMargin*1px;
+  border-width: $border-width + 0px;
 }
 
 @function keyboard-width($media-width) {
@@ -154,7 +155,7 @@ $input-height-5: 130;
 
 @media screen and (min-width: $media-width-4 + 0px) {
 
-  $border-width: 1;
+  $border-width: 2;
   $vMargin: 25;
 
   #keyboard {
@@ -174,7 +175,7 @@ $input-height-5: 130;
 
 @media screen and (min-width: $media-width-5 + 0px) {
 
-  $border-width: 1;
+  $border-width: 2;
   $vMargin: 30;
 
   #keyboard {
