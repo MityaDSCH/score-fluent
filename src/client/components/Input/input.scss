@@ -66,10 +66,7 @@ $input-height-5: 130;
               border-color .6s,
               transform .6s;
 
-  &.active:hover {
-    color: black;
-    border-color: black;
-  }
+  transform: none;
 
   $invalid-color: darken(saturate($invalid-color, 60%), 30%);
   &.incorrect {
@@ -82,7 +79,25 @@ $input-height-5: 130;
   &.correct {
     color: $valid-color;
     border-color: $valid-color;
-    transform: translateY(-$vMargin) rotate(360deg);
+
+    &:nth-child(6n) {
+      transform: translateY(-$vMargin + 0px) rotate3d(1, 1, 1, 360deg);
+    }
+    &:nth-child(6n + 1) {
+      transform: translateY(-$vMargin + 0px) rotate3d(1, 1, -1, 360deg);
+    }
+    &:nth-child(6n + 2) {
+      transform: translateY(-$vMargin + 0px) rotate3d(1, -1, -1, 360deg);
+    }
+    &:nth-child(6n + 3) {
+      transform: translateY(-$vMargin + 0px) rotate3d(1, -1, 1, 360deg);
+    }
+    &:nth-child(6n + 4) {
+      transform: translateY(-$vMargin + 0px) rotate3d(-1, -1, 1, 360deg);
+    }
+    &:nth-child(6n + 5) {
+      transform: translateY(-$vMargin + 0px) rotate3d(-1, 1, -1, 360deg);
+    }
   }
 }
 

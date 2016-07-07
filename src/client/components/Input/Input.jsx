@@ -21,13 +21,13 @@ export default class App extends React.Component {
     if (background) background.className = (guessStatus ? guessStatus.guess : '');
 
     return (
-      <div id="keyboard">{this.props.inputNotes.map((note) => {
+      <div id="keyboard">{this.props.inputNotes[this.props.accidental].map((note, ind) => {
         let status = '';
         if (correct == note) status = ' correct';
         else if (incorrect == note) status = ' incorrect';
         return (
           <button
-            key={('keyboard-' + note)}
+            key={('keyboard-' + ind)}
             className={'keyboard-button' + status + (this.active ? ' active' : '')}
             onClick={this.guessNote.bind(null, note)}>
             {note}

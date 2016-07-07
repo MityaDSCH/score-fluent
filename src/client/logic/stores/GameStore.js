@@ -10,8 +10,11 @@ export class UnwrappedGameStore {
   constructor() {
     this.bindActions(GameActions);
 
-    this.accidentals = ['flat'];
-    this.inputNotes = ['A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab'];
+    this.accidental = _.sample(['flat', 'sharp']);
+    this.inputNotes = {
+      flat: ['A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab'],
+      sharp: ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
+    };
 
     this.clefs = ['treble'];
     this.difficulty = 'hard';
@@ -167,12 +170,12 @@ export class UnwrappedGameStore {
   // --------------------------------------------------------------------------
   // Internal Methods
 
-  _rangeToNotes(range, accidentals) { // Take a range defined by a high and low note and return an array of notes in the range
+  _rangeToNotes(range, accidental) { // Take a range defined by a high and low note and return an array of notes in the range
     let low = range.low;
     let high = range.high;
     let notes = [];
     while (low.pitch !== high.pitch || low.octave !== high.octave) {
-      notes.push(this._enharmonicNames(low, accidentals));
+      notes.push(low);
       if (low.pitch === 'B') {
         low = {
           pitch: "C",
@@ -200,21 +203,33 @@ export class UnwrappedGameStore {
         }
       }
     }
-    return notes;
+    return notes.map(note => this._enharmonicSharp(note, this.accidental));
   }
 
-  _enharmonicNames(note, accidentals) {
+  // return corresponding sharp to flat (assumes no Fb/Cb)
+  _enharmonicSharp(note, accidental) {
+    if (accidental == 'sharp') {
+      // No accidental i.e. 'A'
+      if (note.pitch.length == 1) return note;
+      else if (note.pitch == 'Ab') {
+        note.pitch = 'G#';
+      } else {
+        note.pitch = String.fromCharCode(note.pitch.charCodeAt(0) - 1) + '#';
+      }
+    }
     return note;
   }
 
   _setRandNote() {
-    let clef = _.sample(this.clefs);
-    let note = this._newNote(clef, this.difficulty);
-    while(_.isEqual(note, this.curStaff.note)) {
-      clef = _.sample(this.clefs);
-      note = this._newNote(clef, this.difficulty);
-    }
     setTimeout(() => {
+      let accidental = _.sample(['flat', 'sharp']);
+      this.setState({accidental});
+      let clef = _.sample(this.clefs);
+      let note = this._newNote(clef, this.difficulty);
+      while(_.isEqual(note, this.curStaff.note)) {
+        clef = _.sample(this.clefs);
+        note = this._newNote(clef, this.difficulty);
+      }
       this.setState({
         guessStatus: null,
         lastStaff: this.curStaff,
@@ -237,7 +252,7 @@ export class UnwrappedGameStore {
   }
 
   _newNote(clef, difficulty) { // Return note in cleff/difficulty passed or randomly out of this.clefs
-    return _.sample(this._rangeToNotes(clefRanges[clef][difficulty]));
+    return _.sample(this._rangeToNotes(clefRanges[clef][difficulty], this.accidental));
   }
 
   _setStartScreen() {
