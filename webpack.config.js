@@ -5,6 +5,7 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanPlugin = require('clean-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const pkg = require('./package.json');
@@ -105,11 +106,12 @@ if (TARGET === 'build' || TARGET === 'stats') {
       loaders: [
         {
           test: /\.scss$/,
-          loader: ExtractTextPlugin.extract('style', 'css!sass'),
+          loader: ExtractTextPlugin.extract('style', 'css!postcss!sass'),
           include: PATHS.app
         }
       ]
     },
+    postcss: [autoprefixer({browsers: ['last 2 versions']})],
     plugins: [
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': '"production"'
