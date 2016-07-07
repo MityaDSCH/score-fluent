@@ -8,8 +8,8 @@ export default class Staves extends React.Component {
     return (
       <div id="display" className={'staves' + (this.props.GameStore.fadeCurDisplay ? ' fade' : '')}>
         {this.props.GameStore.lastStaff ?
-          <div id='lastStaff' className='display-component'>
-            <p>Last note:</p>
+          <div id='lastStaff' className=''>
+            <p className='title'>Last note:</p>
             <Staff
               clef={this.props.GameStore.lastStaff.clef}
               note={this.props.GameStore.lastStaff.note}
@@ -17,6 +17,12 @@ export default class Staves extends React.Component {
               guessStatus={this.props.GameStore.guessStatus}
               answerDelay={this.props.GameStore.answerDelay}
               type='lastStaff'></Staff>
+            <p className='keyboard-button last-guess-pitch'>
+              {
+                this.props.GameStore.lastStaff.note.pitch +
+                this.props.GameStore.lastStaff.note.octave
+              }
+            </p>
           </div>
         : null}
 

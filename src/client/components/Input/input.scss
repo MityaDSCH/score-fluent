@@ -9,7 +9,7 @@ $input-height-5: 130;
 // ----------------------------------------------------------------------------
 // SCSS magic
 
-@mixin keyboard-button($height, $width, $vMargin, $border-width, $rows) {
+@mixin size-keyboard-button($height, $width, $vMargin, $border-width, $rows) {
   $side: ($height - 2*$rows*($vMargin + $border-width))/$rows;
   $hMargin: ($width - 12*$rows*$border-width - 12/$rows*$side)/(24/$rows);
   height: $side + 0px;
@@ -42,7 +42,7 @@ $input-height-5: 130;
   $border-width: 1;
   $vMargin: 5;
 
-  @include keyboard-button(
+  @include size-keyboard-button(
     $input-height-0,
     keyboard-width($media-width-0),
     $vMargin,
@@ -100,7 +100,7 @@ $input-height-5: 130;
 
   .keyboard-button {
 
-    @include keyboard-button(
+    @include size-keyboard-button(
       $input-height-1,
       keyboard-width($media-width-1),
       $vMargin,
@@ -122,7 +122,7 @@ $input-height-5: 130;
     width: keyboard-width($media-width-2) + 0px;
   }
   .keyboard-button {
-    @include keyboard-button(
+    @include size-keyboard-button(
       $input-height-2,
       keyboard-width($media-width-2),
       $vMargin,
@@ -142,7 +142,7 @@ $input-height-5: 130;
     width: keyboard-width($media-width-3) + 0px;
   }
   .keyboard-button {
-    @include keyboard-button(
+    @include size-keyboard-button(
       $input-height-3,
       keyboard-width($media-width-3),
       $vMargin,
@@ -162,7 +162,7 @@ $input-height-5: 130;
     width: keyboard-width($media-width-4) + 0px;
   }
   .keyboard-button {
-    @include keyboard-button(
+    @include size-keyboard-button(
       $input-height-4,
       keyboard-width($media-width-4),
       $vMargin,
@@ -182,7 +182,7 @@ $input-height-5: 130;
     width: keyboard-width($media-width-5) + 0px;
   }
   .keyboard-button {
-    @include keyboard-button(
+    @include size-keyboard-button(
       $input-height-5,
       keyboard-width($media-width-5),
       $vMargin,

@@ -26,13 +26,16 @@ export default class App extends React.Component {
         </AltContainer>
         <div id="app-card">
           <AltContainer
-            store={GameStore}>
-            <Display />
-            <Input />
-          </AltContainer>
-          <AltContainer
             store={MenuStore}>
             <Menu />
+          </AltContainer>
+          <AltContainer
+            store={GameStore}>
+            <Display />
+          </AltContainer>
+          <AltContainer
+            store={GameStore}>
+            <Input />
           </AltContainer>
           <AltContainer
             store={ModalStore}>

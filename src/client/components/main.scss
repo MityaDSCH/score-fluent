@@ -6,6 +6,7 @@
 @import './ModalFormItem/modalFormItem.scss';
 @import './Modal/modal.scss';
 @import './Display/display.scss';
+@import './StavesScreen/stavesScreen.scss';
 @import './StartScreen/startScreen.scss';
 @import './ScoreScreen/scoreScreen.scss';
 @import './Input/input.scss';
@@ -39,19 +40,16 @@ body {
 }
 
 #app-card {
-  $border-width: 2px;
   position: absolute;
   top: $app-card-gap + 0px;
   left: $app-card-gap + 0px;
-  height: calc(100% - 20px - #{$border-width*2});
-  width: calc(100% - 20px - #{$border-width*2});
+  height: calc(100% - 20px);
+  width: calc(100% - 20px);
   min-width: 295px;
 
   background: $card-blue;
   font-family: Raleway, Arial;
   box-shadow: 0 0 10px 4px black;
-
-  border: $border-width solid #DDD;
 
   overflow: hidden;
 }
