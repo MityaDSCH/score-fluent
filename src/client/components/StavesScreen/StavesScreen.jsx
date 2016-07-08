@@ -9,7 +9,7 @@ export default class Staves extends React.Component {
       <div id="display" className={'staves' + (this.props.GameStore.fadeCurDisplay ? ' fade' : '')}>
         {this.props.GameStore.lastStaff ?
           <div id='lastStaff' className=''>
-            <p className='title'>Last note:</p>
+            <p className='last-staff-title'>Last note:</p>
             <Staff
               clef={this.props.GameStore.lastStaff.clef}
               note={this.props.GameStore.lastStaff.note}
