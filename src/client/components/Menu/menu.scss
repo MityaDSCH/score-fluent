@@ -7,7 +7,7 @@ $menu-height-5: 100;
 
 #menu-container {
   position: absolute;
-  z-index: 0;
+  z-index: 2;
   top: 0;
   left: 0;
   height: #{$menu-height-1 - 10px};
