@@ -225,10 +225,6 @@ export class UnwrappedGameStore {
         note.pitch = String.fromCharCode(note.pitch.charCodeAt(0) - 1) + '#';
       }
     }
-    if (['A', 'B', 'C', 'D', 'E', 'F', 'G'].indexOf(note.pitch[0]) === -1) {
-      console.log(note);
-      debugger;
-    }
     return note;
   }
 
@@ -241,7 +237,6 @@ export class UnwrappedGameStore {
         let clef = _.sample(this.clefs);
         let note = this._newNote(clef, this.difficulty);
         while(this.curStaff && _.isEqual(note, this.curStaff.note)) {
-          console.log(this);
           clef = _.sample(this.clefs);
           note = this._newNote(clef, this.difficulty);
         }
@@ -270,8 +265,8 @@ export class UnwrappedGameStore {
     }
   }
 
-  _newNote(clef, difficulty) { // Return note in cleff/difficulty passed or randomly out of this.clefs
-    const range = clefRanges[clef][difficulty];
+  _newNote(clef, difficulty) {
+    const range = _.cloneDeep(clefRanges[clef][difficulty]);
     return _.sample(this._rangeToNotes(range, this.accidental));
   }
 
