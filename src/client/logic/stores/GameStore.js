@@ -1,3 +1,5 @@
+'use strict';
+
 import alt from '../libs/alt';
 import _ from 'lodash';
 
@@ -36,6 +38,8 @@ export class UnwrappedGameStore {
     this.score = 0;
     this.leaderboard = null;
 
+    this.timeoutIds = [];
+
     this.exportPublicMethods({
       getFading: () => this.fadeCurDisplay,
       getMode: () => this.mode,
@@ -51,6 +55,10 @@ export class UnwrappedGameStore {
       getScore: () => this.score
     });
 
+  }
+
+  componentWillUnmount() {
+    this.state.timeoutIds.forEach(id => clearTimeout(id));
   }
 
   setNewOption([setting, active]) {
@@ -217,29 +225,40 @@ export class UnwrappedGameStore {
         note.pitch = String.fromCharCode(note.pitch.charCodeAt(0) - 1) + '#';
       }
     }
+    if (['A', 'B', 'C', 'D', 'E', 'F', 'G'].indexOf(note.pitch[0]) === -1) {
+      console.log(note);
+      debugger;
+    }
     return note;
   }
 
   _setRandNote() {
-    setTimeout(() => {
-      let accidental = _.sample(['flat', 'sharp']);
-      this.setState({accidental});
-      let clef = _.sample(this.clefs);
-      let note = this._newNote(clef, this.difficulty);
-      while(_.isEqual(note, this.curStaff.note)) {
-        clef = _.sample(this.clefs);
-        note = this._newNote(clef, this.difficulty);
-      }
-      this.setState({
-        guessStatus: null,
-        lastStaff: this.curStaff,
-        curStaff: {
-          clef,
-          note,
-          noteStatus: ''
+    const timeout = setTimeout(() => {
+      // ...
+      if (this.timeoutIds) {
+        let accidental = _.sample(['flat', 'sharp']);
+        this.setState({accidental});
+        let clef = _.sample(this.clefs);
+        let note = this._newNote(clef, this.difficulty);
+        while(this.curStaff && _.isEqual(note, this.curStaff.note)) {
+          console.log(this);
+          clef = _.sample(this.clefs);
+          note = this._newNote(clef, this.difficulty);
         }
-      });
+        this.setState({
+          guessStatus: null,
+          lastStaff: this.curStaff,
+          curStaff: {
+            clef,
+            note,
+            noteStatus: ''
+          }
+        });
+      }
     }, this.answerDelay);
+    this.setState({
+      timeoutIds: this.timeoutIds.concat(timeout)
+    });
   }
 
   _newStaff(clefs, difficulty) {
@@ -252,7 +271,8 @@ export class UnwrappedGameStore {
   }
 
   _newNote(clef, difficulty) { // Return note in cleff/difficulty passed or randomly out of this.clefs
-    return _.sample(this._rangeToNotes(clefRanges[clef][difficulty], this.accidental));
+    const range = clefRanges[clef][difficulty];
+    return _.sample(this._rangeToNotes(range, this.accidental));
   }
 
   _setStartScreen() {
