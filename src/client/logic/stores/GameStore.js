@@ -22,7 +22,7 @@ export class UnwrappedGameStore {
     this.screen = 'staves';
     this.fadeCurDisplay = false;
     this.fadeDisplayTime = 1000;
-    this.timedDuration = 2000;
+    this.timedDuration = 60000;
     this.timedTimeoutId = null;
 
     this.curStaff = this._newStaff(this.clefs, this.difficulty);
