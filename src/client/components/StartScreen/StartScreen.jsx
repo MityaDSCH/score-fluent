@@ -10,8 +10,13 @@ export default class StartScreen extends React.Component {
     this.state = {
       helpBtnActive: true,
       helpTextActive: false,
-      animating: false
+      animating: false,
+      timeoutIds: []
     };
+  }
+
+  componentWillUnmount() {
+    this.state.timeoutIds.forEach(timeoutId => clearTimeout(timeoutId));
   }
 
   render() {
@@ -33,28 +38,32 @@ export default class StartScreen extends React.Component {
         animating: true,
         helpBtnActive: false
       });
-      setTimeout(() => {
+      let timeout = setTimeout(() => {
         this.setState({helpTextActive: true});
-        setTimeout(() => {
+        timeout = setTimeout(() => {
           this.setState({animating: false});
         }, 500);
+        this._addTimeout(timeout);
       }, 500);
+      this._addTimeout(timeout);
     }
   }
 
   fadeOutHelp(e) {
     e.stopPropagation();
-    if (!this.state.animating) {
+    if (!this.state.animating && this.state.helpTextActive) {
       this.setState({
         animating: true,
         helpTextActive: false
       });
-      setTimeout(() => {
+      let timeout = setTimeout(() => {
         this.setState({helpBtnActive: true});
-        setTimeout(() => {
+        timeout = setTimeout(() => {
           this.setState({animating: false});
         }, 500);
+        this._addTimeout(timeout);
       }, 500);
+      this._addTimeout(timeout);
     }
   }
 
@@ -85,6 +94,12 @@ export default class StartScreen extends React.Component {
         <h2 id="start-login-warning">You must log in or register to play timed mode</h2>
       </div>
     )
+  }
+
+  _addTimeout(timeoutId) {
+    this.setState({
+      timeoutIds: this.state.timeoutIds.concat(timeoutId)
+    });
   }
 
 }
