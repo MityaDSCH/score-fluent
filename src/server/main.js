@@ -1,5 +1,6 @@
 // Import dependencies
 var express = require('express');
+var path = require('path');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
@@ -28,7 +29,11 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 // Serve client
-app.use('/', express.static('./dist/client'));
+app.use(express.static(path.join(__dirname, '../client')));
+app.get('/', express.static('./dist/client'));
+app.get('*', function(req, res) {
+  res.redirect('/');
+});
 
 // Serve api routes
 require('./routes.js')(app);
