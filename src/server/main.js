@@ -1,6 +1,7 @@
 // Import dependencies
 var express = require('express');
 var path = require('path');
+var compression = require('compression');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
@@ -22,6 +23,7 @@ app.set('jwtDuration', '1 year');
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/score-fluent');
 
 // Parse json and url-encodec middleware
+app.use(compression());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
