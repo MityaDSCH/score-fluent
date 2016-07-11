@@ -30,7 +30,8 @@ export default class ModalFormItem extends React.Component {
                 onChange={this.inputChange.bind(this)}
                 onFocus={this.focus.bind(this)}
                 onBlur={this.blur.bind(this)}
-                required='true'>
+                required='true'
+                onKeyPress={this.submit.bind(this)}>
               </input>
               {helpText ? <p className="help">{helpText}</p> : null}
             </div>
