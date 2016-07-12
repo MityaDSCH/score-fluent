@@ -5,7 +5,7 @@ module.exports = function tokenFromModel(userModel, includedKeys, app) {
   includedKeys.forEach(function(key) {
     user[key] = userModel[key]
   });
-  return token = jwt.sign(user, app.get('jwtSecret'), {
+  return jwt.sign(user, app.get('jwtSecret'), {
     expiresIn: app.get('jwtDuration')
   });
 };
