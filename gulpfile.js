@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var webpack = require('webpack-stream');
 var nodemon = require('gulp-nodemon');
 var del = require('del');
 
@@ -7,7 +8,7 @@ const config = {
   paths: {
     dist: './dist',
     serverDist: './dist/server',
-    server: './src/server/**/*',
+    serverEntry: './src/server/main.js',
     serverDir: './src/server'
   }
 }
@@ -22,18 +23,21 @@ gulp.task('del-server', function() {
   ]);
 });
 
-gulp.task('copy-server', ['del-server'], function() {
-  gulp.src(config.paths.server)
+gulp.task('build-server', ['del-server'], function() {
+  return gulp.src(config.paths.serverEntry)
+    .pipe(webpack(require('./webpack.server.config')))
     .pipe(gulp.dest(config.paths.serverDist));
 });
 
-gulp.task('nodemon', ['copy-server'], () => {
+gulp.task('watch-server', ['build-server'], () => {
   nodemon({
     env: { 'NODE_ENV': 'development' },
-    script: 'dist/server/main.js',
+    script: 'dist/server/server.bundle.js',
     watch: config.paths.serverDir,
     ext: 'js',
-    tasks: ['copy-server']
+    tasks: ['build-server']
+  }).on('start', function () {
+    console.log('Starting nodemon watch');
   }).on('restart', function () {
     console.log('Server Updated')
   });
@@ -43,4 +47,4 @@ gulp.task('nodemon', ['copy-server'], () => {
 // Compose tasks
 // ----------------------------------------------------------------------------
 
-gulp.task('default', ['nodemon']);
+gulp.task('default', ['watch-server']);

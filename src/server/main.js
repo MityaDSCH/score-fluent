@@ -6,10 +6,10 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
 
-var User = require('./models/user');
+if (process.env.NODE_ENV != 'production') {
+   require('dotenv').config();
+}
 
-// Read environment vars
-if (process.env.NODE_ENV != 'production') require('dotenv').config();
 var port = process.env.PORT || 9000;
 
 var app = express();
@@ -33,9 +33,7 @@ app.use(morgan('dev'));
 // Serve client
 app.use(express.static(path.join(__dirname, '../client')));
 app.get('/', express.static('./dist/client'));
-app.get('*', function(req, res) {
-  res.redirect('/');
-});
+app.get('*', (req, res) => res.redirect('/'));
 
 // Serve api routes
 require('./routes.js')(app);
