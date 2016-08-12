@@ -9,7 +9,9 @@ const config = {
     dist: './dist',
     serverDist: './dist/server',
     serverEntry: './src/server/main.js',
-    serverDir: './src/server'
+    serverDir: './src/server',
+    proc: './Procfile',
+    npm: './package.json'
   }
 }
 
@@ -19,11 +21,15 @@ const config = {
 
 gulp.task('del-server', function() {
   return del([
-    config.paths.serverDist
+    config.paths.serverDist,
+    config.paths.dist + '/Procfile',
+    config.paths.dist + '/package.json'
   ]);
 });
 
 gulp.task('build-server', ['del-server'], function() {
+  gulp.src(config.paths.proc).pipe(gulp.dest(config.paths.dist));
+  gulp.src(config.paths.npm).pipe(gulp.dest(config.paths.dist));
   return gulp.src(config.paths.serverEntry)
     .pipe(webpack(require('./webpack.server.config')))
     .pipe(gulp.dest(config.paths.serverDist));

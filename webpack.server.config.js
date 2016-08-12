@@ -4,8 +4,6 @@ var webpack = require('webpack');
 
 const config = {
 
-  devtool: 'source-map',
-
   entry: path.resolve(__dirname, './src/server/main.js'),
 
   output: {

@@ -7,15 +7,19 @@
     "start": "webpack-dev-server & gulp",
     "test": "jest --coverage",
     "watchTest": "jest --watch",
-    "build": "webpack && gulp build-server",
+    "build": "better-npm-run build",
+    "deploy": "better-npm-run deploy",
     "stats": "webpack --profile --json > stats.json"
   },
   "betterScripts": {
     "build": {
       "command": "webpack && gulp build-server",
-      "end": {
+      "env": {
         "NODE_ENV": "production"
       }
+    },
+    "deploy": {
+      "command": "npm run build && cd dist && git add --all && git commit -m \"Release at $(date)\" && git push"
     }
   },
   "keywords": [],
