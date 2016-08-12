@@ -32,9 +32,6 @@ export default class App extends React.Component {
           <AltContainer
             store={GameStore}>
             <Display />
-          </AltContainer>
-          <AltContainer
-            store={GameStore}>
             <Input />
           </AltContainer>
           <AltContainer
