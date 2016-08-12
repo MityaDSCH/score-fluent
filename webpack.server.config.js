@@ -2,7 +2,7 @@ var path = require('path');
 var fs = require('fs');
 var webpack = require('webpack');
 
-module.exports = {
+const config = {
 
   devtool: 'source-map',
 
@@ -40,14 +40,6 @@ module.exports = {
       }
     ]
   },
-
-  plugins: [
-    // http://jlongster.com/Backend-Apps-with-Webpack--Part-I
-    process.env.npm_lifecycle_event === 'start' ?
-      new webpack.BannerPlugin('require("source-map-support").install();', {
-        raw: true, entryOnly: false
-      })
-    : null
-  ]
-
 }
+
+module.exports = config;
