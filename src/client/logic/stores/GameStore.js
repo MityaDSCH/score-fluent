@@ -106,7 +106,10 @@ export class UnwrappedGameStore {
   }
 
   guessNote(guessedNote) {
-    if (!this.guessStatus) { // If not in animation delay
+    // If last guess isn't still animating
+    if (!this.guessStatus) {
+
+      // If guess is correct (pitch is correct and octave is undefined for this input or correct)
       if (_.isEqual(guessedNote, this.curStaff.note) || (guessedNote.octave === null && guessedNote.pitch === this.curStaff.note.pitch)) {
         const correct = this.correct.concat(this.curStaff.note);
         this.setState({
@@ -119,6 +122,9 @@ export class UnwrappedGameStore {
           },
           curStaff: {...this.curStaff, noteStatus: 'correct'}
         });
+        this._setRandNote();
+
+      // If guess is incorrect
       } else {
         const incorrect = this.incorrect.concat(this.curStaff.note);
         this.setState({
@@ -131,8 +137,10 @@ export class UnwrappedGameStore {
           },
           curStaff: {...this.curStaff, noteStatus: 'incorrect'}
         });
+
+        // Wait 2x as long to set new note to allow incorrect note animation
+        this._setRandNote(2);
       }
-      this._setRandNote();
     }
   }
 
@@ -228,7 +236,7 @@ export class UnwrappedGameStore {
     return note;
   }
 
-  _setRandNote() {
+  _setRandNote(length = 1) {
     const timeout = setTimeout(() => {
       // ...
       if (this.timeoutIds) {
@@ -250,7 +258,7 @@ export class UnwrappedGameStore {
           }
         });
       }
-    }, this.answerDelay);
+    }, this.answerDelay * length);
     this.setState({
       timeoutIds: this.timeoutIds.concat(timeout)
     });
@@ -285,7 +293,7 @@ export class UnwrappedGameStore {
   }
 
   _score(correct, incorrect) {
-    return correct.length*10 - incorrect.length*20;
+    return correct.length*10 - incorrect.length*10;
   }
 
   _setScoreScreen() {
