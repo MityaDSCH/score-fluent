@@ -88,6 +88,7 @@
     "react-dom": "^15.0.2",
     "reqwest": "^2.0.5",
     "svg-react-loader": "^0.3.3",
+    "tone": "^0.7.1",
     "vexflow": "^1.2.45"
   },
   "jest": {

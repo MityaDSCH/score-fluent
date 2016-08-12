@@ -1,5 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
+import Tone from 'tone';
+
 const p = React.PropTypes;
 
 import DisplayActions from '../../logic/actions/GameActions';
@@ -24,6 +26,7 @@ export default class App extends React.Component {
     };
 
     this.timeouts = []
+    this.synth = new Tone.Synth().toMaster();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -32,17 +35,14 @@ export default class App extends React.Component {
         !this.props.guessStatus && nextProps.guessStatus) {
 
       const status = nextProps.guessStatus;
-      // If displaying the result of the last guess
+      // If displaying the result of the last guess status won't be null
       if (status) {
-        // If guess is correct animate correct pitch button
         if (status.guess == 'correct') {
-          this.setState({correctNote: status.correct.pitch});
-        //  If guess is incorrect animate incorrect pitch button, then animate
-        //  correct pitch button after props.answerDelay
+          this.setCorrectNote(status.correct);
         } else {
-          this.setState({incorrectNote: status.incorrect.pitch});
+          this.setIncorrectNote(status.incorrect);
           this.timeouts.push(setTimeout(() => {
-            this.setState({correctNote: status.correct.pitch});
+            this.setCorrectNote(status.correct);
           }, this.props.answerDelay));
         }
       // GuessStatus is null after new note is set, so remove animations
@@ -91,5 +91,15 @@ export default class App extends React.Component {
       MenuActions.updateScore();
     }
   };
+
+  setCorrectNote(note) {
+    this.setState({correctNote: note.pitch});
+    this.synth.triggerAttackRelease(note.pitch + note.octave, "6n");
+  }
+
+  setIncorrectNote(note) {
+    this.setState({incorrectNote: note.pitch});
+    this.synth.triggerAttackRelease(note.pitch + note.octave, "6n");
+  }
 
 }
