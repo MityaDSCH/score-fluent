@@ -1,6 +1,5 @@
 import React from 'react';
 import _ from 'lodash';
-import Tone from 'tone';
 
 const p = React.PropTypes;
 
@@ -26,7 +25,7 @@ export default class App extends React.Component {
     };
 
     this.timeouts = []
-    this.synth = new Tone.Synth().toMaster();
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -93,13 +92,13 @@ export default class App extends React.Component {
   };
 
   setCorrectNote(note) {
+    const pitch = note.pitch + note.octave;
     this.setState({correctNote: note.pitch});
-    this.synth.triggerAttackRelease(note.pitch + note.octave, "6n");
   }
 
   setIncorrectNote(note) {
+    const pitch = note.pitch + note.octave;
     this.setState({incorrectNote: note.pitch});
-    this.synth.triggerAttackRelease(note.pitch + note.octave, "6n");
   }
 
 }

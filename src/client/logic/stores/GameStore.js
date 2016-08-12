@@ -132,7 +132,7 @@ export class UnwrappedGameStore {
           score: this._score(this.correct, incorrect),
           guessStatus: {
             guess: 'incorrect',
-            incorrect: {...guessedNote, octave: guessedNote.octave || 4},
+            incorrect: {...guessedNote, octave: guessedNote.octave || this.curStaff.note.octave},
             correct: this.curStaff.note
           },
           curStaff: {...this.curStaff, noteStatus: 'incorrect'}
