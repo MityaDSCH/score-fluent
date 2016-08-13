@@ -40,6 +40,10 @@ const common = {
       {
         test: /\.json/,
         loader: 'json'
+      },
+      {
+        test: /\.(webm|mp3)$/,
+        loader: 'file'
       }
     ]
   },

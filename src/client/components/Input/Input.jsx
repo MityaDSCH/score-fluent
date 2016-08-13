@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 const p = React.PropTypes;
 
+import PlayNote from '../../libs/notes';
 import DisplayActions from '../../logic/actions/GameActions';
 import MenuActions from '../../logic/actions/MenuActions';
 
@@ -30,9 +31,7 @@ export default class App extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     // Update button animation on props.guessStatus change
-    if (this.props.guessStatus && !nextProps.guessStatus ||
-        !this.props.guessStatus && nextProps.guessStatus) {
-
+    if (!this.props.guessStatus && nextProps.guessStatus) {
       const status = nextProps.guessStatus;
       // If displaying the result of the last guess status won't be null
       if (status) {
@@ -45,9 +44,9 @@ export default class App extends React.Component {
           }, this.props.answerDelay));
         }
       // GuessStatus is null after new note is set, so remove animations
-      } else {
-        this.setState({correctNote: null, incorrectNote: null});
       }
+    } else {
+      this.setState({correctNote: null, incorrectNote: null});
     }
   }
 
@@ -92,13 +91,13 @@ export default class App extends React.Component {
   };
 
   setCorrectNote(note) {
-    const pitch = note.pitch + note.octave;
     this.setState({correctNote: note.pitch});
+    PlayNote(note, this.props.answerDelay);
   }
 
   setIncorrectNote(note) {
-    const pitch = note.pitch + note.octave;
     this.setState({incorrectNote: note.pitch});
+    PlayNote(note, this.props.answerDelay);
   }
 
 }
