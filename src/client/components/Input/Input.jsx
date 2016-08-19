@@ -67,13 +67,12 @@ export default class App extends React.Component {
     return (
       <div id="keyboard">{this.props.inputNotes[this.props.accidental].map((note, ind) => {
         let status = '';
-        // console.log(note, this.state.correctNote);
         if (this.state.correctNote == note) status = ' correct';
         else if (this.state.incorrectNote == note) status = ' incorrect';
         return (
           <button
             key={ind}
-            className={'keyboard-button' + status + (this.active ? ' active' : '')}
+            className={'keyboard-button' + status}
             onClick={this.guessNote.bind(null, note)}>
             {note}
           </button>
