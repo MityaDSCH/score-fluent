@@ -7,12 +7,17 @@ import PlayNote from '../../libs/notes';
 import DisplayActions from '../../logic/actions/GameActions';
 import MenuActions from '../../logic/actions/MenuActions';
 
+import ButtonsInput from '../ButtonsInput/ButtonsInput.jsx';
+
 export default class App extends React.Component {
 
   static propTypes = {
     screen: p.string,
     guessStatus: p.object,
-    inputNotes: p.object,
+    inputNotes: p.shape({
+      flat: p.arrayOf(p.string),
+      sharp: p.arrayOf(p.string)
+    }),
     accidental: p.string,
     answerDelay: p.number
   };
@@ -43,9 +48,9 @@ export default class App extends React.Component {
             this.setCorrectNote(status.correct);
           }, this.props.answerDelay));
         }
-      // GuessStatus is null after new note is set, so remove animations
       }
     } else {
+      // GuessStatus is null after new note is set, so remove animations
       this.setState({correctNote: null, incorrectNote: null});
     }
   }
@@ -65,20 +70,11 @@ export default class App extends React.Component {
     if (background) background.className = (guessStatus ? guessStatus.guess : '');
 
     return (
-      <div id="keyboard">{this.props.inputNotes[this.props.accidental].map((note, ind) => {
-        let status = '';
-        if (this.state.correctNote == note) status = ' correct';
-        else if (this.state.incorrectNote == note) status = ' incorrect';
-        return (
-          <button
-            key={ind}
-            className={'keyboard-button' + status}
-            onClick={this.guessNote.bind(null, note)}>
-            {note}
-          </button>
-        );
-      }
-      )}</div>
+      <ButtonsInput
+        inputNotes={this.props.inputNotes[this.props.accidental]}
+        correctNote={this.state.correctNote}
+        incorrectNote={this.state.incorrectNote}
+        guessNote={this.guessNote}/>
     );
   }
 
