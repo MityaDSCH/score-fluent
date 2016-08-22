@@ -1,18 +1,24 @@
-
-// ----------------------------------------------------------------------------
-// SCSS magic
-
-@mixin size-keyboard-button($height, $width, $vMargin, $border-width, $rows) {
-  $side: ($height - 2*$rows*($vMargin + $border-width))/$rows;
-  $hMargin: ($width - 12*$rows*$border-width - 12/$rows*$side)/(24/$rows);
-  height: $side + 0px;
-  width: $side + 0px;
-  margin: $vMargin*1px $hMargin*1px;
-  border-width: $border-width + 0px;
+@function randBit() {
+  $pos: random(2) - 1;
+  @if $pos == 0 {
+    @return 1;
+  } @else {
+    @return -1;
+  }
 }
 
-@function keyboard-width($media-width) {
-  @return $media-width - $app-card-gap*2;
+@mixin size-button($height, $animationMargin) {
+  $side: ($height/2 - $animationMargin * 2) + 0px;
+  height: $side;
+  width: $side;
+
+  &.correct {
+    @for $i from 0 through 5 {
+      &:nth-child(6n + #{$i}) {
+        transform: translateY(-$animationMargin + 0px) rotate3d(randBit(), randBit(), randBit(), 360deg);
+      }
+    }
+  }
 }
 
 // ----------------------------------------------------------------------------
@@ -22,27 +28,24 @@
   position: absolute;
   z-index: 3;
   height: $input-height-0 + 0px;
-  width: keyboard-width($media-width-0) + 0px;
-  left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
   bottom: 0;
 
   @include flex-container(row, space-between, space-around);
   flex-wrap: wrap;
 }
 
+.row-container {
+  width: 100%;
+
+  @include flex-container(row, space-around, center);
+}
+
 .keyboard-button {
 
   $border-width: 1;
-  $vMargin: 5;
 
-  @include size-keyboard-button(
-    $input-height-0,
-    keyboard-width($media-width-0),
-    $vMargin,
-    $border-width,
-    2
-  );
+  @include size-button($input-height-0, 5)
 
   @include flex-container(column, center, center);
 
@@ -72,25 +75,6 @@
   &.correct {
     color: $valid-color;
     border-color: $valid-color;
-
-    &:nth-child(6n) {
-      transform: translateY(-$vMargin + 0px) rotate3d(1, 1, 1, 360deg);
-    }
-    &:nth-child(6n + 1) {
-      transform: translateY(-$vMargin + 0px) rotate3d(1, 1, -1, 360deg);
-    }
-    &:nth-child(6n + 2) {
-      transform: translateY(-$vMargin + 0px) rotate3d(1, -1, -1, 360deg);
-    }
-    &:nth-child(6n + 3) {
-      transform: translateY(-$vMargin + 0px) rotate3d(1, -1, 1, 360deg);
-    }
-    &:nth-child(6n + 4) {
-      transform: translateY(-$vMargin + 0px) rotate3d(-1, -1, 1, 360deg);
-    }
-    &:nth-child(6n + 5) {
-      transform: translateY(-$vMargin + 0px) rotate3d(-1, 1, -1, 360deg);
-    }
   }
 }
 
@@ -98,106 +82,51 @@
 // Media Queries
 
 @media screen and (min-width: $media-width-1 + 0px) {
-
-  $border-width: 1;
-  $vMargin: 5;
-
   #keyboard {
     height: $input-height-1 + 0px;
-    width: keyboard-width($media-width-1) + 0px;
   }
-
   .keyboard-button {
-
-    @include size-keyboard-button(
-      $input-height-1,
-      keyboard-width($media-width-1),
-      $vMargin,
-      $border-width,
-      2
-    );
-
-    font-size: 25px;
+    @include size-button($input-height-1, 8)
   }
 }
 
 @media screen and (min-width: $media-width-2 + 0px) {
-
-  $border-width: 1;
-  $vMargin: 8;
-
   #keyboard {
     height: $input-height-2 + 0px;
-    width: keyboard-width($media-width-2) + 0px;
   }
   .keyboard-button {
-    @include size-keyboard-button(
-      $input-height-2,
-      keyboard-width($media-width-2),
-      $vMargin,
-      $border-width,
-      2
-    );
+    @include size-button($input-height-2, 10)
   }
 }
 
 @media screen and (min-width: $media-width-3 + 0px) {
-
-  $border-width: 1;
-  $vMargin: 20;
-
   #keyboard {
     height: $input-height-3 + 0px;
-    width: keyboard-width($media-width-3) + 0px;
+  }
+  .row-container {
+    width: 50%;
   }
   .keyboard-button {
-    @include size-keyboard-button(
-      $input-height-3,
-      keyboard-width($media-width-3),
-      $vMargin,
-      $border-width,
-      1
-    );
+    @include size-button($input-height-3 * 2, 15)
   }
 }
 
 @media screen and (min-width: $media-width-4 + 0px) {
-
-  $border-width: 2;
-  $vMargin: 25;
-
   #keyboard {
     height: $input-height-4 + 0px;
-    width: keyboard-width($media-width-4) + 0px;
   }
   .keyboard-button {
-    @include size-keyboard-button(
-      $input-height-4,
-      keyboard-width($media-width-4),
-      $vMargin,
-      $border-width,
-      1
-    );
+    @include size-button($input-height-4 * 2, 20)
   }
 }
 
+
 @media screen and (min-width: $media-width-5 + 0px) {
-
-  $border-width: 2;
-  $vMargin: 30;
-
   #keyboard {
     height: $input-height-5 + 0px;
-    width: keyboard-width($media-width-5) + 0px;
   }
   .keyboard-button {
-    @include size-keyboard-button(
-      $input-height-5,
-      keyboard-width($media-width-5),
-      $vMargin,
-      $border-width,
-      1
-    );
+    @include size-button($input-height-5 * 2, 25)
   }
 }
 
