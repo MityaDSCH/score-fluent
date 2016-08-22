@@ -5,6 +5,7 @@ export default class ButtonsInput extends React.Component {
 
   static propTypes = {
     inputNotes: p.arrayOf(p.string).isRequired,
+    active: p.bool.isRequired,
     correctNote: p.string,
     incorrectNote: p.string,
     guessNote: p.func.isRequired
@@ -16,6 +17,9 @@ export default class ButtonsInput extends React.Component {
       return (
         <div className="row-container">
           {buttons.map((note, ind) => {
+            let inactive = '';
+            if (!this.props.active) inactive = ' inactive';
+
             // Set button class to var status if it corresponds to (in)correctNote
             let status = '';
             if (this.props.correctNote == note) status = ' correct';
@@ -24,8 +28,8 @@ export default class ButtonsInput extends React.Component {
             return (
               <button
                 key={ind}
-                className={'keyboard-button' + status}
-                onClick={this.props.guessNote.bind(null, note)}>
+                className={'keyboard-button' + inactive + status}
+                onClick={this.props.active ? this.props.guessNote.bind(null, note) : null}>
                 {note}
               </button>
             )

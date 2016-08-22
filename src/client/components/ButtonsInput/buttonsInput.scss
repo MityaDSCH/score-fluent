@@ -49,13 +49,14 @@
 
   @include flex-container(column, center, center);
 
+  $active-color: darken($lightgray, 30%);
   background: none;
-  color: $lightgray;
+  color: $active-color;
   font-family: Raleway, Arial;
   font-weight: 300;
   font-size: 20px;
   outline: none;
-  border: #{$border-width + 0px} solid $lightgray;
+  border: #{$border-width + 0px} solid $active-color;
   border-radius: 6px;
 
   transition: color .6s,
@@ -63,6 +64,12 @@
               transform .6s;
 
   transform: none;
+
+  &.inactive {
+    color: $lightgray;
+    border-color: $lightgray;
+    filter: blur(20px);
+  }
 
   $invalid-color: darken(saturate($invalid-color, 60%), 30%);
   &.incorrect {

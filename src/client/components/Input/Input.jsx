@@ -72,6 +72,7 @@ export default class App extends React.Component {
     return (
       <ButtonsInput
         inputNotes={this.props.inputNotes[this.props.accidental]}
+        active={this.props.screen === 'staves'}
         correctNote={this.state.correctNote}
         incorrectNote={this.state.incorrectNote}
         guessNote={this.guessNote}/>
