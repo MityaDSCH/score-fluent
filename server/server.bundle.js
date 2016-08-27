@@ -53,9 +53,11 @@
 	var bodyParser = __webpack_require__(4);
 	var morgan = __webpack_require__(5);
 	var mongoose = __webpack_require__(6);
+	var helmet = __webpack_require__(7);
+	var forceSSL = __webpack_require__(8);
 
 	if (process.env.NODE_ENV != 'production') {
-	   __webpack_require__(7).config();
+	   __webpack_require__(9).config();
 	}
 
 	var port = process.env.PORT || 9000;
@@ -78,6 +80,13 @@
 	// Log requests middleware
 	app.use(morgan('dev'));
 
+	// Use security middlewares
+	app.use(helmet());
+
+	// Force https in prod
+	app.enable('trust proxy');
+	if (process.env.NODE_ENV == 'production') app.use(forceSSL());
+
 	// Serve client
 	app.use(express.static(path.join(__dirname, '../client')));
 	app.get('/', express.static('./dist/client'));
@@ -86,7 +95,7 @@
 	});
 
 	// Serve api routes
-	__webpack_require__(8)(app);
+	__webpack_require__(10)(app);
 
 	app.listen(port);
 	console.log('listening on ' + port + '\n');
@@ -131,25 +140,37 @@
 /* 7 */
 /***/ function(module, exports) {
 
-	module.exports = require("dotenv");
+	module.exports = require("helmet");
 
 /***/ },
 /* 8 */
+/***/ function(module, exports) {
+
+	module.exports = require("express-enforces-ssl");
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	module.exports = require("dotenv");
+
+/***/ },
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	// Import dependencies
-	var passport = __webpack_require__(9);
+	var passport = __webpack_require__(11);
 	var express = __webpack_require__(1);
 
 	// Load routes
-	var registerRoute = __webpack_require__(10);
-	var authenticateRoute = __webpack_require__(15);
-	var timedScoreRoute = __webpack_require__(16);
+	var registerRoute = __webpack_require__(12);
+	var authenticateRoute = __webpack_require__(17);
+	var timedScoreRoute = __webpack_require__(18);
 
 	// Load libs
-	var tokenFromModel = __webpack_require__(13);
+	var tokenFromModel = __webpack_require__(15);
 
 	// Export Routes
 	module.exports = function (app) {
@@ -158,7 +179,7 @@
 	  app.use(passport.initialize());
 
 	  // Use passport jwt Strategy
-	  __webpack_require__(19)(passport);
+	  __webpack_require__(21)(passport);
 
 	  var apiRoutes = express.Router();
 
@@ -184,19 +205,19 @@
 	};
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports) {
 
 	module.exports = require("passport");
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var User = __webpack_require__(11);
-	var tokenFromModel = __webpack_require__(13);
+	var User = __webpack_require__(13);
+	var tokenFromModel = __webpack_require__(15);
 
 	module.exports = function (app) {
 	  return function (req, res) {
@@ -248,13 +269,13 @@
 	};
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var mongoose = __webpack_require__(6);
-	var bcrypt = __webpack_require__(12);
+	var bcrypt = __webpack_require__(14);
 
 	var UserSchema = new mongoose.Schema({
 	  username: {
@@ -333,18 +354,18 @@
 	module.exports = mongoose.model('User', UserSchema);
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports) {
 
 	module.exports = require("bcrypt");
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var jwt = __webpack_require__(14);
+	var jwt = __webpack_require__(16);
 
 	module.exports = function tokenFromModel(userModel, includedKeys, app) {
 	  var user = {};
@@ -357,19 +378,19 @@
 	};
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports) {
 
 	module.exports = require("jsonwebtoken");
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var User = __webpack_require__(11);
-	var tokenFromModel = __webpack_require__(13);
+	var User = __webpack_require__(13);
+	var tokenFromModel = __webpack_require__(15);
 
 	module.exports = function (app) {
 	  return function (req, res) {
@@ -403,14 +424,14 @@
 	};
 
 /***/ },
-/* 16 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _ = __webpack_require__(17);
+	var _ = __webpack_require__(19);
 
-	var Leaderboard = __webpack_require__(18);
+	var Leaderboard = __webpack_require__(20);
 
 	// req has form {_id (for user), difficulty, clefs, score}
 
@@ -494,13 +515,13 @@
 	}
 
 /***/ },
-/* 17 */
+/* 19 */
 /***/ function(module, exports) {
 
 	module.exports = require("lodash");
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -534,14 +555,14 @@
 	module.exports = mongoose.model('Leaderboard', LeaderboardSchema);
 
 /***/ },
-/* 19 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var JwtStrategy = __webpack_require__(20).Strategy;
-	var ExtractJwt = __webpack_require__(20).ExtractJwt;
-	var User = __webpack_require__(11);
+	var JwtStrategy = __webpack_require__(22).Strategy;
+	var ExtractJwt = __webpack_require__(22).ExtractJwt;
+	var User = __webpack_require__(13);
 
 	module.exports = function (passport) {
 	  var opts = {};
@@ -562,7 +583,7 @@
 	};
 
 /***/ },
-/* 20 */
+/* 22 */
 /***/ function(module, exports) {
 
 	module.exports = require("passport-jwt");
