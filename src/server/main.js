@@ -5,6 +5,8 @@ var compression = require('compression');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
+var helmet = require('helmet');
+var forceSSL = require('express-enforces-ssl');
 
 if (process.env.NODE_ENV != 'production') {
    require('dotenv').config();
@@ -29,6 +31,13 @@ app.use(bodyParser.json());
 
 // Log requests middleware
 app.use(morgan('dev'));
+
+// Use security middlewares
+app.use(helmet());
+
+// Force https in prod
+app.enable('trust proxy');
+if (process.env.NODE_ENV == 'production') app.use(forceSSL());
 
 // Serve client
 app.use(express.static(path.join(__dirname, '../client')));
