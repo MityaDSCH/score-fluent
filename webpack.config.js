@@ -49,7 +49,7 @@ const common = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'node_modules/html-webpack-template/index.ejs',
+      template: 'src/client/index.ejs',
       title: 'Score Fluent',
       appMountId: 'app',
       inject: false,
