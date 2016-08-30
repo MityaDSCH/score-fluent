@@ -90,8 +90,10 @@
     "raphael": "^2.2.0",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
+    "react-inlinesvg": "^0.5.3",
     "reqwest": "^2.0.5",
     "svg-react-loader": "^0.3.3",
+    "url-loader": "^0.5.7",
     "vexflow": "^1.2.45"
   },
   "jest": {

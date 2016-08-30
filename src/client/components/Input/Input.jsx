@@ -4,10 +4,11 @@ import _ from 'lodash';
 const p = React.PropTypes;
 
 import PlayNote from '../../libs/notes';
-import DisplayActions from '../../logic/actions/GameActions';
+import GameActions from '../../logic/actions/GameActions';
 import MenuActions from '../../logic/actions/MenuActions';
 
 import ButtonsInput from '../ButtonsInput/ButtonsInput.jsx';
+import KeyboardInput from '../KeyboardInput/KeyboardInput.jsx';
 
 export default class App extends React.Component {
 
@@ -69,19 +70,30 @@ export default class App extends React.Component {
     const background = document.querySelector('#app-background');
     if (background) background.className = (guessStatus ? guessStatus.guess : '');
 
+    // return (
+    //   <ButtonsInput
+    //     inputNotes={this.props.inputNotes[this.props.accidental]}
+    //     active={this.props.screen === 'staves'}
+    //     correctNote={this.state.correctNote}
+    //     incorrectNote={this.state.incorrectNote}
+    //     guessNote={this.guessNote}/>
+    // );
+
     return (
-      <ButtonsInput
+      <KeyboardInput
         inputNotes={this.props.inputNotes[this.props.accidental]}
         active={this.props.screen === 'staves'}
         correctNote={this.state.correctNote}
         incorrectNote={this.state.incorrectNote}
-        guessNote={this.guessNote}/>
+        guessNote={this.guessNote} />
     );
+
   }
 
   guessNote = (pitch) => {
+    // guessStatus is null unless a prev guess is being animated
     if (!this.props.guessStatus) {
-      DisplayActions.guessNote({pitch, octave: null});
+      GameActions.guessNote({pitch, octave: null});
       MenuActions.updateScore();
     }
   };

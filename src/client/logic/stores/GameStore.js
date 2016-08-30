@@ -183,6 +183,12 @@ export class UnwrappedGameStore {
     this.setState({leaderboard});
   }
 
+  setNote(pitch) {
+    this.setState({
+      curStaff: {...this.curStaff, note: {pitch, octave: null}}
+    });
+  }
+
   // --------------------------------------------------------------------------
   // Internal Methods
 

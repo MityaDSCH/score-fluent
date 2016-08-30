@@ -44,6 +44,10 @@ const common = {
       {
         test: /\.(webm|mp3)$/,
         loader: 'file'
+      },
+      {
+        test: /\.svg/,
+        loader: 'url'
       }
     ]
   },

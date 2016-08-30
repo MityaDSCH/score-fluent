@@ -9,7 +9,8 @@ class GameActions {
       'startTimed',
       'stopTimed',
       'logScore',
-      'guessNote'
+      'guessNote',
+      'setNote'
     );
   }
 
