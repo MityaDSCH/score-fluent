@@ -1,0 +1,22 @@
+<svg version="1.1" id="keyboard" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="364px" height="232px" viewBox="0 0 364 232" enable-background="new 0 0 364 232" xml:space="preserve">
+<path id="C" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M2,2.13857l0.22755,225c0,0,0.3662,1.56313,0.77245,2
+	s2.22755,1,2.22755,1h44c0,0,1.07813-0.015,2-1s1-2,1-2v-93h-20v-132H2z"/>
+<path id="D" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M93.2183,2.13857v132h8.00925v93c0,0-0.07813,1.07875-1,2
+	s-2,1-2,1h-43c0,0-1.14063-0.0775-2-1s-1-2-1-2v-93h11v-132H93.2183z"/>
+<path id="E" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M153.22755,2.13857v225c0,0-0.03125,1.03188-1,2s-2,1-2,1
+	h-46c0,0-0.98438-0.015-2-1s-1-2-1-2v-93h22v-132H153.22755z"/>
+<path id="F" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M153.22755,2.13857v225c0,0,0.04688,1.03188,1,2s2,1,2,1h43
+	c0,0,1.09724-0.06116,2-1s1-2,1-2v-93l-20,0.17021V2.13857H153.22755z"/>
+<path id="G" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M242.22755,2.13857v132l14.99998,0.15244v92.84756
+	c0,0-0.01038,0.97177-1,2c-0.98959,1.02823-1.99998,1-1.99998,1h-49c0,0-1.0479-0.01277-2-1s-1-2-1-2v-93h10v-132H242.22755z"/>
+<path id="A" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M302.22754,2.13857l-1,132h9v93c0,0,0.0625,0.96938-1,2
+	s-2,1-2,1h-47c0,0-1.01779-0.02081-2-1c-0.98218-0.97919-1-2.00018-1-2.00018v-92.99982l15,0.17021L271.58606,2.13857H302.22754z"/>
+<path id="B" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M362.22754,2.13857v225c0,0,0.0625,0.93813-1,2s-2,1-2,1
+	h-46c0,0-1.04688,0.00063-2-1s-1-2-1-2v-93h22v-132H362.22754z"/>
+<rect id="C#" x="32.22755" y="2.13857" stroke="#000000" stroke-miterlimit="10" width="31" height="132"/>
+<rect id="D#" x="93.22755" y="2.13857" stroke="#000000" stroke-miterlimit="10" width="30" height="132"/>
+<rect id="F#" x="182.22755" y="2.13857" stroke="#000000" stroke-miterlimit="10" width="30" height="132"/>
+<rect id="G#" x="242.22754" y="2.13857" stroke="#000000" stroke-miterlimit="10" width="30" height="132"/>
+<rect id="A#" x="301.22754" y="2.13857" stroke="#000000" stroke-miterlimit="10" width="31" height="132"/>
+</svg>
