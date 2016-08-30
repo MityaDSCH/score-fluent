@@ -21,6 +21,24 @@ describe('GameStore API', () => {
     expect(Object.keys(state.curStaff)).toEqual(['clef', 'note', 'noteStatus']);
   });
 
+  describe('setNote()', () => {
+    it('set notes', () => {
+      alt.dispatcher.dispatch({
+        data: 'A#',
+        action: GameActions.SET_NOTE
+      });
+      let state = GameStore.getState();
+      expect(state.curStaff.note.pitch).toBe('A#');
+
+      alt.dispatcher.dispatch({
+        data: 'Bb',
+        action: GameActions.SET_NOTE
+      });
+      state = GameStore.getState();
+      expect(state.curStaff.note.pitch).toBe('Bb');
+    });
+  });
+
   describe('guessNote()', () => {
 
     it('handles a correct guess', () => {
@@ -68,6 +86,25 @@ describe('GameStore API', () => {
       expect(state.lastStaff.note).toEqual(initNote);
       expect(state.curStaff).not.toEqual(initStaff);
       expect(state.guessStatus).toBeNull();
+    });
+
+    it('handles handles enharmonic notes', () => {
+      alt.dispatcher.dispatch({
+        data: 'Db',
+        action: GameActions.SET_NOTE
+      });
+
+      const enharmonicNote = {
+        pitch: 'C#',
+        octave: null
+      };
+      alt.dispatcher.dispatch({
+        data: enharmonicNote,
+        action: GameActions.GUESS_NOTE
+      });
+
+      const state = GameStore.getState();
+      expect(state.guessStatus.guess).toBe('correct');
     });
 
   });
