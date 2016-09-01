@@ -1,5 +1,6 @@
 jest.unmock('../GameStore');
 jest.unmock('../../actions/GameActions');
+jest.unmock('../../../libs/enharmonics');
 
 import alt from '../../libs/alt';
 
@@ -43,6 +44,7 @@ describe('GameStore API', () => {
 
     it('handles a correct guess', () => {
       const curNote = GameStore.getState().curStaff.note;
+      console.log(curNote, '\n\n')
       alt.dispatcher.dispatch({
         data: curNote,
         action: GameActions.GUESS_NOTE
@@ -64,10 +66,15 @@ describe('GameStore API', () => {
 
     it ('handles an incorrect guess', () => {
 
+      alt.dispatcher.dispatch({
+        data: 'B',
+        action: GameActions.SET_NOTE
+      });
+
       const initStaff = GameStore.getState().curStaff;
       const initNote = initStaff.note;
       const wrongNote = {
-        pitch: initNote.pitch[0] === 'G' ? 'F' : 'G',
+        pitch: 'G',
         octave: initNote.octave
       };
       alt.dispatcher.dispatch({
@@ -98,6 +105,7 @@ describe('GameStore API', () => {
         pitch: 'C#',
         octave: null
       };
+
       alt.dispatcher.dispatch({
         data: enharmonicNote,
         action: GameActions.GUESS_NOTE

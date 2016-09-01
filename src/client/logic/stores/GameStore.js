@@ -4,6 +4,7 @@ import alt from '../libs/alt';
 import _ from 'lodash';
 
 import clefRanges from '../libs/clefRanges.json';
+import { toSharp, areEnharmonic } from '../../libs/enharmonics'
 import GameActions from '../actions/GameActions';
 import MenuActions from '../actions/MenuActions';
 
@@ -110,7 +111,8 @@ export class UnwrappedGameStore {
     if (!this.guessStatus) {
 
       // If guess is correct (pitch is correct and octave is undefined for this input or correct)
-      if (_.isEqual(guessedNote, this.curStaff.note) || (guessedNote.octave === null && guessedNote.pitch === this.curStaff.note.pitch)) {
+      const samePitch = areEnharmonic(guessedNote.pitch, this.curStaff.note.pitch)
+      if (!guessedNote.octave && samePitch || (guessedNote.octave === this.curStaff.note.octave && samePitch)) {
         const correct = this.correct.concat(this.curStaff.note);
         this.setState({
           correct,
@@ -192,7 +194,7 @@ export class UnwrappedGameStore {
   // --------------------------------------------------------------------------
   // Internal Methods
 
-  _rangeToNotes(range, accidental) { // Take a range defined by a high and low note and return an array of notes in the range
+  _rangeToNotes(range) { // Take a range defined by a high and low note and return an array of notes in the range
     let low = range.low;
     let high = range.high;
     let notes = [];
@@ -225,21 +227,7 @@ export class UnwrappedGameStore {
         }
       }
     }
-    return notes.map(note => this._enharmonicSharp(note, this.accidental));
-  }
-
-  // return corresponding sharp to flat (assumes no Fb/Cb)
-  _enharmonicSharp(note, accidental) {
-    if (accidental == 'sharp') {
-      // No accidental i.e. 'A'
-      if (note.pitch.length == 1) return note;
-      else if (note.pitch == 'Ab') {
-        note.pitch = 'G#';
-      } else {
-        note.pitch = String.fromCharCode(note.pitch.charCodeAt(0) - 1) + '#';
-      }
-    }
-    return note;
+    return notes
   }
 
   _setRandNote(length = 1) {
@@ -281,7 +269,17 @@ export class UnwrappedGameStore {
 
   _newNote(clef, difficulty) {
     const range = _.cloneDeep(clefRanges[clef][difficulty]);
-    return _.sample(this._rangeToNotes(range, this.accidental));
+    const randNote = _.sample(this._rangeToNotes(range));
+
+    // Return enharmonic sharp 50% of the time
+    if (Math.random() > .5) {
+      return {
+        ...randNote,
+        pitch: toSharp(randNote.pitch)
+      };
+    }
+    
+    return randNote;
   }
 
   _setStartScreen() {
