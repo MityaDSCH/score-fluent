@@ -1,6 +1,8 @@
 import React from 'react';
 const p = React.PropTypes;
-import ISVG from 'react-inlinesvg';
+import _ from 'lodash';
+
+import { toSharp } from '../../libs/enharmonics';
 
 export default class KeyboardInput extends React.Component {
 
@@ -23,38 +25,47 @@ export default class KeyboardInput extends React.Component {
     })
   }
 
+  componentDidMount() {
+    this._loadKeys();
+    this._addKeyEventListeners();
+  }
+
   render() {
+    const base64Svg = require('../../assets/keyboard.svg');
+    const match = base64Svg.match(/data:image\/svg[^,]*?[;base64]?,(.*)/)[1];
+    const svg = atob(match);
     return (
-      <ISVG
-        ref={ elem => this.keyboard = elem }
-        onLoad={this._addKeyEventListeners.bind(this)}
+      <div
         className='keyboard-container'
-        uniquifyIDs={false}
-        src={require('../../assets/keyboard.svg')}
         alt='keyboard'
-        wrapper={React.DOM.div} />
+        dangerouslySetInnerHTML={{__html: svg}} />
     )
   }
 
+  // Make this.keys element: HTMLElement, note: pitch ('i.e. A#')
+  // Return true if all keys were found
+  _loadKeys() {
+    let allKeysFound = true;
+    this.keys = this.props.inputNotes.map(keyName => {
+      keyName = toSharp(keyName); // svg ids are sharp
+      return {
+        element: document.getElementById(keyName),
+        pitch: keyName
+      };
+    });
+    return allKeysFound;
+  }
+
+  // Attach props.guessNote to key paths
   _addKeyEventListeners() {
-    setTimeout(() => {
-      // Make this.keys element: HTMLElement, note: pitch ('i.e. A#')
-      this.keys = this.props.inputNotes.map(keyName => {
-        return {
-          element: document.getElementById(keyName),
-          pitch: keyName
-        };
-      });
-      console.log(this.keys.map(key => key.element));
-      // Attach props.guessNote
-      this.keys.forEach(key => {
-        key.element.addEventListener('click', () => {
-          if (this.props.active) {
-            this.props.guessNote(key.pitch);
-          }
-        })
+    // Attach props.guessNote
+    this.keys.forEach(key => {
+      key.element.addEventListener('click', () => {
+        if (this.props.active) {
+          this.props.guessNote(key.pitch);
+        }
       })
-    }, 300);
+    })
   }
 
 }
