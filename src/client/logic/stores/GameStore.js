@@ -21,6 +21,7 @@ export class UnwrappedGameStore {
 
     this.clefs = ['treble'];
     this.difficulty = 'hard';
+    this.audio = 'piano';
     this.mode = 'practice';
     this.screen = 'staves';
     this.fadeCurDisplay = false;
@@ -47,6 +48,7 @@ export class UnwrappedGameStore {
       getScreen: () => this.screen,
       getClefs: () => this.clefs,
       getDifficulty: () => this.difficulty,
+      getAudio: () => this.audio,
       getAnswers: () => {
         return {
           correct: this.correct,

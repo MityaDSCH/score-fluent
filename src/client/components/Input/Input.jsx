@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 const p = React.PropTypes;
 
-import PlayNote from '../../libs/notes';
+import playNote from '../../libs/notes';
 import GameActions from '../../logic/actions/GameActions';
 import MenuActions from '../../logic/actions/MenuActions';
 
@@ -20,7 +20,8 @@ export default class App extends React.Component {
       sharp: p.arrayOf(p.string)
     }),
     accidental: p.string,
-    answerDelay: p.number
+    answerDelay: p.number,
+    audio: p.string
   };
 
   constructor() {
@@ -100,12 +101,12 @@ export default class App extends React.Component {
 
   setCorrectNote(note) {
     this.setState({correctNote: note.pitch});
-    PlayNote(note, this.props.answerDelay);
+    playNote(this.props.audio, note, this.props.answerDelay);
   }
 
   setIncorrectNote(note) {
     this.setState({incorrectNote: note.pitch});
-    PlayNote(note, this.props.answerDelay);
+    playNote(this.props.audio, note, this.props.answerDelay);
   }
 
 }

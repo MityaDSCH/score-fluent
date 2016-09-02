@@ -79,8 +79,7 @@ describe('MenuStore API', () => {
 
           const storeState = MenuStore.getState();
           expect(storeState.optionsMenu).toBeTruthy();
-          expect(storeState.rootItems.length).toBe(5);
-          expect(storeState.rootItems[0].name).toBe('Login');
+          expect(storeState.rootMenu.name).toBe('_setBaseMenu');
           expect(storeState.items[0].name).toBe('Mode:');
           expect(storeState.items[1].active).toBe(false);
           expect(storeState.items[2].active).toBe(true);
@@ -96,7 +95,7 @@ describe('MenuStore API', () => {
           jest.runAllTimers();
 
           storeState = MenuStore.getState();
-          expect(storeState.rootItems.length).toBe(0);
+          expect(storeState.rootMenu.name).toBe('_setBaseMenu');
           expect(storeState.items[0].name).toBe('Login');
           expect(storeState.optionsMenu).toBeFalsy();
         });
@@ -112,8 +111,7 @@ describe('MenuStore API', () => {
           jest.runAllTimers();
 
           const storeState = MenuStore.getState();
-          expect(storeState.rootItems.length).toBe(5);
-          expect(storeState.rootItems[0].name).toBe('Login');
+          expect(storeState.rootMenu.name).toBe('_setSecondMenu');
           expect(storeState.items[0].name).toBe('Difficulty:');
           expect(storeState.items[1].name).toBe('Hard');
           expect(storeState.items[1].active).toBe(true);
@@ -128,8 +126,34 @@ describe('MenuStore API', () => {
           jest.runAllTimers();
 
           storeState = MenuStore.getState();
-          console.log(storeState.rootItems);
-          expect(storeState.items[0].name).toBe('Login');
+          expect(storeState.items[0].name).toBe('Difficulty');
+
+        });
+
+        describe('audio menu', () => {
+
+          it('sets the audio menu', () => {
+            dispatch(['Audio', 'piano'], MenuActions.BTN_CLICK);
+            jest.runAllTimers();
+
+            const storeState = MenuStore.getState();
+            expect(storeState.rootMenu.name).toBe('_setSecondMenu');
+            expect(storeState.items[0].name).toBe('Audio:');
+            expect(storeState.items[1].name).toBe('Piano');
+            expect(storeState.items[1].active).toBe(true);
+          });
+
+          it('sets a new audio option using chooseOption', () => {
+            dispatch('None', MenuActions.CHOOSE_OPTION);
+            let storeState = MenuStore.getState();
+            expect(storeState.items[1].active).toBe(false);
+            expect(storeState.items[2].active).toBe(true);
+
+            jest.runAllTimers();
+
+            storeState = MenuStore.getState();
+            expect(storeState.items[0].name).toBe('Difficulty');
+          });
 
         });
 
@@ -145,8 +169,7 @@ describe('MenuStore API', () => {
 
         const storeState = MenuStore.getState();
         expect(storeState.doneBtn).toBe(true);
-        expect(storeState.rootItems.length).toBe(5);
-        expect(storeState.rootItems[1].name).toBe('Register');
+        expect(storeState.rootMenu.name).toBe('_setBaseMenu');
         expect(storeState.items[0].name).toBe('Clefs:');
         expect(storeState.items[1].active).toBe(true);
         expect(storeState.items[2].active).toBe(true);

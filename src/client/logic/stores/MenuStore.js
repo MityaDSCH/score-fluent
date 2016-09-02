@@ -9,7 +9,7 @@ export class UnwrappedMenuStore {
     this.bindActions(MenuActions);
 
     this.payload = null;
-    this.rootItems = [];
+    this.rootMenu = this._setBaseMenu;
     this.items = []; // Items in menu
     this.optionsMenu = false;
     this.doneBtn = false;
@@ -54,8 +54,11 @@ export class UnwrappedMenuStore {
       case 'Difficulty':
         this._setDifficultyMenu(curSetting);
         break;
+      case 'Audio':
+        this._setAudioMenu(curSetting);
+        break;
       case 'Stop':
-        this._animateMenu(this.rootItems);
+        this.rootMenu();
         break;
       default:
         console.warn(btnName, 'menu-btn click unhandled');
@@ -74,11 +77,11 @@ export class UnwrappedMenuStore {
       this.setState({items});
 
       setTimeout(() => {
-        this._animateMenu(this.rootItems);
+        this.rootMenu();
       }, 200)
 
     } else {
-      this._animateMenu(this.rootItems);
+      this.rootMenu();
     }
   }
 
@@ -93,7 +96,7 @@ export class UnwrappedMenuStore {
   }
 
   submitOptions() {
-    this._animateMenu(this.rootItems);
+    this.rootMenu();
   }
 
   setTimedMenu() {
@@ -101,7 +104,7 @@ export class UnwrappedMenuStore {
   }
 
   removeTimedMenu() {
-    this._animateMenu(this.rootItems);
+    this.rootMenu();
   }
 
   updateScore(score) {
@@ -122,16 +125,16 @@ export class UnwrappedMenuStore {
 
   // If 2nd param truthy, save cur menu in rootMenu
   // If 3rd param true, menu might toggle multiple options, so display done btn
-  _animateMenu(items, optionsMenu, doneBtn) {
+  _animateMenu(items, menuInfo, doneBtn) {
     this.setState({class: ''}); // fade out
     setTimeout(() => {
       let originalOptions = items.filter(item => item.clickable).map(item => item.active);
       this.setState({
         class: 'active', // fade in
         items,
-        rootItems: optionsMenu ? this.items : [], // saving the original buttons here if the new menu is for options
-        optionsMenu, // And recording whether this is an options menu
-        originalOptions: optionsMenu ? originalOptions : [], // And recording the original active state of the options
+        rootMenu: menuInfo ? menuInfo.root : this._setBaseMenu, // saving the original buttons here if the new menu is for options
+        optionsMenu: menuInfo ? menuInfo.menu : null, // And recording whether this is an options menu
+        originalOptions: menuInfo ? originalOptions : [], // And recording the original active state of the options
         doneBtn
       });
     }, this.animationDuration);
@@ -170,7 +173,7 @@ export class UnwrappedMenuStore {
     this._animateMenu([
       {name: 'Difficulty', clickable: true},
       {name: 'Input', clickable: true},
-      {name: 'Mute', clickable: true},
+      {name: 'Audio', clickable: true},
       {name: 'Back', clickable: true}
     ])
   }
@@ -190,7 +193,7 @@ export class UnwrappedMenuStore {
         option: true,
         active: setting === 'timed'
       }
-    ], 'mode');
+    ], {menu: 'mode', root: this._setBaseMenu});
   }
 
   _setClefsMenu(setting) { // List of VexFlow clefs: https://github.com/0xfe/vexflow/blob/master/tests/clef_tests.js
@@ -220,7 +223,7 @@ export class UnwrappedMenuStore {
         option: true,
         active: _.includes(setting, 'tenor')
       }
-    ], 'clefs', true);
+    ], {menu: 'clefs', root: this._setBaseMenu}, true);
   }
 
   // _setMoreClefsMenu() {
@@ -255,14 +258,32 @@ export class UnwrappedMenuStore {
         option: true,
         active: setting === 'easy'
       }
-    ], 'difficulty');
+    ], {menu: 'difficulty', root: this._setSecondMenu});
+  }
+
+  _setAudioMenu(setting) {
+    this._animateMenu([
+      {name: 'Audio:', clickable: false},
+      {
+        name: 'Piano',
+        clickable: true,
+        option: true,
+        active: setting === 'piano'
+      },
+      {
+        name: 'None',
+        clickable: true,
+        option: true,
+        active: setting === 'none'
+      }
+    ], {menu: 'audio', root: this._setSecondMenu});
   }
 
   _setTimedMenu() {
     this._animateMenu([
       {name: 'Stop', clickable: true},
       {name: 'Score: 0', clickable: false}
-    ], 'timed');
+    ], {menu: 'timed', root: this._setBaseMenu});
   }
 }
 

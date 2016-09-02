@@ -44,7 +44,6 @@ describe('GameStore API', () => {
 
     it('handles a correct guess', () => {
       const curNote = GameStore.getState().curStaff.note;
-      console.log(curNote, '\n\n')
       alt.dispatcher.dispatch({
         data: curNote,
         action: GameActions.GUESS_NOTE
