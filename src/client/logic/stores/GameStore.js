@@ -4,7 +4,7 @@ import alt from '../libs/alt';
 import _ from 'lodash';
 
 import clefRanges from '../libs/clefRanges.json';
-import { toSharp, areEnharmonic } from '../../libs/enharmonics'
+import { toFlat, toSharp, areEnharmonic } from '../../libs/enharmonics'
 import GameActions from '../actions/GameActions';
 import MenuActions from '../actions/MenuActions';
 
@@ -237,10 +237,10 @@ export class UnwrappedGameStore {
         let accidental = _.sample(['flat', 'sharp']);
         this.setState({accidental});
         let clef = _.sample(this.clefs);
-        let note = this._newNote(clef, this.difficulty);
+        let note = this._newNote(clef, this.difficulty, accidental);
         while(this.curStaff && _.isEqual(note, this.curStaff.note)) {
           clef = _.sample(this.clefs);
-          note = this._newNote(clef, this.difficulty);
+          note = this._newNote(clef, this.difficulty, accidental);
         }
         this.setState({
           guessStatus: null,
@@ -260,25 +260,24 @@ export class UnwrappedGameStore {
 
   _newStaff(clefs, difficulty) {
     const clef = _.sample(clefs);
+    const accidental = _.sample(['flat', 'sharp']);
     return {
       clef,
-      note: this._newNote(clef, difficulty),
+      note: this._newNote(clef, difficulty, accidental),
       noteStatus: ''
     }
   }
 
-  _newNote(clef, difficulty) {
+  _newNote(clef, difficulty, accidental) {
     const range = _.cloneDeep(clefRanges[clef][difficulty]);
     const randNote = _.sample(this._rangeToNotes(range));
 
     // Return enharmonic sharp 50% of the time
-    if (Math.random() > .5) {
-      return {
-        ...randNote,
-        pitch: toSharp(randNote.pitch)
-      };
-    }
-    
+    return {
+      ...randNote,
+      pitch: accidental == 'flat' ? toFlat(randNote.pitch) : toSharp(randNote.pitch)
+    };
+
     return randNote;
   }
 
