@@ -70,23 +70,23 @@ export default class App extends React.Component {
     const background = document.querySelector('#app-background');
     if (background) background.className = (guessStatus ? guessStatus.guess : '');
 
-    // return (
-    //   <ButtonsInput
-    //     inputNotes={this.props.inputNotes[this.props.accidental]}
-    //     active={this.props.screen === 'staves'}
-    //     correctNote={this.state.correctNote}
-    //     incorrectNote={this.state.incorrectNote}
-    //     guessNote={this.guessNote}/>
-    // );
-
     return (
-      <KeyboardInput
+      <ButtonsInput
         inputNotes={this.props.inputNotes[this.props.accidental]}
         active={this.props.screen === 'staves'}
         correctNote={this.state.correctNote}
         incorrectNote={this.state.incorrectNote}
-        guessNote={this.guessNote} />
+        guessNote={this.guessNote}/>
     );
+
+    // return (
+    //   <KeyboardInput
+    //     inputNotes={this.props.inputNotes[this.props.accidental]}
+    //     active={this.props.screen === 'staves'}
+    //     correctNote={this.state.correctNote}
+    //     incorrectNote={this.state.incorrectNote}
+    //     guessNote={this.guessNote} />
+    // );
 
   }
 

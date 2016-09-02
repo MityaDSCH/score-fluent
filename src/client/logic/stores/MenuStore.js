@@ -8,6 +8,7 @@ export class UnwrappedMenuStore {
   constructor() {
     this.bindActions(MenuActions);
 
+    this.payload = null;
     this.rootItems = [];
     this.items = []; // Items in menu
     this.optionsMenu = false;
@@ -22,24 +23,33 @@ export class UnwrappedMenuStore {
   // --------------------------------------------------------------------------
 
   init(payload) {
-    if (payload) this._setLoggedInMenu(payload);
-    else this._setLoggedOutMenu();
+    if (payload) this.setState({payload});
+    else this.setState({payload: null});
+    this._setBaseMenu();
   }
 
   registerLoginSuccess(payload) {
-    this._setLoggedInMenu(payload);
+    this.setState({payload});
+    this._setBaseMenu();
   }
 
   btnClick([btnName, curSetting]) {
     switch (btnName) {
       case 'Logout':
-        this._setLoggedOutMenu();
+        this.setState({payload: null});
+        this._setBaseMenu();
         break;
       case 'Mode':
         this._setModeMenu(curSetting);
         break;
       case 'Clefs':
         this._setClefsMenu(curSetting);
+        break;
+      case 'More':
+        this._setSecondMenu();
+        break;
+      case 'Back':
+        this._setBaseMenu();
         break;
       case 'Difficulty':
         this._setDifficultyMenu(curSetting);
@@ -56,13 +66,17 @@ export class UnwrappedMenuStore {
   chooseOption(option) {
     const curOption = this.items.filter(item => item.active).name;
     if (option !== curOption) {
+
+      // Set new option as active
       const items = this.items.map(item => {
         return {...item, active: item.name === option}
       });
       this.setState({items});
+
       setTimeout(() => {
         this._animateMenu(this.rootItems);
       }, 200)
+
     } else {
       this._animateMenu(this.rootItems);
     }
@@ -106,15 +120,15 @@ export class UnwrappedMenuStore {
   // Internal methods
   // --------------------------------------------------------------------------
 
-  // If 2nd param, save cur menu in rootMenu
-  // If 3rd param, menu might toggle multiple options, so display done btn
+  // If 2nd param truthy, save cur menu in rootMenu
+  // If 3rd param true, menu might toggle multiple options, so display done btn
   _animateMenu(items, optionsMenu, doneBtn) {
-    this.setState({class: ''});
+    this.setState({class: ''}); // fade out
     setTimeout(() => {
       let originalOptions = items.filter(item => item.clickable).map(item => item.active);
       this.setState({
         class: 'active', // fade in
-        items, // w/ these items
+        items,
         rootItems: optionsMenu ? this.items : [], // saving the original buttons here if the new menu is for options
         optionsMenu, // And recording whether this is an options menu
         originalOptions: optionsMenu ? originalOptions : [], // And recording the original active state of the options
@@ -130,24 +144,35 @@ export class UnwrappedMenuStore {
   //  option implies toggleable
   //  active implies toggle state
 
-  _setLoggedOutMenu() {
+  _setBaseMenu() {
+    let authButtons;
+    if (this.payload) {
+      authButtons = [
+        {name: `Hi ${this.payload.username}!`, clickable: false},
+        {name: 'Logout', clickable: true}
+      ]
+    } else {
+      authButtons = [
+        {name: 'Login', clickable: true},
+        {name: 'Register', clickable: true}
+      ]
+    }
+
     this._animateMenu([
-      {name: 'Login', clickable: true},
-      {name: 'Register', clickable: true},
+      ...authButtons,
       {name: 'Mode', clickable: true},
       {name: 'Clefs', clickable: true},
-      {name: 'Difficulty', clickable: true}
-    ]);
+      {name: 'More', clickable: true}
+    ])
   }
 
-  _setLoggedInMenu(payload) {
+  _setSecondMenu() {
     this._animateMenu([
-      {name: `Hi ${payload.username}!`, clickable: false},
-      {name: 'Mode', clickable: true},
-      {name: 'Clefs', clickable: true},
       {name: 'Difficulty', clickable: true},
-      {name: 'Logout', clickable: true}
-    ]);
+      {name: 'Input', clickable: true},
+      {name: 'Mute', clickable: true},
+      {name: 'Back', clickable: true}
+    ])
   }
 
   _setModeMenu(setting) {

@@ -16,21 +16,25 @@ const examplePayload = {
   "exp": 1497853374
 };
 
+function dispatch(data, action) {
+  alt.dispatcher.dispatch({data, action});
+}
+
 describe('MenuStore API', () => {
 
   describe('init()', () => {
     it('inits properly when passed a JWT payload', () => {
-      alt.dispatcher.dispatch({data: examplePayload, action: MenuActions.INIT});
+      dispatch(examplePayload, MenuActions.INIT);
       jest.runAllTimers(); // Sets menu after 200ms delay
 
       const storeState = MenuStore.getState();
       expect(storeState.items.length).toBe(5);
       expect(storeState.items[0].name).toBe('Hi ' + examplePayload.username + '!');
-      expect(storeState.items[4].name).toBe('Logout');
+      expect(storeState.items[1].name).toBe('Logout');
     });
 
     it('inits properly when not passed a JWT payload', () => {
-      alt.dispatcher.dispatch({data: null, action: MenuActions.INIT});
+      dispatch(null, MenuActions.INIT);
       jest.runAllTimers();
 
       const storeState = MenuStore.getState();
@@ -40,60 +44,103 @@ describe('MenuStore API', () => {
     });
   });
 
+  describe('toggling between menus', () => {
+
+    it('sets the second menu', () => {
+      dispatch(['More', null],  MenuActions.BTN_CLICK);
+      jest.runAllTimers();
+
+      const storeState = MenuStore.getState();
+      expect(storeState.optionsMenu).toBeFalsy();
+      expect(storeState.items[0].name).toBe('Difficulty');
+      expect(storeState.items[1].name).toBe('Input');
+    });
+
+    it('sets a new difficulty using chooseOption()', () => {
+      dispatch(['Back', null], MenuActions.BTN_CLICK);
+      jest.runAllTimers();
+
+      const storeState = MenuStore.getState();
+      expect(storeState.optionsMenu).toBeFalsy();
+      expect(storeState.items[0].name).toBe('Login');
+      expect(storeState.items[4].name).toBe('More');
+    });
+
+  })
+
   describe('option menus', () => {
 
-    describe('chooseOption menus', () => {
+    describe('chooseOption() menus', () => {
 
-      it('sets the mode menu', () => {
-        alt.dispatcher.dispatch({
-          data: ['Mode', 'timed'],
-          action: MenuActions.BTN_CLICK
-        });
-        jest.runAllTimers();
+      describe('mode menu', () => {
+        it('sets the mode menu', () => {
+          dispatch(['Mode', 'timed'], MenuActions.BTN_CLICK);
+          jest.runAllTimers();
 
-        const storeState = MenuStore.getState();
-        expect(storeState.optionsMenu).toBeTruthy();
-        expect(storeState.rootItems.length).toBe(5);
-        expect(storeState.rootItems[0].name).toBe('Login');
-        expect(storeState.items[0].name).toBe('Mode:');
-        expect(storeState.items[1].active).toBe(false);
-        expect(storeState.items[2].active).toBe(true);
-      });
-
-      it('sets a new mode using chooseOption', () => {
-        alt.dispatcher.dispatch({
-          data: 'Practice',
-          action: MenuActions.CHOOSE_OPTION
+          const storeState = MenuStore.getState();
+          expect(storeState.optionsMenu).toBeTruthy();
+          expect(storeState.rootItems.length).toBe(5);
+          expect(storeState.rootItems[0].name).toBe('Login');
+          expect(storeState.items[0].name).toBe('Mode:');
+          expect(storeState.items[1].active).toBe(false);
+          expect(storeState.items[2].active).toBe(true);
         });
 
-        let storeState = MenuStore.getState();
-        expect(storeState.items[1].active).toBe(true);
-        expect(storeState.items[2].active).toBe(false);
+        it('sets a new mode using chooseOption', () => {
+          dispatch('Practice', MenuActions.CHOOSE_OPTION);
 
-        jest.runAllTimers();
+          let storeState = MenuStore.getState();
+          expect(storeState.items[1].active).toBe(true);
+          expect(storeState.items[2].active).toBe(false);
 
-        storeState = MenuStore.getState();
-        expect(storeState.rootItems.length).toBe(0);
-        expect(storeState.items[0].name).toBe('Login');
-        expect(storeState.optionsMenu).toBeFalsy();
+          jest.runAllTimers();
+
+          storeState = MenuStore.getState();
+          expect(storeState.rootItems.length).toBe(0);
+          expect(storeState.items[0].name).toBe('Login');
+          expect(storeState.optionsMenu).toBeFalsy();
+        });
       });
 
-      it('sets the difficulty menu', () => {
+      // Test option menus in second menu
+      dispatch(['More', null], MenuActions.BTN_CLICK); // navigate to second menu
 
-      });
+      describe('difficulty menu', () => {
 
-      it('sets a new difficulty using chooseOption()', () => {
+        it('sets the difficulty menu', () => {
+          dispatch(['Difficulty', 'hard'], MenuActions.BTN_CLICK);
+          jest.runAllTimers();
 
-      });
+          const storeState = MenuStore.getState();
+          expect(storeState.rootItems.length).toBe(5);
+          expect(storeState.rootItems[0].name).toBe('Login');
+          expect(storeState.items[0].name).toBe('Difficulty:');
+          expect(storeState.items[1].name).toBe('Hard');
+          expect(storeState.items[1].active).toBe(true);
+        });
 
+        it('sets a new difficulty using chooseOption', () => {
+          dispatch('Medium', MenuActions.CHOOSE_OPTION);
+          let storeState = MenuStore.getState();
+          expect(storeState.items[1].active).toBe(false);
+          expect(storeState.items[2].active).toBe(true);
+
+          jest.runAllTimers();
+
+          storeState = MenuStore.getState();
+          console.log(storeState.rootItems);
+          expect(storeState.items[0].name).toBe('Login');
+
+        });
+
+      })
+
+      dispatch(['Back', null], MenuActions.BTN_CLICK); // navigate back from second menu
     });
 
     describe('toggleOption() menu', () => {
       it('sets the clefs menu', () => {
-        alt.dispatcher.dispatch({
-          data: ['Clefs', ['treble', 'bass', 'tenor']],
-          action: MenuActions.BTN_CLICK
-        });
+        dispatch(['Clefs', ['treble', 'bass', 'tenor']], MenuActions.BTN_CLICK);
         jest.runAllTimers();
 
         const storeState = MenuStore.getState();
@@ -111,26 +158,11 @@ describe('MenuStore API', () => {
 
       it('sets the right state after toggling options', () => {
         const action = MenuActions.TOGGLE_OPTION;
-        alt.dispatcher.dispatch({
-          data: 'Treble',
-          action
-        });
-        alt.dispatcher.dispatch({
-          data: 'Alto',
-          action
-        });
-        alt.dispatcher.dispatch({
-          data: 'Bass',
-          action
-        });
-        alt.dispatcher.dispatch({
-          data: 'Treble',
-          action
-        });
-        alt.dispatcher.dispatch({
-          data: 'Tenor',
-          action
-        });
+        dispatch('Treble', action);
+        dispatch('Alto', action);
+        dispatch('Bass', action);
+        dispatch('Treble', action);
+        dispatch('Tenor', action);
         jest.runAllTimers();
 
         const storeState = MenuStore.getState();
@@ -144,14 +176,8 @@ describe('MenuStore API', () => {
 
       it('doesn\'t allow all options to be toggled off', () => {
         const action = MenuActions.TOGGLE_OPTION;
-        alt.dispatcher.dispatch({
-          data: 'Treble',
-          action
-        });
-        alt.dispatcher.dispatch({
-          data: 'Alto',
-          action
-        });
+        dispatch('Treble', action);
+        dispatch('Alto', action);
 
         const storeState = MenuStore.getState();
         expect(storeState.items[1].active).toBe(false);
@@ -159,10 +185,7 @@ describe('MenuStore API', () => {
       });
 
       it('submits resets after submit', () => {
-        alt.dispatcher.dispatch({
-          data: null,
-          action: MenuActions.SUBMIT_OPTIONS
-        });
+        dispatch(null, MenuActions.SUBMIT_OPTIONS);
         jest.runAllTimers();
 
         const storeState = MenuStore.getState();
