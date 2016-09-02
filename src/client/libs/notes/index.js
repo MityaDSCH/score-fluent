@@ -9,7 +9,10 @@ const PlayNote = (output, note, duration) => {
     // Play note
     const noteName = note.pitch + note.octave;
     const file = new Howler.Howl({
-      src: [require(`./clips/webm/${noteName}.webm`), require(`./clips/mp3/${noteName}.mp3`)]
+      src: [
+        require(`./clips/${output}/webm/${noteName}.webm`),
+        require(`./clips/${output}/mp3/${noteName}.mp3`)
+      ]
     });
     const sound = file.play();
 
@@ -19,7 +22,7 @@ const PlayNote = (output, note, duration) => {
       file.fade(1, 0, fadeDuration, sound);
     }, duration - fadeDuration);
   }
-  
+
 }
 
 export default PlayNote
