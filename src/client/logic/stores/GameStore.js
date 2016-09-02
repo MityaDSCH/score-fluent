@@ -29,7 +29,7 @@ export class UnwrappedGameStore {
     this.timedDuration = 60000;
     this.timedTimeoutId = null;
 
-    this.curStaff = this._newStaff(this.clefs, this.difficulty);
+    this.curStaff = this._newStaff(this.clefs, this.difficulty, this.accidental);
     this.lastStaff = null;
 
     this.answerDelay = 1500;
@@ -260,9 +260,9 @@ export class UnwrappedGameStore {
     });
   }
 
-  _newStaff(clefs, difficulty) {
+  _newStaff(clefs, difficulty, accidental) {
     const clef = _.sample(clefs);
-    const accidental = _.sample(['flat', 'sharp']);
+    accidental = accidental || _.sample(['flat', 'sharp']);
     return {
       clef,
       note: this._newNote(clef, difficulty, accidental),
