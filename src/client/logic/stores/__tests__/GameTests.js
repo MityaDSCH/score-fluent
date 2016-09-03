@@ -15,6 +15,8 @@ describe('GameStore API', () => {
     expect(state.difficulty).toBe('hard');
     expect(state.mode).toBe('practice');
     expect(state.screen).toBe('staves');
+    expect(state.audio).toBe('piano');
+    expect(state.input).toBe('buttons');
     expect(state.fadeCurDisplay).toBe(false);
     expect(state.guessStatus).toBeNull();
     expect(state.correct).toEqual([]);

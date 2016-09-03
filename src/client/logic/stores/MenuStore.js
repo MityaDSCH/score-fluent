@@ -54,6 +54,9 @@ export class UnwrappedMenuStore {
       case 'Difficulty':
         this._setDifficultyMenu(curSetting);
         break;
+      case 'Input':
+        this._setInputMenu(curSetting);
+        break;
       case 'Audio':
         this._setAudioMenu(curSetting);
         break;
@@ -259,6 +262,24 @@ export class UnwrappedMenuStore {
         active: setting === 'easy'
       }
     ], {menu: 'difficulty', root: this._setSecondMenu});
+  }
+
+  _setInputMenu(setting) {
+    this._animateMenu([
+      {name: 'Input:', clickable: false},
+      {
+        name: 'Buttons',
+        clickable: true,
+        option: true,
+        active: setting === 'buttons'
+      },
+      {
+        name: 'Piano',
+        clickable: true,
+        option: true,
+        active: setting === 'piano'
+      }
+    ], {menu: 'input', root: this._setSecondMenu});
   }
 
   _setAudioMenu(setting) {

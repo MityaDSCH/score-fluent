@@ -157,6 +157,32 @@ describe('MenuStore API', () => {
 
         });
 
+        describe('input menu', () => {
+
+          it('sets the input menu', () => {
+            dispatch(['Input', 'buttons'], MenuActions.BTN_CLICK);
+            jest.runAllTimers();
+
+            const storeState = MenuStore.getState();
+            expect(storeState.items[0].name).toBe('Input:');
+            expect(storeState.items[1].name).toBe('Buttons');
+            expect(storeState.items[1].active).toBe(true);
+          });
+
+          it('sets a new input option', () => {
+            dispatch('Piano', MenuActions.CHOOSE_OPTION);
+            let storeState = MenuStore.getState();
+            expect(storeState.items[1].active).toBe(false);
+            expect(storeState.items[2].active).toBe(true);
+
+            jest.runAllTimers();
+
+            storeState = MenuStore.getState();
+            expect(storeState.items[0].name).toBe('Difficulty');
+          });
+
+        });
+
       })
 
       dispatch(['Back', null], MenuActions.BTN_CLICK); // navigate back from second menu

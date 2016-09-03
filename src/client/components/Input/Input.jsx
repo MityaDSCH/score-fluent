@@ -1,4 +1,5 @@
 import React from 'react';
+import TransitionGroup from 'react-addons-css-transition-group';
 import _ from 'lodash';
 
 const p = React.PropTypes;
@@ -19,6 +20,7 @@ export default class App extends React.Component {
       flat: p.arrayOf(p.string),
       sharp: p.arrayOf(p.string)
     }),
+    input: p.string,
     accidental: p.string,
     answerDelay: p.number,
     audio: p.string
@@ -71,23 +73,33 @@ export default class App extends React.Component {
     const background = document.querySelector('#app-background');
     if (background) background.className = (guessStatus ? guessStatus.guess : '');
 
-    return (
-      <ButtonsInput
-        inputNotes={this.props.inputNotes[this.props.accidental]}
-        active={this.props.screen === 'staves'}
-        correctNote={this.state.correctNote}
-        incorrectNote={this.state.incorrectNote}
-        guessNote={this.guessNote}/>
-    );
+    if (this.props.input == 'buttons') {
+      var input = (
+        <ButtonsInput
+          inputNotes={this.props.inputNotes[this.props.accidental]}
+          active={this.props.screen === 'staves'}
+          correctNote={this.state.correctNote}
+          incorrectNote={this.state.incorrectNote}
+          guessNote={this.guessNote} />
+      );
+    } else {
+      var input = (
+        <KeyboardInput
+          key="piano"
+          inputNotes={this.props.inputNotes[this.props.accidental]}
+          active={this.props.screen === 'staves'}
+          correctNote={this.state.correctNote}
+          incorrectNote={this.state.incorrectNote}
+          guessNote={this.guessNote} />
+      )
+    }
 
-    // return (
-    //   <KeyboardInput
-    //     inputNotes={this.props.inputNotes[this.props.accidental]}
-    //     active={this.props.screen === 'staves'}
-    //     correctNote={this.state.correctNote}
-    //     incorrectNote={this.state.incorrectNote}
-    //     guessNote={this.guessNote} />
-    // );
+    return (
+      <TransitionGroup
+        transitionName="input"
+        transitionEnterTimeout={500}
+        transitionLeaveTimeout={500} >{input}</TransitionGroup>
+    );
 
   }
 
