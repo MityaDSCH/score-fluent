@@ -180,6 +180,16 @@ describe('GameStore API', () => {
       expect(state.difficulty).toBe('medium');
     });
 
+    it('updates input', () => {
+     let state = GameStore.getState();
+     expect(state.input).toBe('buttons');
+
+     alt.dispatcher.dispatch({
+	data: ['input', 'piano'],
+	action: GameActions.SET_NEW_OPTION
+     });
+    });
+
     describe('updating mode', () => {
 
       function testModeState(state, mode, screen, fade) {
