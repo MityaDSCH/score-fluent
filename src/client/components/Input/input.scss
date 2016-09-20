@@ -4,3 +4,22 @@ $input-height-2: 130;
 $input-height-3: 80;
 $input-height-4: 100;
 $input-height-5: 120;
+
+.input-leave {
+  transition: .5s ease-in-out;
+}
+
+.input-enter {
+  transition: .5s .5s ease-in-out;
+}
+
+.input-enter, .input-leave.input-leave-active {
+  transform: translateY(150%);
+  opacity: 0;
+}
+
+.input-enter.input-enter-active, .input-leave {
+  transform: translateY(0);
+  opacity: 1;
+}
+

@@ -45,6 +45,9 @@ class MenuActions {
         case 'Difficulty':
           dispatch([btnName, GameStore.getDifficulty()]);
           break;
+        case 'Input':
+          dispatch([btnName, GameStore.getInput()]);
+          break;
         case 'Audio':
           dispatch([btnName, GameStore.getAudio()]);
           break;

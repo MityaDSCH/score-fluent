@@ -1,4 +1,47 @@
 .keyboard-container {
   position: absolute;
-  z-index: 2;
+  z-index: 3;
+  height: $input-height-0 + 0px;
+  width: 100%;
+  bottom: 0;
+}
+
+#keyboard-svg {
+  width: 100%;
+  height: calc(100% - 5px);
+  transform-origin: top;
+  transform: scaleX(1.8);
+}
+
+// ------------------------------------------------------------ 
+// Media Queries
+
+@media screen and (min-width: $media-width-1 + 0px) {
+  .keyboard-container {
+    height: $input-height-1 + 0px;
+  }
+}
+
+@media screen and (min-width: $media-width-2 + 0px) {
+  .keyboard-container {
+    height: $input-height-2 + 0px;
+  }
+}
+
+@media screen and (min-width: $media-width-3 + 0px) {
+  .keyboard-container {
+    height: $input-height-3 + 0px;
+  }
+}
+
+@media screen and (min-width: $media-width-4 + 0px) {
+  .keyboard-container {
+    height: $input-height-4 + 0px;
+  }
+}
+
+@media screen and (min-width: $media-width-5 + 0px) {
+  .keyboard-container {
+    height: $input-height-5 + 0px;
+  }
 }

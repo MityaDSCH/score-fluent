@@ -21,7 +21,7 @@ export default class KeyboardInput extends React.Component {
 
   componentWillUnmount() {
     this.keys.forEach(key => {
-      key.element.removeEventListener('click');
+      key.element.removeEventListener('click', this._guessNote);
     })
   }
 
@@ -32,8 +32,8 @@ export default class KeyboardInput extends React.Component {
 
   render() {
     const base64Svg = require('../../assets/keyboard.svg');
-    const match = base64Svg.match(/data:image\/svg[^,]*?[;base64]?,(.*)/)[1];
-    const svg = atob(match);
+    const noMetadataSvg = base64Svg.match(/data:image\/svg[^,]*?[;base64]?,(.*)/)[1];
+    const svg = atob(noMetadataSvg);
     return (
       <div
         className='keyboard-container'
@@ -60,12 +60,12 @@ export default class KeyboardInput extends React.Component {
   _addKeyEventListeners() {
     // Attach props.guessNote
     this.keys.forEach(key => {
-      key.element.addEventListener('click', () => {
-        if (this.props.active) {
-          this.props.guessNote(key.pitch);
-        }
-      })
-    })
+      key.element.addEventListener('click', this._guessNote.bind(this, key.pitch));
+    });
+  }
+
+  _guessNote(pitch) {
+    if (this.props.active) this.props.guessNote(pitch);
   }
 
 }

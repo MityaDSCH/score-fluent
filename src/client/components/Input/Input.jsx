@@ -35,7 +35,6 @@ export default class App extends React.Component {
     };
 
     this.timeouts = []
-
   }
 
   componentWillReceiveProps(nextProps) {
@@ -97,8 +96,8 @@ export default class App extends React.Component {
     return (
       <TransitionGroup
         transitionName="input"
-        transitionEnterTimeout={500}
-        transitionLeaveTimeout={500} >{input}</TransitionGroup>
+        transitionEnterTimeout={1000}
+        transitionLeaveTimeout={1000} >{input}</TransitionGroup>
     );
 
   }
