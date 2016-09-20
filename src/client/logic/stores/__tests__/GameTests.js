@@ -185,9 +185,14 @@ describe('GameStore API', () => {
      expect(state.input).toBe('buttons');
 
      alt.dispatcher.dispatch({
-	data: ['input', 'piano'],
-	action: GameActions.SET_NEW_OPTION
+				data: ['input', 'piano'],
+				action: GameActions.SET_NEW_OPTION
      });
+
+		 jest.runAllTimers();
+
+     state = GameStore.getState();
+		 expect(state.input).toBe('piano');
     });
 
     describe('updating mode', () => {
