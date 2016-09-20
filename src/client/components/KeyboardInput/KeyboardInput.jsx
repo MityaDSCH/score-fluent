@@ -30,6 +30,26 @@ export default class KeyboardInput extends React.Component {
     this._addKeyEventListeners();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const updateNoteCss = (noteType, noteClass) => {
+      const curNote = this.props[noteType];
+      const nextNote = nextProps[noteType];
+      if (curNote !== nextNote) {
+        if (nextNote !== null) {
+          const el = document.getElementById(toSharp(nextNote));
+          this._addClass(el, noteClass);
+        } else {
+          const el = document.getElementById(toSharp(curNote));
+          this._removeClass(el, noteClass);
+        }
+      }
+    }
+
+    updateNoteCss('correctNote', 'correct-key');
+    updateNoteCss('incorrectNote', 'incorrect-key');
+    
+  }
+
   render() {
     const base64Svg = require('../../assets/keyboard.svg');
     const noMetadataSvg = base64Svg.match(/data:image\/svg[^,]*?[;base64]?,(.*)/)[1];
@@ -68,4 +88,20 @@ export default class KeyboardInput extends React.Component {
     if (this.props.active) this.props.guessNote(pitch);
   }
 
+  // http://youmightnotneedjquery.com/
+  _addClass(el, className) {
+    if (el.classList) {
+     el.classList.add(className);
+    } else {
+     el.className += ' ' + className;
+    }
+  }
+
+  _removeClass(el, className) {
+    if (el.classList) {
+      el.classList.remove(className);
+    } else {
+      el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+    }
+  }
 }

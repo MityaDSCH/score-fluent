@@ -13,6 +13,18 @@
   transform: scaleX(1.8);
 }
 
+.piano-key {
+  transition: fill .8s;
+}
+
+.correct-key {
+  fill: $valid-color;
+}
+
+.incorrect-key {
+  fill: $invalid-color;
+}
+
 // ------------------------------------------------------------ 
 // Media Queries
 
